@@ -149,9 +149,10 @@ std::vector<float> getWindowsCPULoad() {
 
 /***
  * leiwei 2022.3.4
- * c++11 thread pool (multi-thread safe)
- * Partially sourced from the Internet
+ * c++11 线程池（多线程安全）
+ * 部分来源互联网
 ***/
+
 // Thread safe implementation of a Queue using std::queue
 template<typename T>
 class SafeQueue {
