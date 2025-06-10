@@ -1,5 +1,15 @@
 {
   "version": "1.3.2",
-  "changelog": "- 修复了某个bug\n- 添加了新功能\n- 性能优化",
-  "url": "https://github.com/yourusername/yourrepo/releases/download/v1.2.3/FKMaster_v1.2.3.zip"
+  "changelog": "- 新版本更新内容\n- 修复了若干bug\n- 添加了新功能\n- 性能优化",
+  "url": "https://github.com/ctrlfrmb/opensource/raw/main/releases/download/FKMaster.zip",
+  "mandatory": false,
+  "checksum": {
+    "type": "md5",
+    "value": "4128aacfee435c6a6a6042e2509ac2bd"
+  },
+  "platforms": {
+    "windows": true,
+    "macos": false,
+    "linux": false
+  }
 }
