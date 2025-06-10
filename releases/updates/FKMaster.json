@@ -1,7 +1,7 @@
 {
   "version": "1.3.2",
   "changelog": "just for test!",
-  "url": "https://github.com/ctrlfrmb/opensource/raw/main/releases/download/FKMaster.zip",
+  "url": "https://raw.githubusercontent.com/ctrlfrmb/opensource/main/releases/download/FKMaster.zip",
   "mandatory": false,
   "checksum": {
     "type": "md5",
