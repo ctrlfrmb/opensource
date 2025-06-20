@@ -1,0 +1,15 @@
+{
+  "version": "1.3.1",
+  "changelog": "新增： 1.  更新程序\n更新：\n1.  修复VLAN配置多个IP问题",
+  "url": "https://raw.githubusercontent.com/ctrlfrmb/opensource/main/releases/download/NetworkSwitch.zip",
+  "mandatory": false,
+  "checksum": {
+    "type": "md5",
+    "value": "a335fc6f404c74bfad7a06e7ea953ad8"
+  },
+  "platforms": {
+    "windows": true,
+    "macos": false,
+    "linux": false
+  }
+}
