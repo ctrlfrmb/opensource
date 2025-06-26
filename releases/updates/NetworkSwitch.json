@@ -1,11 +1,11 @@
 {
-  "version": "1.3.1",
-  "changelog": "新增：\n1.  更新程序\n更新：\n1.  修复VLAN配置多个IP问题",
-  "url": "https://raw.githubusercontent.com/ctrlfrmb/opensource/main/releases/download/NetworkSwitch.zip",
+  "version": "1.3.3",
+  "changelog": "新增：\n1.  SSH心跳机制、自动重连（3次）\n更新：\n1.  修复管理员配置时潜在bug",
+  "url": "https://raw.githubusercontent.com/ctrlfrmb/opensource/main/releases/download/NetworkSwitch_x64.zip",
   "mandatory": false,
   "checksum": {
     "type": "md5",
-    "value": "4d18c505bf95b2abded11579364a03d7"
+    "value": "cbea27befabfe672af61c85d64c4a557"
   },
   "platforms": {
     "windows": true,
