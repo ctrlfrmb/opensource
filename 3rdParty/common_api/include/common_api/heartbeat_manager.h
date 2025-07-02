@@ -61,6 +61,7 @@ class COMMON_API_EXPORT HeartbeatManager {
 public:
   // Class constant, default heartbeat timeout (ms)
   static constexpr uint32_t HEARTBEAT_TIMEOUT_MS = 1000;
+  static constexpr uint32_t MIN_HEARTBEAT_TIMEOUT_MS = 50;
 
   using HeartbeatCallback = std::function<void()>;
 
@@ -77,6 +78,12 @@ public:
   // Set heartbeat callback function
   void setCallback(HeartbeatCallback callback);
 
+  bool isRunning() const { return running_.load(std::memory_order_acquire); }
+  bool isPaused() const { return paused_.load(std::memory_order_acquire); }
+
+  void pause();
+  void resume();
+
   // Start heartbeat
   bool start(uint32_t delay_ms = 0);
 
@@ -87,7 +94,6 @@ public:
 
 private:
   uint64_t getCurrentTimeMs() const;
-
   uint64_t calculateNextWaitTime() const;
 
   // Heartbeat thread function
@@ -105,6 +111,7 @@ private:
 
   // Atomic flag to control thread running state with memory order
   std::atomic<bool> running_{false};
+  std::atomic<bool> paused_{false};  // 修正拼写错误
 
   // Variables for thread synchronization
   std::mutex mutex_;
