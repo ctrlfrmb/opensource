@@ -1,6 +1,6 @@
 {
   "version": "1.3.4",
-  "changelog": "新增：\n1.  1.  打流功能，需刷写交换机\n更新：\n1.  1.  修复心跳连接BUG",
+  "changelog": "新增：\n1.  打流功能，需刷写交换机\n更新：\n1.  修复心跳连接BUG",
   "url": "https://raw.githubusercontent.com/ctrlfrmb/opensource/main/releases/download/NetworkSwitch_x64.zip",
   "mandatory": false,
   "checksum": {
