@@ -111,7 +111,7 @@ private:
 
   // Atomic flag to control thread running state with memory order
   std::atomic<bool> running_{false};
-  std::atomic<bool> paused_{false};  // 修正拼写错误
+  std::atomic<bool> paused_{false};
 
   // Variables for thread synchronization
   std::mutex mutex_;

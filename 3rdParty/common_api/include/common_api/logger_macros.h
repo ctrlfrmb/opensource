@@ -32,7 +32,7 @@
 * - Multiple overloads for different parameter types
 *
 * Usage example:
-*   LOG_INIT("app.log", LOG_LEVEL_DEBUG, 5, 10);
+*   LOG_INIT("app.log", LOG_LEVEL_DEBUG, 10, 5);
 *   LOG_START(true);
 *
 *   LOG_INFO("Starting application version {}", appVersion);
