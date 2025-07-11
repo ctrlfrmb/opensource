@@ -49,7 +49,6 @@
 #include <atomic>
 #include <thread>
 #include <functional>
-#include <chrono>
 #include <mutex>
 #include <condition_variable>
 
@@ -93,7 +92,6 @@ public:
   void updateTimestamp();
 
 private:
-  uint64_t getCurrentTimeMs() const;
   uint64_t calculateNextWaitTime() const;
 
   // Heartbeat thread function
@@ -118,6 +116,7 @@ private:
   std::condition_variable cv_;
 
   // Heartbeat thread
+  mutable std::mutex threadMutex_;
   std::thread heartbeatThread_;
 };
 

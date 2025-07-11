@@ -123,8 +123,10 @@ public:
     static bool ensureFilePath(const std::string& filePath);
 
     static int setSocketBlockingMode(int fd, bool blocking);
-
     static int connectSocketNonBlocking(int fd, const std::string& ip, int port, int timeoutMs);
+    static bool setSocketLinger(int fd, bool enable, int seconds);
+    static bool gracefullyCloseSocket(int fd);
+
 };
 
 }
