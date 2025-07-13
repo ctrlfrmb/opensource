@@ -49,8 +49,8 @@
 #include <atomic>
 #include <thread>
 #include <functional>
-#include <mutex>
 #include <condition_variable>
+#include <memory>
 
 #include "common_global.h"
 
@@ -97,8 +97,8 @@ private:
   // Heartbeat thread function
   void heartbeatLoop();
 
-  // Callback function
-  HeartbeatCallback heartbeatCallback_;
+  // 使用原子指针存储回调函数
+  std::function<void()> heartbeatCallback_{nullptr};
 
   uint32_t delayTimeMs_;
 
@@ -112,7 +112,7 @@ private:
   std::atomic<bool> paused_{false};
 
   // Variables for thread synchronization
-  std::mutex mutex_;
+  mutable std::mutex mutex_;
   std::condition_variable cv_;
 
   // Heartbeat thread
