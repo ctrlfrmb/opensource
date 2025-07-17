@@ -77,8 +77,8 @@ public:
   // Set heartbeat callback function
   void setCallback(HeartbeatCallback callback);
 
-  bool isRunning() const { return running_.load(std::memory_order_acquire); }
-  bool isPaused() const { return paused_.load(std::memory_order_acquire); }
+  bool isRunning() const { return is_running_.load(std::memory_order_acquire); }
+  bool isPaused() const { return is_paused_.load(std::memory_order_acquire); }
 
   void pause();
   void resume();
@@ -97,19 +97,19 @@ private:
   // Heartbeat thread function
   void heartbeatLoop();
 
+  // Atomic flag to control thread running state with memory order
+  std::atomic<bool> is_running_;
+  std::atomic<bool> is_paused_;
+
   // 使用原子指针存储回调函数
-  std::function<void()> heartbeatCallback_{nullptr};
+  std::function<void()> callback_;
 
   uint32_t delayTimeMs_;
 
   // Heartbeat interval
   uint32_t intervalTimeMs_;
 
-  std::atomic_uint64_t lastUpdateTimeMs_{0};
-
-  // Atomic flag to control thread running state with memory order
-  std::atomic<bool> running_{false};
-  std::atomic<bool> paused_{false};
+  std::atomic_uint64_t lastUpdateTimeMs_;
 
   // Variables for thread synchronization
   mutable std::mutex mutex_;

@@ -64,9 +64,9 @@ public:
     void wait();
 
     void waitNextTick(uint64_t targetTick);
-    bool waitFor(uint64_t milliseconds = 10);
+    void waitFor(uint64_t milliseconds = 10);
 
-    uint64_t getTickCount() const { return tick_count_.load(std::memory_order_relaxed); }
+    uint64_t getTickCount() const { return tick_count_.load(std::memory_order_acquire); }
 
 private:
     PrecisionTimer();
@@ -81,10 +81,10 @@ private:
 
     std::mutex mutex_;
     std::condition_variable cv_;
-    std::atomic<bool> is_running_;
+    std::atomic_bool is_running_;
     std::chrono::steady_clock::time_point next_tick_;
     const std::chrono::microseconds tick_interval_;
-    std::atomic<uint64_t> tick_count_{0}; //ms
+    std::atomic_uint64_t tick_count_;
     static constexpr int BASE_OFFSET{100}; //microsecond
 };
 
