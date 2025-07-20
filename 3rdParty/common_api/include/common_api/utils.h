@@ -87,6 +87,9 @@ public:
     // Time & Data Processing
     //=============================================================================
 
+    // 获取从程序启动到现在的毫秒数
+    static uint64_t getCurrentMillisecondsFast();
+
     // 高性能时间字符串获取（使用线程本地存储）
     static const char* getCurrentTimeStringFast();
 

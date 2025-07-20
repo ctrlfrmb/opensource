@@ -98,8 +98,8 @@ private:
   void heartbeatLoop();
 
   // Atomic flag to control thread running state with memory order
-  std::atomic<bool> is_running_;
-  std::atomic<bool> is_paused_;
+  std::atomic_bool is_running_;
+  std::atomic_bool is_paused_;
 
   // 使用原子指针存储回调函数
   std::function<void()> callback_;

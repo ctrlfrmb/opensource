@@ -83,7 +83,6 @@ private:
     std::condition_variable cv_;
     std::atomic_bool is_running_;
     std::chrono::steady_clock::time_point next_tick_;
-    const std::chrono::microseconds tick_interval_;
     std::atomic_uint64_t tick_count_;
     static constexpr int BASE_OFFSET{100}; //microsecond
 };

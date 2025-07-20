@@ -65,7 +65,7 @@ namespace Common {
 
 class COMMON_API_EXPORT CallbackTimer {
 public:
-    using TimerCallback = std::function<void()>;
+    using TimerCallback = std::function<void(uint64_t count)>;
 
     // Default constructor
     CallbackTimer();
@@ -88,7 +88,7 @@ public:
      * @param interval_microseconds Timer interval in microseconds (default: 1000µs = 1ms)
      * @return true if timer started successfully, false if already running or no callback set
      */
-    bool start(uint64_t interval_microseconds = 1000);
+    bool start(int interval_microseconds = 1000);
 
     /**
      * @brief Stop the timer
@@ -101,8 +101,6 @@ public:
      */
     bool isRunning() const { return is_running_.load(std::memory_order_acquire); }
 
-    uint64_t getTickCount() const { return tick_count_.load(std::memory_order_acquire); }
-
 private:
     void timerThread();
 
@@ -111,8 +109,7 @@ private:
     // Callback function
     TimerCallback callback_;
     // Timing control
-    std::chrono::microseconds tick_interval_;
-    std::atomic_uint64_t tick_count_;
+    int tick_interval_; // microseconds
 
     // Timer thread
     mutable std::mutex thread_mutex_;
