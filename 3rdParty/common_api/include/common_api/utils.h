@@ -102,6 +102,9 @@ public:
     // 确保文件路径存在（创建必要的目录）
     static bool ensureFilePath(const std::string& filePath);
 
+    // 判断文件是否存在
+    static bool fileExists(const std::string& filePath);
+
     //=============================================================================
     // CAN Bus Signal Processing
     //=============================================================================

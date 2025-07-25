@@ -94,8 +94,8 @@ public:
     // 删除操作
     bool removeFrame(uint64_t key);
     int clear();
-    int clear(uint8_t protocolId);
-    int clear(uint8_t protocolId, uint8_t channelIndex);
+    int clear(uint8_t type);
+    int clear(uint8_t type, uint8_t group);
 
 private:
     // 帧管理容器
@@ -123,16 +123,16 @@ private:
     };
 
     // 线程函数
-    void senderLoop();  // 统一的发送线程
+    int senderLoop();  // 统一的发送线程
 
     // 帧处理
     bool addToContainer(SendFrame&& frame);
     int updateFrameInContainer(uint64_t key, const std::vector<char>& data);
     bool removeFromContainer(uint64_t key);
-    int clearContainer(uint8_t protocolId, int8_t channelIndex = -1);
+    int clearContainer(uint8_t type, int8_t group = -1);
 
 private:
-    std::unique_ptr<Common::CallbackTimer> timer_;
+    std::unique_ptr<CallbackTimer> timer_;
     std::function<int(const std::vector<char>&)> sendCallback_;
     FrameContainer frameContainer_;         // 统一的帧容器
     std::vector<char> sendBuffer_;

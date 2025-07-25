@@ -11,17 +11,18 @@
 * but must retain the author's copyright notice and license terms.
 *
 * Author: leiwei
-* Version: v1.3.5
+* Version: v2.0.0
 * Date: 2022-09-12
 *----------------------------------------------------------------------------*/
 
 /**
 * @file logger_macros.h
-* @brief High-performance logging macros with move semantics optimization
+* @brief High-performance logging macros with move semantics optimization and integrated timer functionality
 *
 * This header provides optimized logging macros that leverage fmt library's
 * compile-time format string checking and modern C++ move semantics for
-* maximum performance with zero unnecessary copies.
+* maximum performance with zero unnecessary copies. Additionally includes
+* high-precision timing functionality for performance measurement.
 *
 * Features:
 * - Compile-time format string validation
@@ -30,6 +31,8 @@
 * - Thread-safe asynchronous logging
 * - Automatic type deduction and perfect forwarding
 * - Multiple overloads for different parameter types
+* - Integrated high-precision timing with automatic logging
+* - RAII-based scoped timing measurements
 *
 * Usage example:
 *   LOG_INIT("app.log", LOG_LEVEL_DEBUG, 10, 5);
@@ -38,6 +41,12 @@
 *   LOG_INFO("Starting application version {}", appVersion);
 *   LOG_DEBUG("Connection established with {}", clientAddress);
 *   LOG_DEBUG_HEX("Received data: ", receivedBytes, dataLength);
+*
+*   // Automatic timing with logging
+*   void myFunction() {
+*       TIMER_LOG_TIMEOUT("Data processing", 1000);  // WARN if > 1000μs
+*       // ... code to measure ...
+*   }  // Automatically logs timing on scope exit
 */
 
 #ifndef COMMON_LOGGER_MACROS_H
@@ -45,12 +54,15 @@
 
 #include <fmt/core.h>
 #include <string>
+#include <chrono>
+#include <cstdint>
 #include "common_global.h"
 
-// Forward declaration to avoid including logger.h in header
+// Forward declarations to avoid including logger.h in header
 namespace Common {
 class Logger;
 enum class LogLevel;
+class ScopedTimerInternal;  // Forward declaration for timer implementation
 }
 
 // Log level constants - explicit and clear
@@ -82,6 +94,10 @@ COMMON_API_EXPORT void logDebugHex(const char* prefix, const void* data, size_t 
 // Internal functions for level checking and raw logging with move semantics
 COMMON_API_EXPORT bool shouldLogLevel(int level);
 COMMON_API_EXPORT void logRawString(int level, std::string&& message);
+
+// Timer factory functions - used internally by macros
+COMMON_API_EXPORT ScopedTimerInternal* createScopedTimer(const char* logMessage, uint64_t timeoutMicroseconds);
+COMMON_API_EXPORT void destroyScopedTimer(ScopedTimerInternal* timer);
 
 // High-performance template functions for formatted logging
 template<typename... Args>
@@ -204,6 +220,46 @@ inline void logError(const char* message) {
     }
 }
 
+//=============================================================================
+// Timer RAII Wrapper - handles timer lifetime automatically
+//=============================================================================
+
+/**
+ * @brief RAII wrapper for scoped timer management
+ *
+ * This class manages the lifetime of ScopedTimerInternal objects using RAII.
+ * It automatically creates a timer on construction and destroys it on destruction,
+ * ensuring proper cleanup even in case of exceptions.
+ */
+class TimerRAII {
+public:
+    /**
+     * @brief Constructor - creates and starts a scoped timer
+     * @param msg Log message for timing output
+     * @param timeout Timeout threshold in microseconds (0 = always DEBUG level)
+     */
+    TimerRAII(const char* msg, uint64_t timeout)
+        : timer_(createScopedTimer(msg, timeout)) {}
+
+    /**
+     * @brief Destructor - automatically destroys the timer and logs results
+     */
+    ~TimerRAII() {
+        if (timer_) {
+            destroyScopedTimer(timer_);
+        }
+    }
+
+    // Disable copy and move to ensure proper RAII semantics
+    TimerRAII(const TimerRAII&) = delete;
+    TimerRAII& operator=(const TimerRAII&) = delete;
+    TimerRAII(TimerRAII&&) = delete;
+    TimerRAII& operator=(TimerRAII&&) = delete;
+
+private:
+    ScopedTimerInternal* timer_;
+};
+
 } // namespace Common
 
 // Convenient macros - these are now just thin wrappers
@@ -230,5 +286,29 @@ inline void logError(const char* message) {
 #define LOG_INFO(...) Common::logInfo(__VA_ARGS__)
 #define LOG_WARN(...) Common::logWarn(__VA_ARGS__)
 #define LOG_ERROR(...) Common::logError(__VA_ARGS__)
+
+//=============================================================================
+// Timer Logging Macros
+//=============================================================================
+
+#ifndef TIMER_LOG_DISABLED
+    #define TIMER_LOG() \
+        Common::TimerRAII TIMER_UNIQUE_NAME(timer_raii_)(__FUNCTION__, static_cast<uint64_t>(0))
+
+    #define TIMER_LOG_MSG(msg) \
+        Common::TimerRAII TIMER_UNIQUE_NAME(timer_raii_)((msg), static_cast<uint64_t>(0))
+
+    #define TIMER_LOG_TIMEOUT(msg, timeout) \
+        Common::TimerRAII TIMER_UNIQUE_NAME(timer_raii_)((msg), static_cast<uint64_t>(timeout))
+
+    #define TIMER_UNIQUE_NAME(prefix) TIMER_CONCAT(prefix, __LINE__)
+    #define TIMER_CONCAT(a, b) TIMER_CONCAT_IMPL(a, b)
+    #define TIMER_CONCAT_IMPL(a, b) a##b
+#else
+    // When timer logging is disabled, macros become no-ops
+    #define TIMER_LOG() do { } while(0)
+    #define TIMER_LOG_MSG(msg) do { } while(0)
+    #define TIMER_LOG_TIMEOUT(msg, timeout) do { } while(0)
+#endif
 
 #endif // COMMON_LOGGER_MACROS_H

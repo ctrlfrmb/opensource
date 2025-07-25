@@ -17,7 +17,7 @@
 
 /**
 * @file callback_timer.h
-* @brief High-precision callback timer with configurable intervals
+* @brief High-precision callback timer with configurable intervals and user-controlled stopping
 *
 * The CallbackTimer class provides a high-precision timer that executes a single
 * callback function at configurable intervals. This design follows the principle
@@ -26,6 +26,7 @@
 * Features:
 * - Configurable timing intervals (milliseconds to microseconds precision)
 * - Single callback function per timer instance
+* - User-controlled timer stopping via callback return value
 * - Cross-platform implementation (Windows/Unix)
 * - Platform-specific optimizations for maximum precision
 * - Hybrid approach with sleep + spin wait for sub-millisecond accuracy
@@ -34,18 +35,28 @@
 * - Memory-order guarantees for thread synchronization
 * - Automatic cleanup on destruction
 *
+* Callback Control:
+* The callback function returns an integer value:
+* - Return 0: Continue timer execution
+* - Return non-zero: Stop timer execution immediately
+*
 * Usage example:
 *   Common::CallbackTimer timer;
 *
-*   // Set callback function
-*   timer.setCallback([]() {
+*   // Set callback function with conditional stopping
+*   timer.setCallback([](uint64_t count) -> int {
 *       // High-frequency task
+*       if (some_stop_condition) {
+*           return -1;  // Stop timer
+*       }
+*       return 0;  // Continue timer
 *   });
 *
 *   // Start timer with 500 microsecond interval
 *   timer.start(500);
 *
-*   // Later when done
+*   // Timer will stop automatically when callback returns non-zero
+*   // Or manually stop when needed
 *   timer.stop();
 */
 
@@ -65,7 +76,7 @@ namespace Common {
 
 class COMMON_API_EXPORT CallbackTimer {
 public:
-    using TimerCallback = std::function<void(uint64_t count)>;
+    using TimerCallback = std::function<int(uint64_t count)>;
 
     // Default constructor
     CallbackTimer();
