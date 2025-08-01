@@ -94,8 +94,8 @@ public:
     // 删除操作
     bool removeFrame(uint64_t key);
     int clear();
-    int clear(uint8_t type);
-    int clear(uint8_t type, uint8_t group);
+    int clear(uint16_t type);
+    int clear(uint16_t type, uint16_t group);
 
 private:
     // 帧管理容器
@@ -129,7 +129,7 @@ private:
     bool addToContainer(SendFrame&& frame);
     int updateFrameInContainer(uint64_t key, const std::vector<char>& data);
     bool removeFromContainer(uint64_t key);
-    int clearContainer(uint8_t type, int8_t group = -1);
+    int clearContainer(uint16_t type, int group = -1);
 
 private:
     std::unique_ptr<CallbackTimer> timer_;

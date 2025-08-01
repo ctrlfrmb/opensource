@@ -125,7 +125,7 @@ public:
      * @param data New data to set
      * @return Number of frames updated, -1 on error
      */
-    int updateData(uint64_t key, std::vector<char>&& data);
+    int updateData(uint64_t key, const std::vector<char>& data);
 
     /**
      * @brief Check if sender is currently running
