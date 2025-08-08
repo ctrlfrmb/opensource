@@ -11,7 +11,7 @@
 * but must retain the author's copyright notice and license terms.
 *
 * Author: leiwei
-* Version: v1.0.8
+* Version: v2.0.0
 * Date: 2022-11-05
 *----------------------------------------------------------------------------*/
 
@@ -35,23 +35,27 @@
 *
 * Usage example:
 *   auto timeManager = new Common::UnifiedTimeManager();
-*   timeManager->initialize(QDateTime::currentDateTime(), 1000000.0);
+*   timeManager->initialize(std::chrono::system_clock::now(), 1000000.0);
 *
 *   // Register a device with its starting timestamp
 *   timeManager->registerDevice(1, deviceStartTimestamp);
 *
 *   // Format timestamps for display
-*   QString timestamp = timeManager->formatTimestamp(
+*   std::string timestamp = timeManager->formatTimestamp(
 *       1, currentDeviceTimestamp, Common::TIMESTAMP_MODE_RELATIVE);
 */
 
 #ifndef COMMON_UNIFIED_TIME_MANAGER_H
 #define COMMON_UNIFIED_TIME_MANAGER_H
 
-#include <QDateTime>
-#include <QMap>
-#include <QReadWriteLock>
-#include <QString>
+#include <chrono>
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <shared_mutex>
+#include <cmath>
+#include <iomanip>
+#include <sstream>
 
 #include "common_global.h"
 
@@ -86,7 +90,7 @@ public:
     /**
      * @brief Destructor
      */
-    ~UnifiedTimeManager();
+    ~UnifiedTimeManager() = default;
 
     /**
      * @brief Initialize the time manager
@@ -94,8 +98,10 @@ public:
      * @param globalReferenceTime The global reference time
      * @param timeScaleFactor Time scale factor (1.0=seconds, 1000.0=milliseconds, 1000000.0=microseconds)
      */
-    void initialize(const QDateTime& globalReferenceTime = QDateTime::currentDateTime(),
-                   double timeScaleFactor = 1000000.0);
+    void initialize(
+        const std::chrono::time_point<std::chrono::system_clock>& globalReferenceTime =
+            std::chrono::system_clock::now(),
+        double timeScaleFactor = 1000000.0);
 
     /**
      * @brief Reset the time manager state
@@ -132,9 +138,10 @@ public:
      *
      * @param deviceId Device identifier
      * @param deviceTimestamp Device-specific timestamp
-     * @return QDateTime representing system time
+     * @return Time point representing system time
      */
-    QDateTime getAbsoluteTime(int deviceId, uint64_t deviceTimestamp);
+    std::chrono::time_point<std::chrono::system_clock> getAbsoluteTime(
+        int deviceId, uint64_t deviceTimestamp);
 
     /**
      * @brief Get seconds elapsed since device base time
@@ -171,8 +178,9 @@ public:
      * @param mode Timestamp display mode
      * @return Formatted timestamp string
      */
-    QString formatTimestamp(int deviceId, uint64_t deviceTimestamp,
-                           TimestampDisplayMode mode = TIMESTAMP_MODE_RELATIVE);
+    std::string formatTimestamp(
+        int deviceId, uint64_t deviceTimestamp,
+        TimestampDisplayMode mode = TIMESTAMP_MODE_RELATIVE);
 
     /**
      * @brief Get device time offset from global reference
@@ -199,9 +207,9 @@ public:
     /**
      * @brief Get list of all registered device IDs
      *
-     * @return List of device IDs
+     * @return Vector of device IDs
      */
-    QList<int> getRegisteredDevices() const;
+    std::vector<int> getRegisteredDevices() const;
 
     /**
      * @brief Check if a device is registered
@@ -220,18 +228,31 @@ public:
 
 private:
     /**
+     * @brief Format time to string with microsecond precision
+     *
+     * @param timePoint The time point to format
+     * @param format The format string (with strftime syntax)
+     * @param includeFraction Whether to include microsecond fraction
+     * @return Formatted time string
+     */
+    std::string formatTimePoint(
+        const std::chrono::time_point<std::chrono::system_clock>& timePoint,
+        const std::string& format,
+        bool includeFraction = true) const;
+
+    /**
      * @brief Device time information structure
      */
     struct DeviceTimeInfo {
         uint64_t baseTimestamp;       ///< Device base timestamp
-        QDateTime registrationTime;   ///< Device registration system time
+        std::chrono::time_point<std::chrono::system_clock> registrationTime; ///< Device registration system time
     };
 
-    QDateTime m_globalReferenceTime;      ///< Global reference time point
+    std::chrono::time_point<std::chrono::system_clock> m_globalReferenceTime; ///< Global reference time point
     double m_timeScaleFactor;             ///< Time precision factor
-    mutable QReadWriteLock m_lock;        ///< Thread safety lock
-    QMap<int, DeviceTimeInfo> m_devices;  ///< Device information map
-    QMap<int, uint64_t> m_lastTimestamps; ///< Last timestamp for each device
+    mutable std::shared_mutex m_mutex;    ///< Thread safety lock
+    std::unordered_map<int, DeviceTimeInfo> m_devices;  ///< Device information map
+    std::unordered_map<int, uint64_t> m_lastTimestamps; ///< Last timestamp for each device
 };
 
 } // namespace Common

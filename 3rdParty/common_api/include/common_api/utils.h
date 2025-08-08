@@ -97,6 +97,32 @@ public:
      */
     static void setProcessHighPriority();
 
+    /**
+     * @brief 构造通用Key
+     * @param type 类型 (16位)
+     * @param group 组 (16位)
+     * @param messageId/row 消息ID (32位)
+     * @return 64位通用Key
+     */
+    static uint64_t makeUtilsKey(uint16_t type, uint16_t group, uint32_t messageId);
+
+    /**
+     * @brief 解析通用Key
+     * @param key 64位通用Key
+     * @param type 输出类型
+     * @param group 输出组
+     * @param messageId/row 输出消息ID
+     */
+    static void parseUtilsKey(uint64_t key, uint16_t& type, uint16_t& group, uint32_t& messageId);
+
+    /**
+     * @brief 解析通用送Key (简化版本)
+     * @param key 64位通用Key
+     * @param type 输出类型
+     * @param group 输出组
+     */
+    static void parseUtilsKey(uint64_t key, uint16_t& type, uint16_t& group);
+
     //=============================================================================
     // Time & Data Processing
     //=============================================================================
@@ -310,6 +336,46 @@ public:
      * @return true=成功, false=失败
      */
     static bool gracefullyCloseSocket(int fd);
+
+    /**
+     * @brief 设置socket接收缓冲区大小
+     * @param fd socket文件描述符
+     * @param size 缓冲区大小（字节）
+     * @return true=成功, false=失败
+     */
+    static bool setSocketReceiveBufferSize(int fd, int size);
+
+    /**
+     * @brief 设置socket发送缓冲区大小
+     * @param fd socket文件描述符
+     * @param size 缓冲区大小（字节）
+     * @return true=成功, false=失败
+     */
+    static bool setSocketSendBufferSize(int fd, int size);
+
+    /**
+     * @brief 获取socket接收缓冲区大小
+     * @param fd socket文件描述符
+     * @return 缓冲区大小（字节），-1表示失败
+     */
+    static int getSocketReceiveBufferSize(int fd);
+
+    /**
+     * @brief 获取socket发送缓冲区大小
+     * @param fd socket文件描述符
+     * @return 缓冲区大小（字节），-1表示失败
+     */
+    static int getSocketSendBufferSize(int fd);
+
+    /**
+     * @brief 设置UDP socket的推荐缓冲区大小
+     * @param fd socket文件描述符
+     * @param packetSize 预期的数据包大小
+     * @param maxPackets 最大缓存包数量
+     * @return true=成功, false=失败
+     */
+    static bool setUdpRecommendedBufferSizes(int fd, int packetSize, int maxPackets = 64);
+
 };
 
 }

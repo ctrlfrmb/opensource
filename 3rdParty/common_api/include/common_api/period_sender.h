@@ -54,7 +54,6 @@
 *
 *   // Timer automatically starts and manages sending
 */
-
 #ifndef COMMON_PERIOD_SENDER_H
 #define COMMON_PERIOD_SENDER_H
 
@@ -74,17 +73,61 @@ class CallbackTimer;
 class COMMON_API_EXPORT PeriodSender {
 
 public:
-    static constexpr size_t MAX_FRAMES = 0xFF;          // 最大255条消息
-    static constexpr uint32_t DEFAULT_PERIOD = 100;     // 默认周期100ms
-    static constexpr size_t SEND_BUFFER_SIZE = 8192;    // 8KB缓冲区
+    static constexpr size_t DEFAULT_MAX_FRAMES = 0xFF;       // 默认最大255条消息
+    static constexpr uint32_t DEFAULT_PERIOD = 100;         // 默认周期100ms
+    static constexpr size_t DEFAULT_SEND_BUFFER_SIZE = 1024; // 默认1KB缓冲区
+    static constexpr size_t MIN_SEND_BUFFER_SIZE = 256;      // 最小缓冲区256字节
+    static constexpr size_t MAX_SEND_BUFFER_SIZE = 64 * 1024; // 最大缓冲区64KB
+    static constexpr size_t MIN_MAX_FRAMES = 1;              // 最小帧数1条
+    static constexpr size_t MAX_MAX_FRAMES = 1024;           // 最大帧数1024条
 
     explicit PeriodSender();
     ~PeriodSender();
 
     void setSendCallback(std::function<int(const std::vector<char>&)> callback);
 
+    /**
+     * @brief 设置发送缓冲区大小
+     * @param size 缓冲区大小（字节），范围：[MIN_SEND_BUFFER_SIZE, MAX_SEND_BUFFER_SIZE]
+     * @return true=成功, false=失败（运行中或参数无效）
+     */
+    bool setSendBufferSize(size_t size);
+
+    /**
+     * @brief 获取当前发送缓冲区大小
+     * @return 缓冲区大小（字节）
+     */
+    size_t getSendBufferSize() const { return sendBufferSize_; }
+
+    /**
+     * @brief 设置最大帧数量
+     * @param maxFrames 最大帧数量，范围：[MIN_MAX_FRAMES, MAX_MAX_FRAMES]
+     * @return true=成功, false=失败（运行中或参数无效）
+     */
+    bool setMaxFrames(size_t maxFrames);
+
+    /**
+     * @brief 获取最大帧数量
+     * @return 最大帧数量
+     */
+    size_t getMaxFrames() const { return maxFrames_; }
+
+    /**
+     * @brief 获取当前帧数量
+     * @return 当前帧数量
+     */
+    size_t getCurrentFrameCount() const { return frameContainer_.size(); }
+
+    /**
+     * @brief 获取缓冲区使用情况
+     * @return 缓冲区使用率（0.0-1.0）
+     */
+    double getBufferUsageRatio() const {
+        return static_cast<double>(sendBuffer_.size()) / sendBufferSize_;
+    }
+
     void resetCounter() { frameContainer_.counter.store(0, std::memory_order_release); }
-    uint64_t getCounter() const { return frameContainer_.counter.load(std::memory_order_relaxed); }
+    uint64_t getCounter() const { return frameContainer_.counter.load(std::memory_order_acquire); }
 
     // 添加帧
     int addFrame(SendFrame&& frame);
@@ -122,6 +165,9 @@ private:
         }
     };
 
+    // 检查是否可以修改配置（未运行状态）
+    bool canModifyConfig() const;
+
     // 线程函数
     int senderLoop();  // 统一的发送线程
 
@@ -136,6 +182,10 @@ private:
     std::function<int(const std::vector<char>&)> sendCallback_;
     FrameContainer frameContainer_;         // 统一的帧容器
     std::vector<char> sendBuffer_;
+
+    // 配置参数
+    size_t sendBufferSize_;                 // 发送缓冲区大小
+    size_t maxFrames_;                      // 最大帧数量
 };
 
 }

@@ -1,11 +1,11 @@
 {
-  "version": "1.3.4",
-  "changelog": "新增：\n1.  打流功能，需刷写交换机\n更新：\n1.  修复心跳连接BUG",
+  "version": "1.5.0",
+  "changelog": "新增：\n1.  交换机eth口支持子网掩码配置",
   "url": "https://raw.githubusercontent.com/ctrlfrmb/opensource/main/releases/download/NetworkSwitch_x64.zip",
   "mandatory": false,
   "checksum": {
     "type": "md5",
-    "value": "0fac05bef755712244e341a7f8720d5d"
+    "value": "452c7deb6be53070acd16231e4f4de7b"
   },
   "platforms": {
     "windows": true,
