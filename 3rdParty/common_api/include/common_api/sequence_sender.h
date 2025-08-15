@@ -112,6 +112,7 @@ public:
      * @param sendQueue Queue of frames to send sequentially
      * @return 0 on success, negative on error
      */
+    int start(const SendQueue& sendQueue);
     int start(SendQueue&& sendQueue);
 
     /**

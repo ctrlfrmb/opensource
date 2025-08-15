@@ -11,7 +11,7 @@
 * but must retain the author's copyright notice and license terms.
 *
 * Author: leiwei
-* Version: v1.0.0
+* Version: v2.0.0
 * Date: 2022-10-15
 *----------------------------------------------------------------------------*/
 
@@ -54,6 +54,7 @@
 *
 *   // Timer automatically starts and manages sending
 */
+
 #ifndef COMMON_PERIOD_SENDER_H
 #define COMMON_PERIOD_SENDER_H
 
@@ -73,13 +74,13 @@ class CallbackTimer;
 class COMMON_API_EXPORT PeriodSender {
 
 public:
-    static constexpr size_t DEFAULT_MAX_FRAMES = 0xFF;       // 默认最大255条消息
-    static constexpr uint32_t DEFAULT_PERIOD = 100;         // 默认周期100ms
-    static constexpr size_t DEFAULT_SEND_BUFFER_SIZE = 1024; // 默认1KB缓冲区
-    static constexpr size_t MIN_SEND_BUFFER_SIZE = 256;      // 最小缓冲区256字节
-    static constexpr size_t MAX_SEND_BUFFER_SIZE = 64 * 1024; // 最大缓冲区64KB
-    static constexpr size_t MIN_MAX_FRAMES = 1;              // 最小帧数1条
-    static constexpr size_t MAX_MAX_FRAMES = 1024;           // 最大帧数1024条
+    static constexpr size_t DEFAULT_MAX_FRAMES = 0xFF;          // 默认最大255条消息
+    static constexpr uint32_t DEFAULT_PERIOD = 100;             // 默认周期100ms
+    static constexpr size_t DEFAULT_SEND_BUFFER_SIZE = 1024;    // 默认1KB缓冲区
+    static constexpr size_t MIN_SEND_BUFFER_SIZE = 256;         // 最小缓冲区256字节
+    static constexpr size_t MAX_SEND_BUFFER_SIZE = 64 * 1024;   // 最大缓冲区64KB
+    static constexpr size_t MIN_MAX_FRAMES = 1;                 // 最小帧数1条
+    static constexpr size_t MAX_MAX_FRAMES = 1024;              // 最大帧数1024条
 
     explicit PeriodSender();
     ~PeriodSender();
@@ -129,12 +130,17 @@ public:
     void resetCounter() { frameContainer_.counter.store(0, std::memory_order_release); }
     uint64_t getCounter() const { return frameContainer_.counter.load(std::memory_order_acquire); }
 
-    // 添加帧
+    // --- 添加帧 (右值引用版本，用于临时对象) ---
     int addFrame(SendFrame&& frame);
     int addFrames(SendQueue&& frames);
     int updateData(uint64_t key, std::vector<char>&& data);
 
-    // 删除操作
+    // --- 添加帧 (左值引用版本，用于已存在对象 ---
+    int addFrame(const SendFrame& frame);
+    int addFrames(const SendQueue& frames);
+    int updateData(uint64_t key, const std::vector<char>& data);
+
+    // --- 删除操作 ---
     bool removeFrame(uint64_t key);
     int clear();
     int clear(uint16_t type);
@@ -145,8 +151,8 @@ private:
     struct FrameContainer {
         mutable std::shared_mutex mutex;
         std::atomic_uint64_t counter{0};
-        std::unordered_map<uint64_t, SendFrame> frames;                 // 原始帧数据
-        std::unordered_map<uint64_t, std::atomic_uint64_t> nextExecTimes; // 下一次执行时间点 - 使用原子操作
+        std::unordered_map<uint64_t, SendFrame> frames;                     // 原始帧数据
+        std::unordered_map<uint64_t, std::atomic_uint64_t> nextExecTimes;   // 下一次执行时间点 - 使用原子操作
 
         void clear() {
             std::unique_lock<std::shared_mutex> lock(mutex);  // 写锁
@@ -173,6 +179,7 @@ private:
 
     // 帧处理
     bool addToContainer(SendFrame&& frame);
+    bool addToContainer(const SendFrame& frame);
     int updateFrameInContainer(uint64_t key, const std::vector<char>& data);
     bool removeFromContainer(uint64_t key);
     int clearContainer(uint16_t type, int group = -1);

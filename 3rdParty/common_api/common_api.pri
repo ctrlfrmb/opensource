@@ -9,11 +9,13 @@ CODECFORTR = UTF-8
 include(../fmt-11.1.4/format.pri)
 
 # 库根目录
-COMMON_API_ROOT = $$PWD
+COMMON_API_LIB_ROOT = $$PWD
+# 库名称
+COMMON_API_LIB_NAME = common_api
 
 # 头文件路径
-INCLUDEPATH += $$COMMON_API_ROOT/include
-INCLUDEPATH += $$COMMON_API_ROOT/../
+INCLUDEPATH += $$COMMON_API_LIB_ROOT/include
+INCLUDEPATH += $$COMMON_API_LIB_ROOT/../
 
 # 平台检测
 win32: PLATFORM_DIR = windows
@@ -38,17 +40,17 @@ CONFIG(debug, debug|release) {
 }
 
 # 设置库路径
-COMMON_API_LIBDIR = $$COMMON_API_ROOT/lib/$$PLATFORM_DIR/$$ARCH_DIR/$$BUILD_DIR
-COMMON_API_BINDIR = $$COMMON_API_ROOT/bin/$$PLATFORM_DIR/$$ARCH_DIR/$$BUILD_DIR
+COMMON_API_LIB_DIR = $$COMMON_API_LIB_ROOT/lib/$$PLATFORM_DIR/$$ARCH_DIR/$$BUILD_DIR
+COMMON_API_BIN_DIR = $$COMMON_API_LIB_ROOT/bin/$$PLATFORM_DIR/$$ARCH_DIR/$$BUILD_DIR
 
 # 添加库路径
-LIBS += -L$$COMMON_API_LIBDIR
+LIBS += -L$$COMMON_API_LIB_DIR
 
 # 链接库
 win32 {
-    LIBS += -lcommon_api$${LIB_SUFFIX}
+    LIBS += -l$${COMMON_API_LIB_NAME}$${LIB_SUFFIX}
 } else {
-    LIBS += -lcommon_api$${LIB_SUFFIX}
+    LIBS += -l$${COMMON_API_LIB_NAME}$${LIB_SUFFIX}
 }
 
 # 定义宏
@@ -56,6 +58,6 @@ win32 {
 
 # 调试信息
 # message("Using common_api: $$PLATFORM_DIR/$$ARCH_DIR/$$BUILD_TYPE")
-# message("Include path: $$COMMON_API_ROOT/include")
-# message("Library path: $$COMMON_API_LIBDIR")
+# message("Include path: $$COMMON_API_LIB_ROOT/include")
+# message("Library path: $$COMMON_API_LIB_DIR")
 # message("Linking: common_api$${LIB_SUFFIX}")
