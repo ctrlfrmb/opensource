@@ -264,6 +264,7 @@ public:
      * @param title 对话框标题
      * @param label 输入提示文本（可选）
      * @param defaultText 默认输入内容（可选）
+     * @param isPassword 是否为密码框（可选）
      * @return 用户输入的文本，取消时返回空字符串
      *
      * @note 对话框会自动调整大小以避免几何警告
@@ -271,7 +272,8 @@ public:
      */
     static QString getInputText(QWidget *parent, const QString &title,
                                 const QString &label = QString(),
-                                const QString &defaultText = QString());
+                                const QString &defaultText = QString(),
+                                bool isPassword = false);
 
     /**
      * @brief 为输入框设置正则表达式验证器

@@ -1,5 +1,6 @@
 # common_api.pri - 通用API库配置文件
 # 使用方法: include(../3rdParty/common_api/common_api.pri)
+# Author: leiwei E-mail: ctrlfrmb@gmail.com
 
 # 确保 UTF-8 支持
 CONFIG += utf8_source

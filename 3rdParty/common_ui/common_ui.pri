@@ -1,5 +1,6 @@
 # common_ui.pri - 通用UI库配置文件
 # 使用方法: include(../3rdParty/common_ui/common_ui.pri)
+# Author: leiwei E-mail: ctrlfrmb@gmail.com
 
 # 确保 UTF-8 支持
 CONFIG += utf8_source

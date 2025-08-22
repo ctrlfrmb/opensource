@@ -134,10 +134,16 @@ public:
     static uint64_t getCurrentMillisecondsFast();
 
     /**
-     * @brief 高性能时间字符串获取（使用线程本地存储）
+     * @brief 高性能时间字符串获取
      * @return 时间字符串指针
      */
     static const char* getCurrentTimeStringFast();
+
+    /**
+     * @brief 高效、线程安全地获取符合 Vector ASC 文件头规范的日期时间字符串。
+     * @return 格式为 "Www Mmm dd HH:MM:SS.ms YYYY" 的字符串指针
+     */
+    static const char* getASCHeaderDateString();
 
     /**
      * @brief 计算数据校验和
@@ -147,12 +153,19 @@ public:
     static uint8_t calculateChecksum(const std::vector<uint8_t>& data);
 
     /**
-     * @brief 将字节数组转换为十六进制字符串
+     * @brief 将字节数组转换为十六进制大写字符串
      * @param data 字节数组指针
-     * @param length 数组长度
+     * @param len 数组长度
      * @return 十六进制字符串
      */
-    static std::string bytesToHexString(const uint8_t* data, size_t length);
+    static std::string bytesToHexStringUpper(const uint8_t* data, size_t len);
+    /**
+     * @brief 将字节数组转换为十六进制小写字符串
+     * @param data 字节数组指针
+     * @param len 数组长度
+     * @return 十六进制字符串
+     */
+    static std::string bytesToHexStringLower(const uint8_t* data, size_t len);
 
     /**
      * @brief 确保文件路径存在（创建必要的目录）
@@ -298,6 +311,21 @@ public:
      * @return 位数组
      */
     static std::vector<uint16_t> getSignalActualArrayBits(uint16_t startBit, uint16_t size, bool isBigEndian);
+
+    //=============================================================================
+    // General Algorithm
+    //=============================================================================
+
+    /**
+    * @brief 生成特定公司许可证
+    * @param companyName [in] 用于生成密钥的公司或客户名称。
+    * @param out_filename [out] 生成的文件名。
+    * @param out_filecontent [out] 生成的文件内容
+    * @return bool 如果成功生成则返回true，如果输入为空则返回false。
+    */
+   static bool generateLicenseKeyByCompany(const std::string& companyName,
+                                  std::string& out_filename,
+                                  std::string& out_filecontent);
 
     //=============================================================================
     // Socket Network Operations

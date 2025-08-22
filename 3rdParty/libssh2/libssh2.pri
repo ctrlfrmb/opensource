@@ -1,5 +1,6 @@
 # libssh2.pri - libssh2 库配置文件（包含 OpenSSL 和 zlib 依赖）
 # 使用方法: include(../3rdParty/libssh2/libssh2.pri)
+# Author: leiwei E-mail: ctrlfrmb@gmail.com
 
 # libssh2 库根目录
 LIBSSH2_ROOT = $$PWD
