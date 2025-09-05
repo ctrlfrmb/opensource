@@ -10,9 +10,9 @@
 * This is free software: you are free to use, modify and distribute,
 * but must retain the author's copyright notice and license terms.
 *
-* Author: leiwei
-* Version: v1.0.3
-* Date: 2022-03-17
+* Author: leiwei E-mail: ctrlfrmb@gmail.com
+* Version: v2.0.0
+* Date: 2022-07-17
 *----------------------------------------------------------------------------*/
 
 /**
@@ -101,23 +101,23 @@ private:
   std::atomic_bool is_running_;
   std::atomic_bool is_paused_;
 
-  // 使用原子指针存储回调函数
+  // Store callback function
   std::function<void()> callback_;
 
-  uint32_t delayTimeMs_;
+  uint32_t delay_time_ms_;
 
   // Heartbeat interval
-  uint32_t intervalTimeMs_;
+  uint32_t interval_time_ms_;
 
-  std::atomic_uint64_t lastUpdateTimeMs_;
+  std::atomic_uint64_t last_update_time_ms_;
 
   // Variables for thread synchronization
   mutable std::mutex mutex_;
   std::condition_variable cv_;
 
   // Heartbeat thread
-  mutable std::mutex threadMutex_;
-  std::thread heartbeatThread_;
+  mutable std::mutex thread_mutex_;
+  std::thread heartbeat_thread_;
 };
 
 }

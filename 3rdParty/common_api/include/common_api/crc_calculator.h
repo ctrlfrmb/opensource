@@ -10,40 +10,25 @@
 * This is free software: you are free to use, modify and distribute,
 * but must retain the author's copyright notice and license terms.
 *
-* Author: leiwei
-* Version: v1.4.0 (Refactored CrcConfig for clarity)
-* Date: 2022-08-21
+* Author: leiwei E-mail: ctrlfrmb@gmail.com
+* Version: v2.1.0
+* Date: 2022-08-28
 *----------------------------------------------------------------------------*/
 
 /**
 * @file crc_calculator.h
-* @brief Comprehensive CRC calculation implementation supporting multiple industry standards.
+* @brief Comprehensive checksum calculation implementation supporting multiple industry standards.
 *
-* The CrcCalculator class provides a robust implementation of various CRC algorithms.
-* It features a highly configurable, unified interface for calculation and in-place
-* buffer updates, supporting a wide range of industry standards.
+* The CrcCalculator class provides a robust implementation of various CRC, SUM, and XOR algorithms.
+* It features a highly configurable, unified interface for calculating checksum values based on
+* a wide range of industry standards.
 *
 * Features:
 * - Support for 23 different CRC algorithms and standards.
+* - Support for 8-bit Summation (SUM/AND) and XOR checksums.
 * - Logically grouped and clearly named configuration parameters.
 * - High-performance table-driven implementations for common algorithms.
-* - Configurable data range for CRC calculation.
-* - Endianness control for writing CRC results back to buffers.
-*
-* Usage example for standard CRC:
-*   Common::CrcConfig config;
-*   config.algorithm = Common::CrcAlgorithm::CRC16_MODBUS;
-*   config.data_start_byte = 0;
-*   config.data_end_byte = 5;
-*   uint32_t crcValue = Common::CrcCalculator::calculate(config, data, dataLength);
-*
-* Usage example for CRC-8/SAE-J1850-ZERO:
-*   Common::CrcConfig config;
-*   config.algorithm = Common::CrcAlgorithm::CRC8_SAE_J1850_ZERO;
-*   config.message_id = 0x345; // Set the CAN message ID
-*   config.data_start_byte = 0;
-*   config.data_end_byte = 6;
-*   uint32_t crcValue = Common::CrcCalculator::calculate(config, data, dataLength);
+* - Configurable data range for calculation.
 */
 
 #ifndef COMMON_CRC_CALCULATOR_H
@@ -51,14 +36,16 @@
 
 #include <cstdint>
 #include <vector>
-#include <QString>
-#include <unordered_map>
+#include <string>
+#include <map>
 #include "common_global.h"
 
 namespace Common {
 
-// CRC算法枚举
+// Algorithm enumeration
 enum class CrcAlgorithm : uint8_t {
+    CUSTOM_SUM,
+    CUSTOM_XOR,
     CRC4_ITU,
     CRC5_EPC,
     CRC5_ITU,
@@ -66,6 +53,7 @@ enum class CrcAlgorithm : uint8_t {
     CRC6_ITU,
     CRC7_MMC,
     CRC8,
+    CRC8_SAE_J1850_ZERO,
     CRC8_ITU,
     CRC8_ROHC,
     CRC8_MAXIM,
@@ -79,59 +67,56 @@ enum class CrcAlgorithm : uint8_t {
     CRC16_XMODEM,
     CRC16_DNP,
     CRC32,
-    CRC32_MPEG_2,
-    CRC8_SAE_J1850_ZERO
+    CRC32_MPEG_2
 };
 
-// CRC配置结构体 (重构后)
+// CRC configuration structure
 struct CrcConfig {
     // --- 1. Core Algorithm Parameters ---
-    CrcAlgorithm algorithm = CrcAlgorithm::CRC8;    ///< The selected CRC standard.
-    uint8_t width_bits = 8;                         ///< Mathematical width of the CRC in bits (e.g., 8, 16, 32).
+    CrcAlgorithm algorithm = CrcAlgorithm::CRC8;    ///< The selected standard.
+    uint8_t width_bits = 8;                         ///< Mathematical width in bits (e.g., 8, 16, 32).
     uint32_t polynomial = 0;                        ///< The generator polynomial.
-    uint32_t initial_value = 0;                     ///< Initial value of the CRC register.
-    uint32_t final_xor_value = 0;                   ///< Value to XOR with the final CRC result.
+    uint32_t initial_value = 0;                     ///< Initial value of the register.
+    uint32_t final_xor_value = 0;                   ///< Value to XOR with the final result.
     bool input_reflected = false;                   ///< Specifies if input bytes are reflected before processing.
-    bool output_reflected = false;                  ///< Specifies if the final CRC result is reflected before XORing.
+    bool output_reflected = false;                  ///< Specifies if the final result is reflected before XORing.
 
     // --- 2. Data Processing Range ---
     uint8_t data_start_byte = 0;                    ///< The starting byte index of the data to be checksummed.
     uint8_t data_end_byte = 7;                      ///< The ending byte index (inclusive) of the data.
 
-    // --- 3. Result Placement in Buffer ---
-    uint16_t crc_bit_position = 0;                  ///< The starting bit position to write the CRC result in the data buffer.
-    bool result_is_big_endian = false;              ///< Endianness for writing the multi-byte CRC result into the buffer.
+    // --- 3. CRC Signal Placement ---
+    uint16_t signal_start_bit = 0;                  ///< The original start bit of the CRC signal as defined in the DBC file.
+    bool signal_is_big_endian = false;              ///< The bit order of the CRC signal itself (true for Motorola, false for Intel).
 
     // --- 4. Contextual Parameters for Specific Algorithms ---
     uint32_t message_id = 0;                        ///< Contextual ID, e.g., for SAE J1850.
 };
 
-// CRC计算工具类
+// Checksum calculation utility class
 class COMMON_API_EXPORT CrcCalculator {
 public:
-    // 主入口函数：根据配置计算CRC
+    // Get all supported algorithms
+    static std::vector<std::pair<std::string, CrcAlgorithm>> getAlgorithms();
+
+    // Main entry function: Calculate checksum based on configuration
     static uint32_t calculate(const CrcConfig& config, const uint8_t* data, uint8_t length);
-
-    // 更新数据中的CRC字段（按配置写入data）
-    static void updateCRCData(const CrcConfig& config, uint8_t* data, uint8_t length);
-
-    // 算法名称转换为字符串
-    static QString algorithmToString(CrcAlgorithm algo);
-
-    // 字符串转换为算法枚举
-    static CrcAlgorithm stringToAlgorithm(const QString &str);
 
 private:
     static uint32_t reflectBits(uint32_t value, int width);
     static uint32_t calculateGeneric(const CrcConfig& config, const uint8_t* data, uint8_t length);
 
-    // 针对高频算法的表驱动实现
+    // Table-driven implementations for high-frequency algorithms
     static uint32_t calculateCRC8Table(const CrcConfig& config, const uint8_t* data, uint8_t length);
     static uint32_t calculateCRC16CCITTTable(const CrcConfig& config, const uint8_t* data, uint8_t length);
     static uint32_t calculateCRC32Table(const CrcConfig& config, const uint8_t* data, uint8_t length);
     static uint32_t calculateCRC8SAEJ1850Table(const CrcConfig& config, const uint8_t* data, uint8_t length);
 
-    // 预计算的查找表
+    // Private calculation functions for SUM and XOR
+    static uint8_t calculateSum(const CrcConfig& config, const uint8_t* data, uint8_t length);
+    static uint8_t calculateXor(const CrcConfig& config, const uint8_t* data, uint8_t length);
+
+    // Pre-computed lookup tables
     static const uint8_t CRC8_TABLE[256];
     static const uint16_t CRC16_CCITT_TABLE[256];
     static const uint32_t CRC32_TABLE[256];

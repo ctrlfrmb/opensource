@@ -10,8 +10,8 @@
 * This is free software: you are free to use, modify and distribute,
 * but must retain the author's copyright notice and license terms.
 *
-* Author: leiwei
-* Version: v2.2.0
+* Author: leiwei E-mail: ctrlfrmb@gmail.com
+* Version: v2.3.0
 * Date: 2022-07-16
 *----------------------------------------------------------------------------*/
 
@@ -52,30 +52,30 @@ class COMMON_API_EXPORT ConfigManager
 public:
     static ConfigManager& getInstance();
 
-    // 禁用拷贝和移动
+    // Prevent copying and moving
     ConfigManager(const ConfigManager&) = delete;
     ConfigManager& operator=(const ConfigManager&) = delete;
 
-    bool getRecordState() const { return recordState_; }
-    void setRecordState(bool value) { recordState_ = value; }
+    bool getRecordState() const { return record_state_; }
+    void setRecordState(bool value) { record_state_ = value; }
 
-    bool getLogToConsole() const { return logToConsole_; }
-    void setLogToConsole(bool value) { logToConsole_ = value; }
+    bool getLogToConsole() const { return log_to_console_; }
+    void setLogToConsole(bool value) { log_to_console_ = value; }
 
-    uint8_t getLogLevel() const { return logLevel_; }
-    void setLogLevel(uint8_t value) { logLevel_ = value; }
+    uint8_t getLogLevel() const { return log_level_; }
+    void setLogLevel(uint8_t value) { log_level_ = value; }
 
-    uint8_t getLogSize() const { return logSize_; }
-    void setLogSize(uint8_t value) { logSize_ = value; }
+    uint8_t getLogSize() const { return log_size_; }
+    void setLogSize(uint8_t value) { log_size_ = value; }
 
-    uint8_t getLogFiles() const { return logFiles_; }
-    void setLogFiles(uint8_t value) { logFiles_ = value; }
+    uint8_t getLogFiles() const { return log_files_; }
+    void setLogFiles(uint8_t value) { log_files_ = value; }
 
-    QString getLogFilePath() const { return logFilePath_; }
-    void setLogFilePath(const QString& value) { logFilePath_ = value; }
+    QString getLogFilePath() const { return log_file_path_; }
+    void setLogFilePath(const QString& value) { log_file_path_ = value; }
 
-    QString getCacheFilePath() const { return cacheFilePath_; }
-    void setCacheFilePath(const QString& value) { cacheFilePath_ = value; }
+    QString getCacheFilePath() const { return cache_file_path_; }
+    void setCacheFilePath(const QString& value) { cache_file_path_ = value; }
 
     QString getValue(const QString& key) const;
     void setValue(const QString& key, const QString& value);
@@ -91,14 +91,14 @@ private:
     const QString CACHE_FILE_PATH = "cache/common_cache.dat";
     const QString LOG_FILE_PATH = "logs/test.log";
 
-    // 配置项成员变量
-    bool recordState_;
-    bool logToConsole_;
-    uint8_t logLevel_;
-    uint8_t logSize_;
-    uint8_t logFiles_;
-    QString logFilePath_;
-    QString cacheFilePath_;
+    // Configuration member variables
+    bool record_state_;
+    bool log_to_console_;
+    uint8_t log_level_;
+    uint8_t log_size_;
+    uint8_t log_files_;
+    QString log_file_path_;
+    QString cache_file_path_;
 };
 
 }

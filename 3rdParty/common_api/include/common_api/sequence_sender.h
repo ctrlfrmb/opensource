@@ -10,8 +10,8 @@
 * This is free software: you are free to use, modify and distribute,
 * but must retain the author's copyright notice and license terms.
 *
-* Author: leiwei
-* Version: v1.0.0
+* Author: leiwei E-mail: ctrlfrmb@gmail.com
+* Version: v1.1.0
 * Date: 2022-09-20
 *----------------------------------------------------------------------------*/
 
@@ -65,7 +65,7 @@
 #include <vector>
 #include <memory>
 
-#include "common_global.h"
+#include "common_types.h"
 
 namespace Common {
 
@@ -75,9 +75,9 @@ class COMMON_API_EXPORT SequenceSender {
 public:
     // Configuration for sequence sending behavior
     struct SendConfig {
-        bool isForever{false};          // Whether to repeat forever
-        uint64_t repeatCount{1};        // Number of repetitions (valid when isForever is false)
-        uint32_t roundEndDelay{10};      // Delay after each round completion (ms)
+        bool is_forever{false};          // Whether to repeat forever
+        uint64_t repeat_count{1};        // Number of repetitions (valid when is_forever is false)
+        uint32_t round_end_delay{10};     // Delay after each round completion (ms)
     };
 
     explicit SequenceSender();
@@ -132,7 +132,7 @@ public:
      * @brief Check if sender is currently running
      * @return true if running, false otherwise
      */
-    bool isRunning() const { return isRunning_.load(std::memory_order_acquire); }
+    bool isRunning() const { return is_running_.load(std::memory_order_acquire); }
 
 private:
     int onTimerTick();
@@ -147,26 +147,26 @@ private:
     // Timer management
     std::unique_ptr<CallbackTimer> timer_;
 
-    // State management - 分离运行状态和停止状态
-    std::atomic_bool isRunning_{false};     // 对外显示的运行状态
-    std::atomic_bool shouldStop_{false};    // 内部停止信号
+    // State management - Separate running state and stop signal
+    std::atomic_bool is_running_{false};     // Externally visible running state
+    std::atomic_bool should_stop_{false};    // Internal stop signal
 
     // Configuration
     SendConfig config_;
 
     // Callbacks
-    std::function<int(const std::vector<char>&)> sendCallback_{nullptr};
-    std::function<void(int)> completionCallback_{nullptr};
+    std::function<int(const std::vector<char>&)> send_callback_{nullptr};
+    std::function<void(int)> completion_callback_{nullptr};
 
     // Frame management with thread safety
-    mutable std::shared_mutex framesMutex_;
+    mutable std::shared_mutex frames_mutex_;
     SendQueue frames_;
-    size_t totalFrames_{0};
+    size_t total_frames_{0};
 
     // Current execution state (only accessed in timer thread)
-    uint64_t currentRound_{0};
-    size_t currentFrameIndex_{0};
-    uint64_t nextSendTime_{0};      // 下次该发送的时间戳
+    uint64_t current_round_{0};
+    size_t current_frame_index_{0};
+    uint64_t next_send_time_{0};      // Next scheduled send timestamp
 };
 
 }

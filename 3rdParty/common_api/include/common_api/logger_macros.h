@@ -10,7 +10,7 @@
 * This is free software: you are free to use, modify and distribute,
 * but must retain the author's copyright notice and license terms.
 *
-* Author: leiwei
+* Author: leiwei E-mail: ctrlfrmb@gmail.com
 * Version: v2.0.0
 * Date: 2022-09-12
 *----------------------------------------------------------------------------*/

@@ -10,50 +10,63 @@
 * This is free software: you are free to use, modify and distribute,
 * but must retain the author's copyright notice and license terms.
 *
-* Author: leiwei
-* Version: v1.0.0
-* Date: 2022-12-25
+* Author: leiwei E-mail: ctrlfrmb@gmail.com
+* Version: v2.1.0
+* Date: 2022-09-05
 *----------------------------------------------------------------------------*/
 
 /**
 * @file tcp_client.h
 * @brief High-performance asynchronous TCP client with automatic reconnection
+*        and a bounded receive queue.
 *
 * The TCPClient class provides a robust, thread-safe TCP client implementation with
-* automatic reconnection capabilities and efficient data handling. It features
-* lock-free queues, atomic operations, and comprehensive error handling for
-* reliable network communication in production environments.
+* asynchronous reconnection capabilities and efficient data handling. It features
+* a lock-free queue with a configurable size limit to prevent uncontrolled memory
+* growth, atomic operations, and comprehensive error handling for reliable network
+* communication in production environments.
+*
+* Data is received in a dedicated background thread and stored in an internal
+* queue. The user must call the receive() method from their own thread to
+* consume the data.
 *
 * Features:
 * - Thread-safe asynchronous TCP communication
-* - Automatic reconnection with exponential backoff
-* - High-performance lock-free receive queue
-* - Configurable socket options (TCP_NODELAY, SO_KEEPALIVE, SO_LINGER)
+* - Asynchronous reconnection with exponential backoff (non-blocking)
+* - High-performance lock-free receive queue with a logical size limit
+* - Automatic discarding of oldest data when the queue limit is exceeded
+* - Configurable socket options using Utils class functions
 * - Graceful connection shutdown with proper cleanup
 * - Cross-platform support (Windows/Linux/Unix)
-* - Flexible callback system for data/error/reconnect events
+* - Flexible callback system for error and reconnect events
 * - Local IP binding support for multi-homed systems
 * - Bulk data operations for improved throughput
-* - Comprehensive error handling with detailed error codes
-* - Memory-efficient buffering with configurable queue capacity
+* - Unified error handling with UTILS_SOCKET_* error codes
 * - Atomic state management to prevent race conditions
+* - Separate reconnection thread for improved responsiveness
 *
 * Usage example:
 *   Common::TCPClient client;
 *
-*   // Set up callbacks
-*   client.setReceiveCallback([](const std::vector<uint8_t>& data) {
-*       // Handle received data
+*   // Set up callbacks for events
+*   client.setErrorCallback([](int errorCode, const std::string& message) {
+*       // Handle errors using UTILS_SOCKET_* error codes
 *   });
 *
 *   // Configure and connect
 *   Common::TCPClient::ConnectConfig config;
-*   config.serverIp = "192.168.1.100";
-*   config.serverPort = 8080;
-*   config.autoReconnect = true;
+*   config.server_ip = "192.168.1.100";
+*   config.server_port = 8080;
+*   config.auto_reconnect = true;
 *
 *   if (client.connect(config)) {
 *       client.send("Hello", 5);
+*
+*       // In your application's main loop or a dedicated thread:
+*       std::vector<char> received_data;
+*       if (client.receive(received_data)) {
+*           // Process received_data
+*       }
 *   }
 */
 
@@ -67,7 +80,6 @@
 #include <vector>
 #include <memory>
 #include <mutex>
-#include <condition_variable>
 #include <concurrentqueue.h>
 
 #include "common_global.h"
@@ -78,149 +90,134 @@ class COMMON_API_EXPORT TCPClient {
 public:
     static constexpr int INVALID_SOCKET_FD = -1;
     static constexpr int READ_BUFFER_SIZE = 4096;
-    static constexpr size_t DEFAULT_QUEUE_CAPACITY = 1048576; // 默认缓存1M
-    static constexpr int DEFAULT_READ_TIMEOUT_MS = 30; // 默认读超时30毫秒
+    static constexpr size_t DEFAULT_QUEUE_CAPACITY = 1048576; // 1M chars, for initial allocation
+    static constexpr int DEFAULT_READ_TIMEOUT_MS = 30; // 30ms
 
-    // 连接配置
+    // Connection configuration
     struct ConnectConfig {
-        std::string localIp;          // 本地绑定IP，可为空
-        std::string serverIp;         // 服务器IP
-        int serverPort{0};            // 服务器端口
-        int connectTimeout{2000};     // 连接超时时间(毫秒)
-        int readTimeout{DEFAULT_READ_TIMEOUT_MS}; // 读超时时间(毫秒)
-        bool autoReconnect{false};     // 是否自动重连
-        int reconnectInterval{1000};  // 重连间隔(毫秒)
-        size_t queueCapacity{DEFAULT_QUEUE_CAPACITY};  // 队列容量
+        std::string local_ip;                              // Local binding IP (optional)
+        std::string server_ip;                             // Server IP
+        int server_port{0};                                // Server port
+        int connect_timeout{2000};                         // Connection timeout (milliseconds)
+        int read_timeout{DEFAULT_READ_TIMEOUT_MS};         // Read timeout (milliseconds)
+        bool auto_reconnect{false};                        // Enable auto-reconnection
+        int reconnect_interval{1000};                      // Reconnection interval (milliseconds)
+        int max_reconnect_interval{60000};                 // Maximum reconnection interval (milliseconds)
+
+        // Maximum number of bytes to buffer in the receive queue.
+        // If this limit is exceeded, the oldest data will be discarded to make space.
+        size_t max_queue_size{DEFAULT_QUEUE_CAPACITY};
+
+        // TCP options
+        bool enable_tcp_no_delay{true};                    // Enable TCP_NODELAY
+        bool enable_keep_alive{true};                      // Enable Keep-Alive
+        int keep_alive_idle{60};                           // Keep-Alive idle time (seconds)
+        int keep_alive_interval{5};                        // Keep-Alive interval (seconds)
+        int keep_alive_count{3};                           // Keep-Alive probe count
     };
 
-    // 回调函数类型
+    // Callback function types for events
     using ErrorCallback = std::function<void(int errorCode, const std::string& errorMsg)>;
-    using ReceiveCallback = std::function<void(const std::vector<uint8_t>& data)>;
     using ReconnectCallback = std::function<void()>;
-
-    // 错误码
-    enum ErrorCode {
-        TCP_ERROR_NONE = 0,
-        TCP_ERROR_SOCKET_CREATE_FAILED = -4001,
-        TCP_ERROR_BIND_FAILED = -4002,
-        TCP_ERROR_CONNECT_FAILED = -4003,
-        TCP_ERROR_CONNECT_TIMEOUT = -4004,
-        TCP_ERROR_SEND_FAILED = -4005,
-        TCP_ERROR_CONNECTION_CLOSED = -4006,
-        TCP_ERROR_SOCKET_RECEIVE = -4007,
-        TCP_ERROR_SOCKET_SET_FAILED = -4008,
-        TCP_ERROR_UNKNOWN = -4010
-    };
 
 public:
     TCPClient();
     ~TCPClient();
 
-    // 禁止拷贝
+    // Prohibit copying
     TCPClient(const TCPClient&) = delete;
     TCPClient& operator=(const TCPClient&) = delete;
 
-    // 设置回调
+    // Set callbacks for events (cannot be set while connected)
     void setErrorCallback(ErrorCallback callback);
-    void setReceiveCallback(ReceiveCallback callback);
     void setReconnectCallback(ReconnectCallback callback);
     void setAutoReconnect(bool autoReconnect);
 
-    // 连接服务器
+    // Connect to server
     bool connect(const ConnectConfig& config);
 
-    // 断开连接
+    // Disconnect
     void disconnect();
 
-    // 发送数据
-    bool send(const char* data, size_t length);
-
-    // 检查连接状态
+    // Check connection status
     bool isConnected() const;
 
-    // 获取接收队列中的所有数据
-    bool receive(std::vector<uint8_t>& data);
+    // Send data
+    bool send(const std::vector<char>& data);
+    bool send(const std::string& data);
+    bool send(const char* data, size_t length);
 
-    // 清空接收队列
+    // Receive data from the internal queue. Returns true if data was received.
+    bool receive(std::vector<char>& data);
+    bool receive(std::vector<char>& data, size_t maxBytes);
+
+    // Clear the entire receive queue
     void clearReceiveQueue();
 
-    // 获取队列大小
+    // Get the approximate size of the receive queue in bytes
     size_t getQueueSize() const;
 
-    // 获取连接信息
+    // Get the current connection configuration
     const ConnectConfig& getConfig() const;
 
 private:
-    // 初始化网络库
-    static bool initNetworkLibrary();
-    static void cleanupNetworkLibrary();
+    // WSA initialization and cleanup
+    bool initNetworkLibrary();
+    void cleanupNetworkLibrary();
 
-    // 创建套接字
+    // Socket operations
     int createSocket();
-
-    // 设置套接字选项
     bool setSocketOptions(int fd);
-
-    // 设置读超时
-    bool setReceiveTimeout(int fd, int timeoutMs);
-
-    // 设置TCP选项
-    bool setTcpNoDelay(int fd, bool enable);
-    bool setKeepAlive(int fd, bool enable, int idle = 60, int interval = 5, int count = 3);
-    bool setLinger(int fd, bool enable, int seconds = 0);
-
-    // 优雅关闭套接字
-    void gracefulCloseSocket();
-
-    // 关闭套接字
     void closeSocket();
     int closeTempSocket(int fd);
 
-    // 尝试连接服务器
+    // Connection logic
     int tryConnect();
 
-    // 重连处理（同步）
-    bool handleReconnect();
+    // Asynchronous reconnection handling
+    void startAsyncReconnect();
+    void stopAsyncReconnect();
 
-    // 接收线程函数
+    // Thread functions
     void receiveThreadFunc();
+    void reconnectThreadFunc();
 
-    // 触发错误回调
-    void triggerErrorCallback(ErrorCode code, const std::string& message);
+    void pushToReceiveQueue(const char* data, size_t length);
 
-    // 触发重连成功回调
+    // Callback triggers
+    void triggerErrorCallback(int errorCode, const std::string& message);
     void triggerReconnectCallback();
 
-    // 获取系统错误码
-    int getLastSocketError() const;
-
 private:
-    std::mutex m_mutex;
+    std::mutex thread_mutex_;
+    std::mutex reconnect_mutex_;
+    std::condition_variable reconnect_cv_;
 
-    // 连接配置
-    ConnectConfig m_config;
+    // Connection configuration
+    ConnectConfig config_;
 
-    // 套接字描述符
-    std::atomic_int m_socketFd{INVALID_SOCKET_FD};
+    // Socket descriptor
+    std::atomic_int socket_fd_{INVALID_SOCKET_FD};
 
-    // 线程控制标志
-    std::atomic_bool m_running{false};
+    // Thread control flags
+    std::atomic_bool running_{false};
+    std::atomic_bool reconnecting_{false};
 
-    // 接收线程
-    std::thread m_receiveThread;
+    // Threads
+    std::thread receive_thread_;
+    std::thread reconnect_thread_;
 
-    // 发送互斥锁
-    std::mutex m_sendMutex;
+    // Lock-free receive queue for raw bytes
+    moodycamel::ConcurrentQueue<char> receive_queue_;
 
-    // 接收数据队列 - 直接存储字节
-    moodycamel::ConcurrentQueue<uint8_t> m_receiveQueue;
+    // Callback functions for events
+    ErrorCallback error_callback_{nullptr};
+    ReconnectCallback reconnect_callback_{nullptr};
 
-    // 回调函数
-    ErrorCallback m_errorCallback{nullptr};
-    ReceiveCallback m_dataCallback{nullptr};
-    ReconnectCallback m_reconnectCallback{nullptr};
+    // Reconnect counter for exponential backoff
+    std::atomic_int reconnect_counter_{0};
 };
 
-}
+} // namespace Common
 
 #endif // COMMON_TCP_CLIENT_H

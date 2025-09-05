@@ -10,8 +10,8 @@
 * This is free software: you are free to use, modify and distribute,
 * but must retain the author's copyright notice and license terms.
 *
-* Author: leiwei
-* Version: v2.0.0
+* Author: leiwei E-mail: ctrlfrmb@gmail.com
+* Version: v2.1.0
 * Date: 2022-11-05
 *----------------------------------------------------------------------------*/
 
@@ -244,15 +244,15 @@ private:
      * @brief Device time information structure
      */
     struct DeviceTimeInfo {
-        uint64_t baseTimestamp;       ///< Device base timestamp
-        std::chrono::time_point<std::chrono::system_clock> registrationTime; ///< Device registration system time
+        uint64_t base_timestamp;       ///< Device base timestamp
+        std::chrono::time_point<std::chrono::system_clock> registration_time; ///< Device registration system time
     };
 
-    std::chrono::time_point<std::chrono::system_clock> m_globalReferenceTime; ///< Global reference time point
-    double m_timeScaleFactor;             ///< Time precision factor
-    mutable std::shared_mutex m_mutex;    ///< Thread safety lock
-    std::unordered_map<int, DeviceTimeInfo> m_devices;  ///< Device information map
-    std::unordered_map<int, uint64_t> m_lastTimestamps; ///< Last timestamp for each device
+    std::chrono::time_point<std::chrono::system_clock> global_reference_time_; ///< Global reference time point
+    double time_scale_factor_;             ///< Time precision factor
+    mutable std::shared_mutex mutex_;    ///< Thread safety lock
+    std::unordered_map<int, DeviceTimeInfo> devices_;  ///< Device information map
+    std::unordered_map<int, uint64_t> last_timestamps_; ///< Last timestamp for each device
 };
 
 } // namespace Common

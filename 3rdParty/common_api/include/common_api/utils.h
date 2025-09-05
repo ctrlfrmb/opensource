@@ -10,9 +10,9 @@
 * This is free software: you are free to use, modify and distribute,
 * but must retain the author's copyright notice and license terms.
 *
-* Author: leiwei
-* Version: v1.4.2
-* Date: 2022-08-17
+* Author: leiwei E-mail: ctrlfrmb@gmail.com
+* Version: v2.1.0
+* Date: 2022-09-04
 *----------------------------------------------------------------------------*/
 
 /**
@@ -37,17 +37,22 @@
  *    - Signal extraction and insertion for CAN frame processing
  *    - Binary data manipulations with endianness support
  *
- * 4. Socket Network Operations
- *    - Socket blocking mode control
- *    - Non-blocking connection with timeout
- *    - Socket linger configuration
- *    - Graceful socket closure
+ * 4. Socket Network Operations (Enhanced)
+ *    - Socket options configuration (TCP_NODELAY, Keep-Alive, Linger, etc.)
+ *    - Socket buffer management (send/receive buffer size control)
+ *    - TCP connection operations with timeout support
+ *    - UDP broadcast configuration
+ *    - Cross-platform socket utilities with unified error codes
  *
  * Usage example:
  * @code
  *   // Extract a CAN signal
  *   uint64_t value = Common::Utils::getUnsignedSignalValueByLSB(
  *       canData, dataLength, startBit, signalSize);
+ *
+ *   // Configure TCP socket
+ *   Common::Utils::setTcpNoDelay(fd, true);
+ *   Common::Utils::setTcpKeepAlive(fd, true, 60, 5, 3);
  *
  *   // Connect socket with timeout
  *   int result = Common::Utils::connectSocketNonBlocking(fd, "192.168.1.100", 8080, 3000);
@@ -71,55 +76,55 @@ public:
     //=============================================================================
 
     /**
-     * @brief 崩溃/异常处理回调函数类型
+     * @brief Crash/exception handler callback function type
      */
     typedef void (*CrashHandlerCallback)();
 
     /**
-     * @brief 注册崩溃处理回调（如关闭设备等）
-     * @param cb 崩溃处理回调函数指针
+     * @brief Register crash handler callback (e.g., for device shutdown)
+     * @param cb Crash handler callback function pointer
      */
     static void registerCrashHandler(CrashHandlerCallback cb);
 
     /**
-     * @brief 启用全局崩溃/异常捕获（main函数最早调用）
+     * @brief Enable global crash/exception capture (call at the beginning of main function)
      */
     static void setupCrashHandler();
 
     /**
-     * @brief 获取当前线程ID字符串
-     * @return 线程ID的字符串表示
+     * @brief Get current thread ID as string
+     * @return String representation of the thread ID
      */
     static std::string getThreadIdString();
 
     /**
-     * @brief 设置进程为高优先级
+     * @brief Set process to high priority
      */
     static void setProcessHighPriority();
 
     /**
-     * @brief 构造通用Key
-     * @param type 类型 (16位)
-     * @param group 组 (16位)
-     * @param messageId/row 消息ID (32位)
-     * @return 64位通用Key
+     * @brief Create a generic key
+     * @param type Type (16 bits)
+     * @param group Group (16 bits)
+     * @param messageId/row Message ID (32 bits)
+     * @return 64-bit generic key
      */
     static uint64_t makeUtilsKey(uint16_t type, uint16_t group, uint32_t messageId);
 
     /**
-     * @brief 解析通用Key
-     * @param key 64位通用Key
-     * @param type 输出类型
-     * @param group 输出组
-     * @param messageId/row 输出消息ID
+     * @brief Parse a generic key
+     * @param key 64-bit generic key
+     * @param type Output type
+     * @param group Output group
+     * @param messageId/row Output message ID
      */
     static void parseUtilsKey(uint64_t key, uint16_t& type, uint16_t& group, uint32_t& messageId);
 
     /**
-     * @brief 解析通用送Key (简化版本)
-     * @param key 64位通用Key
-     * @param type 输出类型
-     * @param group 输出组
+     * @brief Parse a generic key (simplified version)
+     * @param key 64-bit generic key
+     * @param type Output type
+     * @param group Output group
      */
     static void parseUtilsKey(uint64_t key, uint16_t& type, uint16_t& group);
 
@@ -128,56 +133,56 @@ public:
     //=============================================================================
 
     /**
-     * @brief 获取从程序启动到现在的毫秒数
-     * @return 毫秒数
+     * @brief Get milliseconds elapsed since program start
+     * @return Milliseconds count
      */
     static uint64_t getCurrentMillisecondsFast();
 
     /**
-     * @brief 高性能时间字符串获取
-     * @return 时间字符串指针
+     * @brief High-performance time string retrieval
+     * @return Pointer to time string
      */
     static const char* getCurrentTimeStringFast();
 
     /**
-     * @brief 高效、线程安全地获取符合 Vector ASC 文件头规范的日期时间字符串。
-     * @return 格式为 "Www Mmm dd HH:MM:SS.ms YYYY" 的字符串指针
+     * @brief Efficiently and thread-safely get a date-time string compliant with Vector ASC file header format
+     * @return Pointer to string formatted as "Www Mmm dd HH:MM:SS.ms YYYY"
      */
     static const char* getASCHeaderDateString();
 
     /**
-     * @brief 计算数据校验和
-     * @param data 数据向量
-     * @return 校验和值
+     * @brief Calculate data checksum
+     * @param data Data vector
+     * @return Checksum value
      */
     static uint8_t calculateChecksum(const std::vector<uint8_t>& data);
 
     /**
-     * @brief 将字节数组转换为十六进制大写字符串
-     * @param data 字节数组指针
-     * @param len 数组长度
-     * @return 十六进制字符串
+     * @brief Convert byte array to uppercase hexadecimal string
+     * @param data Byte array pointer
+     * @param len Array length
+     * @return Hexadecimal string
      */
     static std::string bytesToHexStringUpper(const uint8_t* data, size_t len);
     /**
-     * @brief 将字节数组转换为十六进制小写字符串
-     * @param data 字节数组指针
-     * @param len 数组长度
-     * @return 十六进制字符串
+     * @brief Convert byte array to lowercase hexadecimal string
+     * @param data Byte array pointer
+     * @param len Array length
+     * @return Hexadecimal string
      */
     static std::string bytesToHexStringLower(const uint8_t* data, size_t len);
 
     /**
-     * @brief 确保文件路径存在（创建必要的目录）
-     * @param filePath 文件路径
-     * @return true=成功, false=失败
+     * @brief Ensure file path exists (create necessary directories)
+     * @param filePath File path
+     * @return true=success, false=failure
      */
     static bool ensureFilePath(const std::string& filePath);
 
     /**
-     * @brief 判断文件是否存在
-     * @param filePath 文件路径
-     * @return true=存在, false=不存在
+     * @brief Check if file exists
+     * @param filePath File path
+     * @return true=exists, false=does not exist
      */
     static bool fileExists(const std::string& filePath);
 
@@ -186,129 +191,129 @@ public:
     //=============================================================================
 
     /**
-     * @brief 符号扩展辅助函数
-     * @param rawValue 原始值
-     * @param signalSize 信号大小（位数）
-     * @return 符号扩展后的有符号值
+     * @brief Sign extension helper function
+     * @param rawValue Raw value
+     * @param signalSize Signal size (bits)
+     * @return Sign-extended signed value
      */
     static inline int64_t signalRawValueToSigned(uint64_t rawValue, uint16_t signalSize) {
         if ((rawValue & (1ULL << (signalSize - 1))) && signalSize < 64) {
-            // 符号扩展 - 将高位都置为1
+            // Sign extension - set all high bits to 1
             rawValue |= (~0ULL << signalSize);
         }
         return static_cast<int64_t>(rawValue);
     }
 
     /**
-     * @brief 字节取反辅助函数
-     * @param x 输入字节
-     * @return 取反后的字节
+     * @brief Byte inversion helper function
+     * @param x Input byte
+     * @return Inverted byte
      */
     static constexpr uint8_t invert_u8(uint8_t x) { return static_cast<uint8_t>(~x); }
 
     /**
-     * @brief 获取信号的实际起始位（一般为DBC文件使用）
-     * @param startBit 起始位
-     * @param signalSize 信号大小
-     * @param isBigEndian 是否为大端格式
-     * @return 实际起始位
+     * @brief Get actual start bit for a signal (typically used for DBC files)
+     * @param startBit Start bit
+     * @param signalSize Signal size
+     * @param isBigEndian Whether big-endian format
+     * @return Actual start bit
      */
     static uint16_t getSignalActualStartBit(uint16_t startBit, uint16_t signalSize, bool isBigEndian);
 
     /**
-     * @brief LSB格式设置信号值（Intel格式，小端）
-     * @param data 数据缓冲区
-     * @param dataLen 数据长度
-     * @param startBit 起始位
-     * @param signalSize 信号大小
-     * @param value 要设置的值
-     * @return 0=成功, <0=失败
+     * @brief Set signal value using LSB format (Intel format, little-endian)
+     * @param data Data buffer
+     * @param dataLen Data length
+     * @param startBit Start bit
+     * @param signalSize Signal size
+     * @param value Value to set
+     * @return 0=success, <0=failure
      */
     static int setSignalValueByLSB(uint8_t* data, uint8_t dataLen, uint16_t startBit,
                                   uint16_t signalSize, uint64_t value);
 
     /**
-     * @brief LSB格式获取无符号信号值（Intel格式，小端）
-     * @param data 数据缓冲区
-     * @param dataLen 数据长度
-     * @param startBit 起始位
-     * @param signalSize 信号大小
-     * @return 无符号信号值
+     * @brief Get unsigned signal value using LSB format (Intel format, little-endian)
+     * @param data Data buffer
+     * @param dataLen Data length
+     * @param startBit Start bit
+     * @param signalSize Signal size
+     * @return Unsigned signal value
      */
     static uint64_t getUnsignedSignalValueByLSB(const uint8_t* data, uint8_t dataLen,
                                                uint16_t startBit, uint16_t signalSize);
 
     /**
-     * @brief LSB格式获取有符号信号值（Intel格式，小端）
-     * @param data 数据缓冲区
-     * @param dataLen 数据长度
-     * @param startBit 起始位
-     * @param signalSize 信号大小
-     * @return 有符号信号值
+     * @brief Get signed signal value using LSB format (Intel format, little-endian)
+     * @param data Data buffer
+     * @param dataLen Data length
+     * @param startBit Start bit
+     * @param signalSize Signal size
+     * @return Signed signal value
      */
     static int64_t getSignedSignalValueByLSB(const uint8_t* data, uint8_t dataLen,
                                             uint16_t startBit, uint16_t signalSize);
 
     /**
-     * @brief MSB格式设置信号值（Motorola格式，大端）
-     * @param data 数据缓冲区
-     * @param dataLen 数据长度
-     * @param startBit 起始位
-     * @param signalSize 信号大小
-     * @param value 要设置的值
-     * @return 0=成功, <0=失败
+     * @brief Set signal value using MSB format (Motorola format, big-endian)
+     * @param data Data buffer
+     * @param dataLen Data length
+     * @param startBit Start bit
+     * @param signalSize Signal size
+     * @param value Value to set
+     * @return 0=success, <0=failure
      */
     static int setSignalValueByMSB(uint8_t* data, uint8_t dataLen, uint16_t startBit,
                                   uint16_t signalSize, uint64_t value);
 
     /**
-     * @brief MSB格式获取无符号信号值（Motorola格式，大端）
-     * @param data 数据缓冲区
-     * @param dataLen 数据长度
-     * @param startBit 起始位
-     * @param signalSize 信号大小
-     * @return 无符号信号值
+     * @brief Get unsigned signal value using MSB format (Motorola format, big-endian)
+     * @param data Data buffer
+     * @param dataLen Data length
+     * @param startBit Start bit
+     * @param signalSize Signal size
+     * @return Unsigned signal value
      */
     static uint64_t getUnsignedSignalValueByMSB(const uint8_t* data, uint8_t dataLen,
                                                uint16_t startBit, uint16_t signalSize);
 
     /**
-     * @brief MSB格式获取有符号信号值（Motorola格式，大端）
-     * @param data 数据缓冲区
-     * @param dataLen 数据长度
-     * @param startBit 起始位
-     * @param signalSize 信号大小
-     * @return 有符号信号值
+     * @brief Get signed signal value using MSB format (Motorola format, big-endian)
+     * @param data Data buffer
+     * @param dataLen Data length
+     * @param startBit Start bit
+     * @param signalSize Signal size
+     * @return Signed signal value
      */
     static int64_t getSignedSignalValueByMSB(const uint8_t* data, uint8_t dataLen,
                                             uint16_t startBit, uint16_t signalSize);
 
     /**
-     * @brief 基于位列表的信号设置
-     * @param data 数据缓冲区
-     * @param dataLen 数据长度
-     * @param bitList 位列表
-     * @param value 要设置的值
-     * @return 0=成功, <0=失败
+     * @brief Set signal value based on bit list
+     * @param data Data buffer
+     * @param dataLen Data length
+     * @param bitList Bit list
+     * @param value Value to set
+     * @return 0=success, <0=failure
      */
     static int setSignalValueByBitList(uint8_t* data, uint8_t dataLen,
                                       const std::vector<uint16_t>& bitList, uint64_t value);
 
     /**
-     * @brief 获取信号实际位集合
-     * @param startBit 起始位
-     * @param signalSize 信号大小
-     * @param isBigEndian 是否为大端格式
-     * @return 位集合
+     * @brief Get actual bit set for a signal
+     * @param startBit Start bit
+     * @param signalSize Signal size
+     * @param isBigEndian Whether big-endian format
+     * @return Set of bits
      */
     static std::unordered_set<uint16_t> getSignalActualSetBits(uint16_t startBit, uint16_t signalSize, bool isBigEndian);
 
     /**
-     * @brief 获取信号实际位数组
-     * @param startBit 起始位
-     * @param size 信号大小
-     * @param isBigEndian 是否为大端格式
-     * @return 位数组
+     * @brief Get actual bit array for a signal
+     * @param startBit Start bit
+     * @param size Signal size
+     * @param isBigEndian Whether big-endian format
+     * @return Array of bits
      */
     static std::vector<uint16_t> getSignalActualArrayBits(uint16_t startBit, uint16_t size, bool isBigEndian);
 
@@ -317,93 +322,182 @@ public:
     //=============================================================================
 
     /**
-    * @brief 生成特定公司许可证
-    * @param companyName [in] 用于生成密钥的公司或客户名称。
-    * @param out_filename [out] 生成的文件名。
-    * @param out_filecontent [out] 生成的文件内容
-    * @return bool 如果成功生成则返回true，如果输入为空则返回false。
-    */
+     * @brief Generate a mixed password based on time and day of week
+     * @return std::string The generated mixed password
+     */
+    static std::string generateTimeDayMixPassword();
+
+    /**
+     * @brief Generate a date-based communication password (valid for 24 hours)
+     * @return std::string A 9-character password (remains constant within the day)
+     */
+    static std::string generateDailyComPassword();
+
+    /**
+     * @brief Generate a company-specific license
+     * @param companyName [in] Company or customer name used for key generation.
+     * @param out_filename [out] Generated filename.
+     * @param out_filecontent [out] Generated file content
+     * @return bool Returns true if successfully generated, false if input is empty.
+     */
    static bool generateLicenseKeyByCompany(const std::string& companyName,
                                   std::string& out_filename,
                                   std::string& out_filecontent);
 
     //=============================================================================
-    // Socket Network Operations
+    // Socket Network Operations (Enhanced)
     //=============================================================================
 
     /**
-     * @brief 设置socket阻塞/非阻塞模式
-     * @param fd socket文件描述符
-     * @param blocking true=阻塞模式, false=非阻塞模式
-     * @return 0=成功, >0=错误码, -1=参数错误
+     * @brief Set socket blocking/non-blocking mode
+     * @param fd Socket file descriptor
+     * @param blocking true=blocking mode, false=non-blocking mode
+     * @return Error code: UTILS_SOCKET_SUCCESS=success, other=failure, see utils_socket_types.h
      */
     static int setSocketBlockingMode(int fd, bool blocking);
 
     /**
-     * @brief 非阻塞连接socket（带超时）
-     * @param fd socket文件描述符
-     * @param ip 目标IP地址
-     * @param port 目标端口
-     * @param timeoutMs 超时时间（毫秒）
-     * @return 0=成功, >0=错误码, <0=特定错误（-1=参数错误, -2=IP无效, -3=超时等）
+     * @brief Set TCP_NODELAY option (disable Nagle's algorithm)
+     * @param fd Socket file descriptor
+     * @param enable Whether to enable TCP_NODELAY
+     * @return Error code: UTILS_SOCKET_SUCCESS=success, other=failure
      */
-    static int connectSocketNonBlocking(int fd, const std::string& ip, int port, int timeoutMs);
+    static int setTcpNoDelay(int fd, bool enable);
 
     /**
-     * @brief 设置socket关闭时的linger行为
-     * @param fd socket文件描述符
-     * @param enable 是否启用linger
-     * @param seconds linger超时时间（秒）
-     * @return true=成功, false=失败
+     * @brief Set TCP Keep-Alive option
+     * @param fd Socket file descriptor
+     * @param enable Whether to enable keep-alive
+     * @param idle Idle time (seconds), default 60 seconds
+     * @param interval Probe interval (seconds), default 5 seconds
+     * @param count Probe count, default 3 times
+     * @return Error code: UTILS_SOCKET_SUCCESS=success, other=failure
      */
-    static bool setSocketLinger(int fd, bool enable, int seconds);
+    static int setTcpKeepAlive(int fd, bool enable, int idle = 60, int interval = 5, int count = 3);
 
     /**
-     * @brief 优雅关闭socket
-     * @param fd socket文件描述符
-     * @return true=成功, false=失败
+     * @brief Set SO_LINGER option (control socket close behavior)
+     * @param fd Socket file descriptor
+     * @param enable Whether to enable linger
+     * @param seconds Linger timeout (seconds), 0=immediate close with RST
+     * @return Error code: UTILS_SOCKET_SUCCESS=success, other=failure
      */
-    static bool gracefullyCloseSocket(int fd);
+    static int setSocketLinger(int fd, bool enable, int seconds);
 
     /**
-     * @brief 设置socket接收缓冲区大小
-     * @param fd socket文件描述符
-     * @param size 缓冲区大小（字节）
-     * @return true=成功, false=失败
+     * @brief Set SO_REUSEADDR option (address reuse)
+     * @param fd Socket file descriptor
+     * @param enable Whether to enable address reuse
+     * @return Error code: UTILS_SOCKET_SUCCESS=success, other=failure
      */
-    static bool setSocketReceiveBufferSize(int fd, int size);
+    static int setReuseAddr(int fd, bool enable);
 
     /**
-     * @brief 设置socket发送缓冲区大小
-     * @param fd socket文件描述符
-     * @param size 缓冲区大小（字节）
-     * @return true=成功, false=失败
+     * @brief Set SO_BROADCAST option (UDP broadcast)
+     * @param fd Socket file descriptor
+     * @param enable Whether to enable broadcasting
+     * @return Error code: UTILS_SOCKET_SUCCESS=success, other=failure
      */
-    static bool setSocketSendBufferSize(int fd, int size);
+    static int setBroadcast(int fd, bool enable);
 
     /**
-     * @brief 获取socket接收缓冲区大小
-     * @param fd socket文件描述符
-     * @return 缓冲区大小（字节），-1表示失败
+     * @brief Set receive timeout
+     * @param fd Socket file descriptor
+     * @param timeoutMs Timeout (milliseconds)
+     * @return Error code: UTILS_SOCKET_SUCCESS=success, other=failure
+     */
+    static int setReceiveTimeout(int fd, int timeoutMs);
+
+    /**
+     * @brief Set send timeout
+     * @param fd Socket file descriptor
+     * @param timeoutMs Timeout (milliseconds)
+     * @return Error code: UTILS_SOCKET_SUCCESS=success, other=failure
+     */
+    static int setSendTimeout(int fd, int timeoutMs);
+
+    /**
+     * @brief Set socket receive buffer size
+     * @param fd Socket file descriptor
+     * @param size Buffer size (bytes)
+     * @return Error code: UTILS_SOCKET_SUCCESS=success, other=failure
+     */
+    static int setSocketReceiveBufferSize(int fd, int size);
+
+    /**
+     * @brief Set socket send buffer size
+     * @param fd Socket file descriptor
+     * @param size Buffer size (bytes)
+     * @return Error code: UTILS_SOCKET_SUCCESS=success, other=failure
+     */
+    static int setSocketSendBufferSize(int fd, int size);
+
+    /**
+     * @brief Get socket receive buffer size
+     * @param fd Socket file descriptor
+     * @return Buffer size (bytes), negative value indicates error code
      */
     static int getSocketReceiveBufferSize(int fd);
 
     /**
-     * @brief 获取socket发送缓冲区大小
-     * @param fd socket文件描述符
-     * @return 缓冲区大小（字节），-1表示失败
+     * @brief Get socket send buffer size
+     * @param fd Socket file descriptor
+     * @return Buffer size (bytes), negative value indicates error code
      */
     static int getSocketSendBufferSize(int fd);
 
     /**
-     * @brief 设置UDP socket的推荐缓冲区大小
-     * @param fd socket文件描述符
-     * @param packetSize 预期的数据包大小
-     * @param maxPackets 最大缓存包数量
-     * @return true=成功, false=失败
+     * @brief Set recommended buffer sizes for UDP socket
+     * @param fd Socket file descriptor
+     * @param packetSize Expected packet size
+     * @param maxPackets Maximum number of cached packets, default 64
+     * @return true=success, false=failure
      */
     static bool setUdpRecommendedBufferSizes(int fd, int packetSize, int maxPackets = 64);
 
+    /**
+     * @brief Connect socket non-blockingly (with timeout)
+     * @param fd Socket file descriptor
+     * @param ip Target IP address
+     * @param port Target port
+     * @param timeoutMs Timeout (milliseconds)
+     * @return Error code: UTILS_SOCKET_SUCCESS=success, other=failure
+     */
+    static int connectSocketNonBlocking(int fd, const std::string& ip, int port, int timeoutMs);
+
+    /**
+     * @brief Gracefully close socket (set linger then shutdown+close)
+     * @param fd Socket file descriptor
+     * @return true=success, false=failure
+     */
+    static bool gracefullyCloseSocket(int fd);
+
+    /**
+     * @brief Get last socket error code (cross-platform)
+     * @return Socket error code
+     */
+    static int getLastSocketError();
+
+    /**
+     * @brief Check if error code is a "would block" type error
+     * @param errorCode Error code
+     * @return true=is blocking error, false=is not
+     */
+    static bool isWouldBlockError(int errorCode);
+
+    /**
+     * @brief Check if error code is connection-related
+     * @param errorCode Error code
+     * @return true=is connection error, false=is not
+     */
+    static bool isConnectionError(int errorCode);
+
+    /**
+     * @brief Check if error code is a timeout error
+     * @param errorCode Error code
+     * @return true=is timeout error, false=is not
+     */
+    static bool isTimeoutError(int errorCode);
 };
 
 }

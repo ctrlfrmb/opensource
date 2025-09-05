@@ -82,8 +82,8 @@ DEFINES += USE_LIBSSH
 
 # --- 调试与检查 ---
 
-message("Using libssh: $$ARCH_NAME/$$BUILD_TYPE")
-message("Library path: $$LIBSSH_LIBDIR")
+# message("Using libssh: $$ARCH_NAME/$$BUILD_TYPE")
+# message("Library path: $$LIBSSH_LIBDIR")
 
 # 库文件存在性检查
 win32 {

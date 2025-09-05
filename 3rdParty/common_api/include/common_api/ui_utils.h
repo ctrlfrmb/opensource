@@ -102,17 +102,18 @@ public:
     //=============================================================================
 
     /**
-     * @brief 检查并启动软件更新程序
+     * @brief Check and launch software update program
      *
-     * 自动检测更新程序是否存在备份版本并进行自我更新，然后启动更新检查。
-     * 支持静默模式和交互模式，提供完整的错误处理和权限管理。
+     * Automatically detects if the updater has a backup version, performs self-update,
+     * and then initiates the update check. Supports silent and interactive modes
+     * with comprehensive error handling and permission management.
      *
-     * @param isAutoCheck 是否为自动检查模式（静默模式，不显示错误对话框）
-     * @return 更新程序启动成功返回true，失败返回false
+     * @param isAutoCheck Whether in automatic check mode (silent mode, no error dialogs)
+     * @return True if updater launched successfully, false otherwise
      *
-     * @note 自动检查模式下不会显示错误对话框，适用于程序启动时的后台检查
-     * @note 手动模式下会显示详细的错误信息和用户提示
-     * @note 支持更新程序的自我更新机制（通过.bak备份文件）
+     * @note In automatic check mode, no error dialogs are shown, suitable for background checks at program startup
+     * @note In manual mode, detailed error information and user prompts are displayed
+     * @note Supports the updater's self-update mechanism (via .bak backup files)
      */
     static bool checkForUpdates(bool isAutoCheck = false);
 
@@ -121,33 +122,35 @@ public:
     //=============================================================================
 
     /**
-     * @brief 获取支持中文显示的优化字体
+     * @brief Get optimized font for Chinese character display
      *
-     * 智能选择最适合的中文字体，优先使用系统已安装的推荐字体，
-     * 如果系统字体不可用或指定了自定义字体路径，则加载自定义字体文件。
+     * Intelligently selects the most suitable Chinese font, prioritizing recommended
+     * fonts already installed on the system. If system fonts are unavailable or a
+     * custom font path is specified, loads the custom font file.
      *
-     * @param fontPath 自定义字体文件路径（可选，为空时仅使用系统字体）
-     * @return 配置好的QFont对象，保证中文字符正确显示
+     * @param fontPath Custom font file path (optional, when empty only system fonts are used)
+     * @return Configured QFont object that ensures proper Chinese character display
      *
-     * @note 自动配置UTF-8编码以确保文本正确渲染
-     * @note 按优先级顺序尝试推荐的中文字体列表
-     * @note 支持跨平台字体选择（Windows/Linux/macOS）
+     * @note Automatically configures UTF-8 encoding to ensure correct text rendering
+     * @note Tries recommended Chinese fonts in priority order
+     * @note Supports cross-platform font selection (Windows/Linux/macOS)
      */
     static QFont getChineseFont(const QString& fontPath = QString());
 
     /**
-     * @brief 获取系统所有可用字体列表
-     * @return 系统字体家族名称的字符串列表
+     * @brief Get list of all available system fonts
+     * @return List of system font family names
      */
     static QStringList getAvailableFonts();
 
     /**
-     * @brief 获取推荐的中文字体列表
+     * @brief Get list of recommended Chinese fonts
      *
-     * 返回按优先级排序的中文字体列表，涵盖Windows、Linux、macOS
-     * 等不同平台的常见中文字体，确保最佳的中文显示效果。
+     * Returns a list of Chinese fonts sorted by priority, covering common
+     * Chinese fonts across Windows, Linux, macOS and other platforms to
+     * ensure optimal Chinese text display.
      *
-     * @return 推荐中文字体名称列表，按显示质量和兼容性排序
+     * @return List of recommended Chinese font names, sorted by display quality and compatibility
      */
     static QStringList getRecommendedChineseFonts();
 
@@ -156,17 +159,18 @@ public:
     //=============================================================================
 
     /**
-     * @brief 使用系统默认程序打开帮助文档
+     * @brief Open help document using system default program
      *
-     * 跨平台的文件打开功能，自动使用系统关联的默认程序打开指定文件。
-     * 支持相对路径和绝对路径，提供详细的错误信息反馈。
+     * Cross-platform file opening function that automatically uses the system's
+     * default program associated with the specified file. Supports both relative
+     * and absolute paths with detailed error feedback.
      *
-     * @param helpFilePath 帮助文件的路径（支持相对路径）
-     * @param errorMsg 可选的错误信息输出参数
-     * @return 文件打开成功返回true，失败返回false
+     * @param helpFilePath Path to the help file (supports relative paths)
+     * @param errorMsg Optional error message output parameter
+     * @return True if file opened successfully, false otherwise
      *
-     * @note Windows下使用cmd命令，Linux下使用xdg-open
-     * @note 自动检查文件存在性，避免无效的文件打开尝试
+     * @note Uses cmd command on Windows, xdg-open on Linux
+     * @note Automatically checks if the file exists to avoid invalid file open attempts
      */
     static bool openHelpFile(const QString& helpFilePath, QString* errorMsg = nullptr);
 
@@ -175,18 +179,20 @@ public:
     //=============================================================================
 
     /**
-     * @brief 格式化内容为专业的HTML格式
+     * @brief Format content as professional HTML
      *
-     * 生成具有现代CSS样式的HTML内容，适用于工具提示、状态显示等场景。
-     * 支持标题、多个内容节段的格式化，提供标签、缩进、高亮、注释等样式类。
+     * Generates HTML content with modern CSS styles, suitable for tooltips,
+     * status displays, and other UI elements. Supports title formatting,
+     * multiple content sections, and various style classes including labels,
+     * indentation, highlighting, and comments.
      *
-     * @param title 标题文本，以粗体蓝色显示在顶部
-     * @param sections 内容节段列表，每个节段独立显示
-     * @return 包含内嵌CSS样式的完整HTML字符串
+     * @param title Title text, displayed at the top in bold blue
+     * @param sections List of content sections, each displayed independently
+     * @return Complete HTML string with embedded CSS styling
      *
-     * @note 最大宽度限制为400px，确保在各种显示环境下的良好表现
-     * @note 支持的CSS类：.title, .section, .label, .indent, .highlight, .comment
-     * @note 使用现代字体栈，确保在不同操作系统下的一致性
+     * @note Maximum width is limited to 400px to ensure good display in various environments
+     * @note Supported CSS classes: .title, .section, .label, .indent, .highlight, .comment
+     * @note Uses modern font stack to ensure consistency across different operating systems
      */
     static QString formatToHtml(const QString& title, const QStringList& sections);
 
@@ -195,30 +201,32 @@ public:
     //=============================================================================
 
     /**
-     * @brief 获取现代化标签页控件的CSS样式表
+     * @brief Get modern tab widget CSS stylesheet
      *
-     * 提供专业的标签页外观，包含选中状态的蓝色底边指示器、
-     * 悬停效果和清晰的视觉层次。适用于QTabWidget和QTabBar控件。
+     * Provides professional tab appearance with blue bottom edge indicator for
+     * selected state, hover effects, and clear visual hierarchy. Suitable for
+     * QTabWidget and QTabBar controls.
      *
-     * @return 标签页控件的完整CSS样式表字符串
+     * @return Complete CSS stylesheet string for tab widgets
      *
-     * @note 选中标签具有蓝色底边和粗体文字的视觉反馈
-     * @note 未选中标签为浅灰色背景，悬停时显示中等灰色
-     * @note 包含5px的内边距，确保文字显示的舒适度
+     * @note Selected tabs feature blue bottom edge and bold text visual feedback
+     * @note Unselected tabs have light gray background, with medium gray on hover
+     * @note Includes 5px padding to ensure comfortable text display
      */
     static QString getTabStyle();
 
     /**
-     * @brief 获取按钮容器控件的统一样式表
+     * @brief Get unified stylesheet for button container widgets
      *
-     * 为包含多个按钮的容器提供现代化外观，包含无边框按钮设计、
-     * 悬停高亮效果和按下状态反馈。适用于工具栏和按钮组。
+     * Provides modern appearance for containers with multiple buttons,
+     * including borderless button design, hover highlight effects, and
+     * pressed state feedback. Suitable for toolbars and button groups.
      *
-     * @return 按钮容器控件的CSS样式表字符串
+     * @return CSS stylesheet string for button container widgets
      *
-     * @note 容器具有浅灰色背景（#f0f0f0）
-     * @note 按钮具有3px边距和内边距，提供良好的视觉间距
-     * @note 悬停时显示淡蓝色边框，按下时显示淡蓝色背景
+     * @note Container has light gray background (#f0f0f0)
+     * @note Buttons have 3px margin and padding, providing good visual spacing
+     * @note Hovering shows light blue border, pressing shows light blue background
      */
     static QString getButtonWidgetStyle();
 
@@ -227,12 +235,13 @@ public:
     //=============================================================================
 
     /**
-     * @brief 获取支持的文件编码格式列表
+     * @brief Get list of supported file encoding formats
      *
-     * 返回常用的文件编码格式，适用于文件导入/导出功能中的编码选择。
-     * 包含Unicode标准编码和中文编码格式，按使用频率排序。
+     * Returns common file encoding formats suitable for encoding selection
+     * in file import/export features. Includes Unicode standard encodings
+     * and Chinese encoding formats, sorted by frequency of use.
      *
-     * @return 编码名称的字符串列表（UTF-8, GB2312, ASCII, GBK等）
+     * @return List of encoding names (UTF-8, GB2312, ASCII, GBK, etc.)
      */
     static QStringList getFileEncodings();
 
@@ -241,34 +250,36 @@ public:
     //=============================================================================
 
     /**
-     * @brief 在状态栏中设置版本信息显示
+     * @brief Set version information display in status bar
      *
-     * 在指定状态栏的右侧添加版本信息标签，提供持久的版本信息显示。
-     * 版本信息将作为永久部件添加，不会被临时状态消息覆盖。
+     * Adds a version information label to the right side of the specified
+     * status bar, providing persistent version information display. The version
+     * information is added as a permanent widget that won't be overwritten by
+     * temporary status messages.
      *
-     * @param statusBar 目标状态栏指针
-     * @param versionInfo 要显示的版本信息文本
+     * @param statusBar Target status bar pointer
+     * @param versionInfo Version information text to display
      *
-     * @note 版本信息显示在状态栏右侧，不会影响左侧的状态消息
-     * @note 如果statusBar为nullptr，函数将安全返回，不执行任何操作
+     * @note Version info is displayed on the right side of the status bar, not affecting status messages on the left
+     * @note If statusBar is nullptr, function safely returns without performing any operations
      */
     static void setStatusBarVersionInfo(QStatusBar *statusBar, const QString& versionInfo);
 
     /**
-     * @brief 创建通用输入对话框
+     * @brief Create a generic input dialog
      *
-     * 提供一个简化的文本输入对话框，具有一致的外观和行为。
-     * 自动移除帮助按钮，并调整大小以适应内容。
+     * Provides a simplified text input dialog with consistent appearance and behavior.
+     * Automatically removes the help button and adjusts size to fit content.
      *
-     * @param parent 父窗口指针
-     * @param title 对话框标题
-     * @param label 输入提示文本（可选）
-     * @param defaultText 默认输入内容（可选）
-     * @param isPassword 是否为密码框（可选）
-     * @return 用户输入的文本，取消时返回空字符串
+     * @param parent Parent window pointer
+     * @param title Dialog title
+     * @param label Input prompt text (optional)
+     * @param defaultText Default input content (optional)
+     * @param isPassword Whether it's a password field (optional)
+     * @return User input text, returns empty string if canceled
      *
-     * @note 对话框会自动调整大小以避免几何警告
-     * @note 移除了标准的上下文帮助按钮，提供更简洁的界面
+     * @note Dialog automatically adjusts size to avoid geometry warnings
+     * @note Removes standard context help button for a cleaner interface
      */
     static QString getInputText(QWidget *parent, const QString &title,
                                 const QString &label = QString(),
@@ -276,17 +287,18 @@ public:
                                 bool isPassword = false);
 
     /**
-     * @brief 为输入框设置正则表达式验证器
+     * @brief Set regular expression validator for input field
      *
-     * 为QLineEdit控件配置输入验证和占位符文本，确保用户输入符合预期格式。
-     * 验证器将限制用户只能输入匹配正则表达式的内容。
+     * Configures input validation and placeholder text for QLineEdit control,
+     * ensuring user input conforms to expected format. The validator will
+     * restrict users to only enter content that matches the regular expression.
      *
-     * @param lineEdit 目标输入框指针
-     * @param regexString 正则表达式字符串
-     * @param placeholderText 占位符提示文本
+     * @param lineEdit Target input field pointer
+     * @param regexString Regular expression string
+     * @param placeholderText Placeholder hint text
      *
-     * @note 验证器对象的生命周期由lineEdit管理，无需手动释放
-     * @note 占位符文本将在输入框为空时显示，提供输入格式提示
+     * @note Validator object lifecycle is managed by lineEdit, no manual release needed
+     * @note Placeholder text will be displayed when input field is empty, providing input format hints
      */
     static void setupInputValidator(QLineEdit* lineEdit, const QString& regexString,
                                    const QString& placeholderText);
@@ -296,102 +308,106 @@ public:
     //=============================================================================
 
     /**
-     * @brief 检查表格是否有行被选中
+     * @brief Check if table has any row selected
      *
-     * 验证表格控件是否有选中的行，可选择是否显示警告对话框。
-     * 包含空表格和无效表格指针的安全检查。
+     * Verifies if the table widget has any selected rows, with optional
+     * warning dialog display. Includes safety checks for empty tables
+     * and invalid table pointers.
      *
-     * @param table 表格控件指针
-     * @param isWarnning 是否在无选中行时显示警告对话框
-     * @return 有行被选中返回true，否则返回false
+     * @param table Table widget pointer
+     * @param isWarnning Whether to display warning dialog when no row is selected
+     * @return True if a row is selected, false otherwise
      *
-     * @note 空表格或nullptr会安全返回false，不会崩溃
-     * @note 警告对话框使用英文文本，可根据需要本地化
+     * @note Empty tables or nullptr safely return false without crashing
+     * @note Warning dialog uses English text, can be localized as needed
      */
     static bool isTableRowSelected(QTableWidget* table, bool isWarnning = true);
 
     /**
-     * @brief 批量设置表格指定列的复选框状态
+     * @brief Batch set checkbox state for specified column in table
      *
-     * 遍历表格的所有行，统一设置指定列中复选框项目的选中状态。
-     * 只对已存在的表格项目进行操作，忽略空项目。
+     * Iterates through all rows in the table and uniformly sets the checked
+     * state of checkbox items in the specified column. Only operates on
+     * existing table items, ignoring empty items.
      *
-     * @param table 表格控件指针
-     * @param col 目标列索引
-     * @param isChecked 是否选中（true为选中，false为未选中）
+     * @param table Table widget pointer
+     * @param col Target column index
+     * @param isChecked Whether checked (true for checked, false for unchecked)
      *
-     * @note 只影响具有复选框状态的QTableWidgetItem
-     * @note 对空表格或无效指针进行安全检查，避免崩溃
+     * @note Only affects QTableWidgetItems with checkbox state
+     * @note Performs safety checks for empty tables or invalid pointers to avoid crashes
      */
     static void setTableItemCheckState(QTableWidget* table, int col, bool isChecked);
 
     /**
-     * @brief 删除当前选中的表格行
+     * @brief Remove currently selected table row
      *
-     * 删除表格中当前选中的行。内部调用isTableRowSelected进行选中状态验证，
-     * 确保只有在有行被选中时才执行删除操作。
+     * Deletes the currently selected row in the table. Internally calls
+     * isTableRowSelected for selection state validation, ensuring deletion
+     * operation is only performed when a row is selected.
      *
-     * @param table 表格控件指针
+     * @param table Table widget pointer
      *
-     * @note 如果没有行被选中，会显示警告对话框（如果启用警告）
-     * @note 删除后表格的行索引会自动调整
+     * @note If no row is selected, displays warning dialog (if warnings are enabled)
+     * @note Table row indices are automatically adjusted after deletion
      */
     static void removeTableRow(QTableWidget* table);
 
     /**
-     * @brief 将选中行移动到表格顶部
-     * @param table 表格控件指针
-     * @note 移动后会自动选中目标位置的行
+     * @brief Move selected row to the top of the table
+     * @param table Table widget pointer
+     * @note Automatically selects the row at the target position after moving
      */
     static void moveTableRowToTop(QTableWidget* table);
 
     /**
-     * @brief 将选中行向上移动一位
-     * @param table 表格控件指针
-     * @note 如果已经是第一行，则不执行任何操作
+     * @brief Move selected row up one position
+     * @param table Table widget pointer
+     * @note If already at the first row, no operation is performed
      */
     static void moveTableRowUp(QTableWidget* table);
 
     /**
-     * @brief 将选中行向下移动一位
-     * @param table 表格控件指针
-     * @note 如果已经是最后一行，则不执行任何操作
+     * @brief Move selected row down one position
+     * @param table Table widget pointer
+     * @note If already at the last row, no operation is performed
      */
     static void moveTableRowDown(QTableWidget* table);
 
     /**
-     * @brief 将选中行移动到表格底部
-     * @param table 表格控件指针
-     * @note 移动后会自动选中目标位置的行
+     * @brief Move selected row to the bottom of the table
+     * @param table Table widget pointer
+     * @note Automatically selects the row at the target position after moving
      */
     static void moveTableRowToBottom(QTableWidget* table);
 
     /**
-     * @brief 在表格中移动行到指定位置
+     * @brief Move a row to a specified position in the table
      *
-     * 核心的行移动功能，支持将任意行移动到任意位置。
-     * 正确处理单元格内容和控件的转移，保持数据完整性。
+     * Core row movement functionality supporting movement of any row to any position.
+     * Correctly handles transfer of cell contents and widgets, maintaining data integrity.
      *
-     * @param table 表格控件指针
-     * @param fromRow 源行索引
-     * @param toRow 目标行索引
+     * @param table Table widget pointer
+     * @param fromRow Source row index
+     * @param toRow Target row index
      *
-     * @note 自动处理源行索引的调整，确保在插入后正确删除源行
-     * @note 支持单元格控件和普通项目的混合移动
+     * @note Automatically handles source row index adjustment to correctly delete source row after insertion
+     * @note Supports mixed movement of cell widgets and regular items
      */
     static void moveTableRow(QTableWidget* table, int fromRow, int toRow);
 
     /**
-     * @brief 清空表格内容（带用户确认）
+     * @brief Clear table contents (with user confirmation)
      *
-     * 清除表格中的所有行，在执行前显示确认对话框，避免意外的数据丢失。
-     * 只有用户确认后才会执行清空操作。
+     * Removes all rows from the table, displaying a confirmation dialog before
+     * execution to prevent accidental data loss. Clearing operation is only
+     * performed after user confirmation.
      *
-     * @param table 表格控件指针
-     * @return 用户确认并成功清空返回true，用户取消或表格为空返回false
+     * @param table Table widget pointer
+     * @return True if user confirmed and table was successfully cleared, false if user canceled or table was empty
      *
-     * @note 确认对话框使用英文文本，可根据需要本地化
-     * @note 清空操作不可撤销，请确保用户了解操作后果
+     * @note Confirmation dialog uses English text, can be localized as needed
+     * @note Clearing operation cannot be undone, ensure users understand the consequences
      */
     static bool clearTable(QTableWidget* table);
 
@@ -400,20 +416,21 @@ public:
     //=============================================================================
 
     /**
-     * @brief 创建标准化的工具按钮
+     * @brief Create standardized tool button
      *
-     * 创建具有一致外观和行为的QToolButton，支持文本、图标和工具提示的配置。
-     * 可选择按钮的显示样式（仅图标、仅文本、图标+文本等）。
+     * Creates a QToolButton with consistent appearance and behavior, supporting
+     * configuration of text, icon and tooltip. Allows selection of button display
+     * style (icon only, text only, icon + text, etc.).
      *
-     * @param text 按钮显示文本
-     * @param tooltip 工具提示文本
-     * @param iconPath 图标文件路径
-     * @param buttonStyle 按钮样式（Qt::ToolButtonStyle枚举值）
-     * @param parent 父窗口指针
-     * @return 配置完成的QToolButton指针
+     * @param text Button display text
+     * @param tooltip Tooltip text
+     * @param iconPath Icon file path
+     * @param buttonStyle Button style (Qt::ToolButtonStyle enumeration value)
+     * @param parent Parent window pointer
+     * @return Configured QToolButton pointer
      *
-     * @note 默认样式为Qt::ToolButtonTextBesideIcon（图标在文本旁边）
-     * @note 按钮的生命周期由parent管理，如果parent为nullptr则需手动管理
+     * @note Default style is Qt::ToolButtonTextBesideIcon (icon beside text)
+     * @note Button lifecycle is managed by parent, if parent is nullptr manual management is required
      */
     static QToolButton* createToolButton(const QString& text, const QString& tooltip,
                                         const QString& iconPath,

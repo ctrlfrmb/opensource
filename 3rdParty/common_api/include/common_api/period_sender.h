@@ -10,8 +10,8 @@
 * This is free software: you are free to use, modify and distribute,
 * but must retain the author's copyright notice and license terms.
 *
-* Author: leiwei
-* Version: v2.0.0
+* Author: leiwei E-mail: ctrlfrmb@gmail.com
+* Version: v3.0.0
 * Date: 2022-10-15
 *----------------------------------------------------------------------------*/
 
@@ -62,10 +62,10 @@
 #include <thread>
 #include <functional>
 #include <shared_mutex>
-#include <unordered_map>
+#include <map>
 #include <vector>
 
-#include "common_global.h"
+#include "common_types.h"
 
 namespace Common {
 
@@ -74,110 +74,114 @@ class CallbackTimer;
 class COMMON_API_EXPORT PeriodSender {
 
 public:
-    static constexpr size_t DEFAULT_MAX_FRAMES = 0xFF;          // 默认最大255条消息
-    static constexpr uint32_t DEFAULT_PERIOD = 100;             // 默认周期100ms
-    static constexpr size_t DEFAULT_SEND_BUFFER_SIZE = 1024;    // 默认1KB缓冲区
-    static constexpr size_t MIN_SEND_BUFFER_SIZE = 256;         // 最小缓冲区256字节
-    static constexpr size_t MAX_SEND_BUFFER_SIZE = 64 * 1024;   // 最大缓冲区64KB
-    static constexpr size_t MIN_MAX_FRAMES = 1;                 // 最小帧数1条
-    static constexpr size_t MAX_MAX_FRAMES = 1024;              // 最大帧数1024条
+    static constexpr size_t DEFAULT_MAX_FRAMES = 0xFF;          // Default maximum of 255 messages
+    static constexpr uint32_t DEFAULT_PERIOD = 100;             // Default period of 100ms
+    static constexpr size_t DEFAULT_SEND_BUFFER_SIZE = 1024;    // Default 1KB buffer
+    static constexpr size_t MIN_SEND_BUFFER_SIZE = 256;         // Minimum buffer size of 256 bytes
+    static constexpr size_t MAX_SEND_BUFFER_SIZE = 64 * 1024;   // Maximum buffer size of 64KB
+    static constexpr size_t MIN_MAX_FRAMES = 1;                 // Minimum frame count of 1
+    static constexpr size_t MAX_MAX_FRAMES = 1024;              // Maximum frame count of 1024
 
     explicit PeriodSender();
     ~PeriodSender();
 
+    // Disable copy and assignment for safety
+    PeriodSender(const PeriodSender&) = delete;
+    PeriodSender& operator=(const PeriodSender&) = delete;
+
     void setSendCallback(std::function<int(const std::vector<char>&)> callback);
 
     /**
-     * @brief 设置发送缓冲区大小
-     * @param size 缓冲区大小（字节），范围：[MIN_SEND_BUFFER_SIZE, MAX_SEND_BUFFER_SIZE]
-     * @return true=成功, false=失败（运行中或参数无效）
+     * @brief Set send buffer size
+     * @param size Buffer size in bytes, range: [MIN_SEND_BUFFER_SIZE, MAX_SEND_BUFFER_SIZE]
+     * @return true=success, false=failure (sender running or invalid parameter)
      */
     bool setSendBufferSize(size_t size);
 
     /**
-     * @brief 获取当前发送缓冲区大小
-     * @return 缓冲区大小（字节）
+     * @brief Get current send buffer size
+     * @return Buffer size in bytes
      */
-    size_t getSendBufferSize() const { return sendBufferSize_; }
+    size_t getSendBufferSize() const { return send_buffer_size_; }
 
     /**
-     * @brief 设置最大帧数量
-     * @param maxFrames 最大帧数量，范围：[MIN_MAX_FRAMES, MAX_MAX_FRAMES]
-     * @return true=成功, false=失败（运行中或参数无效）
+     * @brief Set maximum frame count
+     * @param maxFrames Maximum frame count, range: [MIN_MAX_FRAMES, MAX_MAX_FRAMES]
+     * @return true=success, false=failure (sender running or invalid parameter)
      */
     bool setMaxFrames(size_t maxFrames);
 
     /**
-     * @brief 获取最大帧数量
-     * @return 最大帧数量
+     * @brief Get maximum frame count
+     * @return Maximum frame count
      */
-    size_t getMaxFrames() const { return maxFrames_; }
+    size_t getMaxFrames() const { return max_frames_; }
 
     /**
-     * @brief 获取当前帧数量
-     * @return 当前帧数量
+     * @brief Get current frame count
+     * @return Current frame count
      */
-    size_t getCurrentFrameCount() const { return frameContainer_.size(); }
+    size_t getCurrentFrameCount() const { return frame_container_.size(); }
 
     /**
-     * @brief 获取缓冲区使用情况
-     * @return 缓冲区使用率（0.0-1.0）
+     * @brief Get buffer usage ratio
+     * @return Buffer usage ratio (0.0-1.0)
      */
     double getBufferUsageRatio() const {
-        return static_cast<double>(sendBuffer_.size()) / sendBufferSize_;
+        return static_cast<double>(send_buffer_.size()) / send_buffer_size_;
     }
 
-    void resetCounter() { frameContainer_.counter.store(0, std::memory_order_release); }
-    uint64_t getCounter() const { return frameContainer_.counter.load(std::memory_order_acquire); }
+    void resetCounter() { frame_container_.counter_.store(0, std::memory_order_release); }
+    uint64_t getCounter() const { return frame_container_.counter_.load(std::memory_order_acquire); }
 
-    // --- 添加帧 (右值引用版本，用于临时对象) ---
+    // --- Add frames (rvalue reference versions, for temporary objects) ---
     int addFrame(SendFrame&& frame);
     int addFrames(SendQueue&& frames);
     int updateData(uint64_t key, std::vector<char>&& data);
 
-    // --- 添加帧 (左值引用版本，用于已存在对象 ---
+    // --- Add frames (lvalue reference versions, for existing objects) ---
     int addFrame(const SendFrame& frame);
     int addFrames(const SendQueue& frames);
     int updateData(uint64_t key, const std::vector<char>& data);
 
-    // --- 删除操作 ---
+    // --- Delete operations ---
     bool removeFrame(uint64_t key);
     int clear();
     int clear(uint16_t type);
     int clear(uint16_t type, uint16_t group);
 
 private:
-    // 帧管理容器
+    // Frame management container
     struct FrameContainer {
-        mutable std::shared_mutex mutex;
-        std::atomic_uint64_t counter{0};
-        std::unordered_map<uint64_t, SendFrame> frames;                     // 原始帧数据
-        std::unordered_map<uint64_t, std::atomic_uint64_t> nextExecTimes;   // 下一次执行时间点 - 使用原子操作
+        mutable std::shared_mutex mutex_;
+        std::atomic_uint64_t counter_{0};
+        std::map<uint64_t, SendFrame> frames_;                     // Original frame data (using map for stability)
+        std::map<uint64_t, std::atomic<uint64_t>> next_exec_times_; // Next execution timestamp - using std::map to avoid atomic move issues
 
         void clear() {
-            std::unique_lock<std::shared_mutex> lock(mutex);  // 写锁
-            frames.clear();
-            nextExecTimes.clear();
+            std::unique_lock<std::shared_mutex> lock(mutex_);  // Write lock
+            frames_.clear();
+            next_exec_times_.clear();
         }
 
         size_t size() const {
-            std::shared_lock<std::shared_mutex> lock(mutex);  // 读锁
-            return frames.size();
+            std::shared_lock<std::shared_mutex> lock(mutex_);  // Read lock
+            return frames_.size();
         }
 
         bool empty() const {
-            std::shared_lock<std::shared_mutex> lock(mutex);  // 读锁
-            return frames.empty();
+            std::shared_lock<std::shared_mutex> lock(mutex_);  // Read lock
+            return frames_.empty();
         }
     };
 
-    // 检查是否可以修改配置（未运行状态）
+    // Check if configuration can be modified (not running)
     bool canModifyConfig() const;
 
-    // 线程函数
-    int senderLoop();  // 统一的发送线程
+    // Thread function
+    int senderLoop();  // Unified sender thread
 
-    // 帧处理
+    // Frame processing
     bool addToContainer(SendFrame&& frame);
     bool addToContainer(const SendFrame& frame);
     int updateFrameInContainer(uint64_t key, const std::vector<char>& data);
@@ -186,13 +190,13 @@ private:
 
 private:
     std::unique_ptr<CallbackTimer> timer_;
-    std::function<int(const std::vector<char>&)> sendCallback_;
-    FrameContainer frameContainer_;         // 统一的帧容器
-    std::vector<char> sendBuffer_;
+    std::function<int(const std::vector<char>&)> send_callback_;
+    FrameContainer frame_container_;         // Unified frame container
+    std::vector<char> send_buffer_;
 
-    // 配置参数
-    size_t sendBufferSize_;                 // 发送缓冲区大小
-    size_t maxFrames_;                      // 最大帧数量
+    // Configuration parameters
+    size_t send_buffer_size_;                 // Send buffer size
+    size_t max_frames_;                      // Maximum frame count
 };
 
 }
