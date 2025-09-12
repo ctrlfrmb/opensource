@@ -107,7 +107,7 @@ public:
     };
 
     // Client configuration
-    struct Config {
+    struct ConnectConfig {
         std::string local_ip;                              // Local binding IP (optional, empty = bind all)
         int local_port{0};                                 // Local binding port (0 = any port)
         std::string server_ip;                             // Default server IP
@@ -140,7 +140,7 @@ public:
     void setErrorCallback(ErrorCallback callback);
 
     // Start UDP client
-    bool start(const Config& config);
+    bool start(const ConnectConfig& config);
 
     // Stop UDP client
     void stop();
@@ -175,7 +175,7 @@ public:
     size_t getQueueSize() const;
 
     // Get the current configuration
-    const Config& getConfig() const;
+    const ConnectConfig& getConfig() const;
 
     // Get local binding information
     std::string getLocalIp() const;
@@ -210,7 +210,7 @@ private:
 
 private:
     std::mutex mutex_;
-    Config config_;
+    ConnectConfig config_;
     std::atomic_int socket_fd_{INVALID_SOCKET_FD};
     std::atomic_bool running_{false};
     std::thread receive_thread_;

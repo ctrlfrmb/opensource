@@ -61,6 +61,26 @@
    #define SSH_CORE_API extern "C"
 #endif
 
+/**
+ * @brief Opens the log for debugging and troubleshooting.
+ *
+ * @warning This function is for debugging only. It impacts performance and
+ *          storage and should not be used in production builds.
+ *
+ * @param logFile   The path for the log file, e.g., "logs/doip.log".
+ * @param level     The log level (-1 for default INFO; 0:DEBUG, 1:INFO, 2:WARN, 3:ERROR).
+ * @param maxSize   Max file size in MB (1-20, -1 for default 10MB).
+ * @param maxFiles  Max number of files to keep (1-20, -1 for default 10).
+ * @return Returns 0 if successful, otherwise returns a non-zero value.
+ */
+SSH_CORE_API int SSHOpenLog(const char *logFile, int level, int maxSize, int maxFiles);
+
+/**
+ * @brief Closes the log.
+ * @return Returns 0 on success, otherwise a non-zero value.
+ */
+SSH_CORE_API int SSHCloseLog();
+
 /*============================================================================
  * Connection Management
  *============================================================================*/

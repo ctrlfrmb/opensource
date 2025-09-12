@@ -81,9 +81,9 @@ win32 {
     LIBS += -luser32
     LIBS += -ladvapi32
 
-    # 3. 解决静态/动态运行时库冲突
-    QMAKE_LFLAGS_RELEASE += /NODEFAULTLIB:LIBCMT
-    QMAKE_LFLAGS_DEBUG += /NODEFAULTLIB:LIBCMTD
+#    # 3. 解决静态/动态运行时库冲突
+#    QMAKE_LFLAGS_RELEASE += /NODEFAULTLIB:LIBCMT
+#    QMAKE_LFLAGS_DEBUG += /NODEFAULTLIB:LIBCMTD
 } else:unix {
     # Unix/Linux/macOS 平台链接库
     LIBS += -lssh2 -lssl -lcrypto -lz

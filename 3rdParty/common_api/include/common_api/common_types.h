@@ -23,7 +23,7 @@
 
 namespace Common {
 
-struct COMMON_API_EXPORT SendFrame {
+struct SendFrame {
     uint64_t key{0}; //type(uint8_t) + group(uint8_t) + message id/row(uint32_t)
     std::vector<char> data; // send data
     uint32_t period{50};    // Send cycle time (ms)

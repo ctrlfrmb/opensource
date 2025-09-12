@@ -498,6 +498,16 @@ public:
      * @return true=is timeout error, false=is not
      */
     static bool isTimeoutError(int errorCode);
+
+    /**
+     * @brief Find the local IPv4 address that matches a given network segment.
+     * @details Scans all active, non-loopback network interfaces to find an IP
+     *          address belonging to the specified network.
+     * @param targetNetworkSegment The target network segment, e.g., "192.168.1".
+     * @return The first matching IP address found (e.g., "192.168.1.100"),
+     *         or an empty string if no match is found.
+     */
+    static std::string findLocalIpForNetwork(const std::string& targetNetworkSegment);
 };
 
 }
