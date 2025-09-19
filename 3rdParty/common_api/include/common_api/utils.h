@@ -508,6 +508,21 @@ public:
      *         or an empty string if no match is found.
      */
     static std::string findLocalIpForNetwork(const std::string& targetNetworkSegment);
+
+    /**
+     * @brief Get all active, non-loopback IPv4 addresses from the local machine.
+     * @details This function scans all network interfaces and collects their IPv4 addresses,
+     *          excluding virtual machine adapters like VMware/VirtualBox.
+     * @return A vector of strings, where each string is a local IPv4 address.
+     */
+    static std::vector<std::string> getAllLocalIPv4s();
+
+    /**
+     * @brief Check if a given IPv4 address exists on the local machine.
+     * @param ip The IPv4 address string to check.
+     * @return true if the IP address is configured on any active local interface, false otherwise.
+     */
+    static bool isLocalIPv4Exists(const std::string& ip);
 };
 
 }
