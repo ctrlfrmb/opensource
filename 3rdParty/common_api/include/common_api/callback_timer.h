@@ -11,93 +11,73 @@
 * but must retain the author's copyright notice and license terms.
 *
 * Author: leiwei E-mail: ctrlfrmb@gmail.com
-* Version: v1.0.0
-* Date: 2022-08-15
+* Version: v3.4.0
+* Date: 2022-04-19
 *----------------------------------------------------------------------------*/
 
 /**
 * @file callback_timer.h
-* @brief High-precision callback timer with configurable intervals and user-controlled stopping
+* @brief An adaptive high-precision callback timer with multiple timing strategies.
 *
-* The CallbackTimer class provides a high-precision timer that executes a single
-* callback function at configurable intervals. This design follows the principle
-* of single responsibility - one timer, one task.
-*
-* Features:
-* - Configurable timing intervals (milliseconds to microseconds precision)
-* - Single callback function per timer instance
-* - User-controlled timer stopping via callback return value
-* - Cross-platform implementation (Windows/Unix)
-* - Platform-specific optimizations for maximum precision
-* - Hybrid approach with sleep + spin wait for sub-millisecond accuracy
-* - Thread-safe callback management
-* - Individual start/stop control per timer instance
-* - Memory-order guarantees for thread synchronization
-* - Automatic cleanup on destruction
-*
-* Callback Control:
-* The callback function returns an integer value:
-* - Return 0: Continue timer execution
-* - Return non-zero: Stop timer execution immediately
-*
-* Usage example:
-*   Common::CallbackTimer timer;
-*
-*   // Set callback function with conditional stopping
-*   timer.setCallback([](uint64_t count) -> int {
-*       // High-frequency task
-*       if (some_stop_condition) {
-*           return -1;  // Stop timer
-*       }
-*       return 0;  // Continue timer
-*   });
-*
-*   // Start timer with 500 microsecond interval
-*   timer.start(500);
-*
-*   // Timer will stop automatically when callback returns non-zero
-*   // Or manually stop when needed
-*   timer.stop();
+* This timer supports four timing strategies:
+* - TIMER_STRATEGY_AUTO: Automatically selects the optimal strategy based on interval
+*   (<= 1000µs uses TIMER_STRATEGY_HIGH_FREQUENCY_BUSY_WAIT, > 1000µs uses TIMER_STRATEGY_LOW_FREQUENCY)
+* - TIMER_STRATEGY_LOW_FREQUENCY: Uses OS kernel-level timer for excellent efficiency
+*   and drift-free millisecond precision (near-zero CPU usage)
+* - TIMER_STRATEGY_HIGH_FREQUENCY_SLEEP: Uses hybrid strategy with kernel sleep + busy-wait
+*   for balanced precision and efficiency
+* - TIMER_STRATEGY_HIGH_FREQUENCY_BUSY_WAIT: Uses pure spin-wait for maximum precision
+*   and minimal jitter at the cost of high CPU usage on one core
 */
 
 #ifndef COMMON_CALLBACK_TIMER_H
 #define COMMON_CALLBACK_TIMER_H
 
-#include <chrono>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
 #include <atomic>
 #include <functional>
+#include <mutex>
+#include <thread>
 
 #include "common_global.h"
 
 namespace Common {
 
+/**
+ * @brief Timer strategy enumeration
+ */
+typedef enum {
+    TIMER_STRATEGY_AUTO = 0,                    // Auto-select based on interval
+    TIMER_STRATEGY_LOW_FREQUENCY,               // Kernel timer for low frequency (> 1ms)
+    TIMER_STRATEGY_HIGH_FREQUENCY_SLEEP,        // Hybrid strategy with kernel sleep + busy-wait
+    TIMER_STRATEGY_HIGH_FREQUENCY_BUSY_WAIT     // Pure busy-wait for maximum precision
+} TimerStrategy;
+
 class COMMON_API_EXPORT CallbackTimer {
 public:
     using TimerCallback = std::function<int(uint64_t count)>;
 
-    // Default constructor
     CallbackTimer();
-
-    // Destructor ensures proper cleanup
     ~CallbackTimer();
 
-    // Disable copy constructor and assignment operator
     CallbackTimer(const CallbackTimer&) = delete;
     CallbackTimer& operator=(const CallbackTimer&) = delete;
 
     /**
-     * @brief Set the callback function
-     * @param callback Function to be executed periodically
+     * @brief Set timer callback function
+     * @param callback Callback function to be called on each timer tick
      */
     void setCallback(TimerCallback callback);
 
     /**
-     * @brief Start the timer with specified interval
-     * @param interval_microseconds Timer interval in microseconds (default: 1000µs = 1ms)
-     * @return true if timer started successfully, false if already running or no callback set
+     * @brief Set timer strategy (optional)
+     * @param strategy Timer strategy to use (TIMER_STRATEGY_AUTO by default)
+     */
+    void setTimerStrategy(int strategy);
+
+    /**
+     * @brief Start the timer
+     * @param interval_microseconds Timer interval in microseconds
+     * @return true if started successfully, false otherwise
      */
     bool start(int interval_microseconds = 1000);
 
@@ -107,27 +87,34 @@ public:
     void stop();
 
     /**
-     * @brief Check if timer is currently running
+     * @brief Check if timer is running
      * @return true if timer is running, false otherwise
      */
     bool isRunning() const { return is_running_.load(std::memory_order_acquire); }
 
+    /**
+     * @brief Get current timer strategy
+     * @return Current timer strategy
+     */
+    int getTimerStrategy() const { return static_cast<int>(timer_strategy_); }
+
 private:
-    void timerThread();
+    void timerThread_LowFrequency();
+    void timerThread_HighFrequencySleep();
+    void timerThread_HighFrequencyBusyWait();
+    void optimizeThreadForTiming();
+    TimerStrategy selectOptimalStrategy(int interval_us) const;
 
-    // Thread synchronization
     std::atomic_bool is_running_;
-    // Callback function
     TimerCallback callback_;
-    // Timing control
-    int tick_interval_; // microseconds
+    int tick_interval_us_;
+    TimerStrategy timer_strategy_;
 
-    // Timer thread
-    mutable std::mutex thread_mutex_;
     std::thread timer_thread_;
+    std::mutex thread_mutex_;
 
-    // Platform-specific constants
-    static constexpr uint8_t BASE_OFFSET = 100; // microseconds for spin-wait threshold
+    static std::atomic<int> high_freq_timer_count_;
+    int assigned_cpu_core_;
 };
 
 }

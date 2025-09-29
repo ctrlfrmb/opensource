@@ -11,36 +11,29 @@
 * but must retain the author's copyright notice and license terms.
 *
 * Author: leiwei E-mail: ctrlfrmb@gmail.com
-* Version: v2.0.0
-* Date: 2022-07-17
+* Version: v2.2.0 (Steady Clock Refactor)
+* Date: 2022-03-19
 *----------------------------------------------------------------------------*/
 
 /**
 * @file heartbeat_manager.h
-* @brief Thread-safe heartbeat mechanism for periodic tasks
+* @brief A thread-safe idle-timeout (keep-alive) manager.
 *
-* The HeartbeatManager class provides a robust implementation of a heartbeat
-* mechanism that executes callback functions at regular intervals. It uses
-* modern C++ threading primitives to ensure thread safety and proper resource
-* management.
+* The HeartbeatManager class provides a robust implementation of an idle-timeout
+* mechanism. It executes a callback function only when a specified interval
+* has passed without any activity. Activity is signaled by calling the
+* `updateTimestamp()` method.
+*
+* This version uses std::chrono::steady_clock for timing, making it robust
+* against system time changes.
 *
 * Features:
-* - Thread-safe implementation with atomic operations
-* - Configurable intervals with millisecond precision
-* - Optional startup delay
-* - Clean shutdown with proper thread joining
-* - Responsive to stop requests through condition variables
-* - Memory-order guarantees for thread synchronization
-*
-* Usage example:
-*   auto heartbeat = new Common::HeartbeatManager(2000); // 2000ms interval
-*   heartbeat->setCallback([]() {
-*     // Periodic task to execute
-*   });
-*   heartbeat->start();
-*
-*   // Later when done:
-*   heartbeat->stop();
+* - Idle-timeout logic for keep-alive scenarios.
+* - Thread-safe implementation with atomic operations for start/stop control.
+* - Configurable intervals with millisecond precision.
+* - Optional startup delay.
+* - Pause and resume functionality.
+* - Clean shutdown with proper thread joining.
 */
 
 #ifndef COMMON_HEARTBEAT_MANAGER_H
@@ -51,6 +44,7 @@
 #include <functional>
 #include <condition_variable>
 #include <memory>
+#include <chrono> // Added for std::chrono
 
 #include "common_global.h"
 
@@ -59,13 +53,14 @@ namespace Common {
 class COMMON_API_EXPORT HeartbeatManager {
 public:
   // Class constant, default heartbeat timeout (ms)
-  static constexpr uint32_t HEARTBEAT_TIMEOUT_MS = 1000;
-  static constexpr uint32_t MIN_HEARTBEAT_TIMEOUT_MS = 50;
+  static constexpr uint32_t DEFAULT_HEARTBEAT_TIMEOUT_MS = 1000;
+  static constexpr uint32_t MIN_HEARTBEAT_TIMEOUT_MS = 5;
+  static constexpr uint32_t MAX_HEARTBEAT_TIMEOUT_MS = 3600000;
 
   using HeartbeatCallback = std::function<void()>;
 
   // Default constructor, only sets timeout
-  explicit HeartbeatManager(uint32_t interval = HEARTBEAT_TIMEOUT_MS);
+  explicit HeartbeatManager(uint32_t interval = DEFAULT_HEARTBEAT_TIMEOUT_MS);
 
   // Disable copy constructor and assignment operator
   HeartbeatManager(const HeartbeatManager&) = delete;
@@ -89,34 +84,32 @@ public:
   // Stop heartbeat
   void stop();
 
+  // Resets the idle timer. Call this when activity occurs.
   void updateTimestamp();
 
 private:
-  uint64_t calculateNextWaitTime() const;
-
   // Heartbeat thread function
   void heartbeatLoop();
 
-  // Atomic flag to control thread running state with memory order
+  // Atomic flags to control thread state with memory order
   std::atomic_bool is_running_;
   std::atomic_bool is_paused_;
 
   // Store callback function
-  std::function<void()> callback_;
+  HeartbeatCallback callback_;
 
   uint32_t delay_time_ms_;
-
-  // Heartbeat interval
   uint32_t interval_time_ms_;
 
-  std::atomic_uint64_t last_update_time_ms_;
+  // Timestamp of the last known activity, now using a steady_clock time_point
+  std::atomic<std::chrono::steady_clock::time_point> last_update_time_;
 
   // Variables for thread synchronization
-  mutable std::mutex mutex_;
+  std::mutex mutex_;
   std::condition_variable cv_;
 
   // Heartbeat thread
-  mutable std::mutex thread_mutex_;
+  std::mutex thread_mutex_;
   std::thread heartbeat_thread_;
 };
 

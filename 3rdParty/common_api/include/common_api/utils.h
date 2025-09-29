@@ -63,6 +63,7 @@
 #define COMMON_UTILS_H
 
 #include <vector>
+#include <map>
 #include <string>
 #include <unordered_set>
 #include "common_global.h"
@@ -131,6 +132,11 @@ public:
     //=============================================================================
     // Time & Data Processing
     //=============================================================================
+    /**
+     * @brief Get microseconds elapsed since program start
+     * @return Microseconds count
+     */
+    static uint64_t getCurrentMicrosecondsFast();
 
     /**
      * @brief Get milliseconds elapsed since program start
@@ -500,7 +506,37 @@ public:
     static bool isTimeoutError(int errorCode);
 
     /**
-     * @brief Find the local IPv4 address that matches a given network segment.
+     * @brief Retrieves a map of all active, non-loopback IPv4 addresses to their interface names.
+     * @details This function scans all network interfaces and collects their IPv4 addresses
+     *          and corresponding system interface names (e.g., "Ethernet 2" or "eth0").
+     *          It excludes virtual machine adapters like VMware/VirtualBox by default.
+     * @return A std::map where the key is the IPv4 address string (std::string) and
+     *         the value is the interface name. On Windows, the value is std::wstring
+     *         to correctly handle non-ASCII characters. On other platforms, it is std::string.
+     */
+#ifdef _WIN32
+    static std::map<std::string, std::wstring> getAllLocalIpAndInterfaceNames();
+#else
+    static std::map<std::string, std::string> getAllLocalIpAndInterfaceNames();
+#endif
+
+    /**
+     * @brief Finds the system interface name for a given local IPv4 address.
+     * @details This is a convenience function that uses getAllLocalIpAndInterfaceNames()
+     *          to look up the interface name corresponding to a specific IP address.
+     * @param ipAddress The IPv4 address string to look up (e.g., "192.168.1.87").
+     * @return The system interface name. On Windows, this is a std::wstring to correctly
+     *         handle non-ASCII characters (e.g., L"以太网 2"). On other platforms,
+     *         it is a std::string (e.g., "eth0"). Returns an empty string if not found.
+     */
+#ifdef _WIN32
+    static std::wstring getInterfaceNameByIp(const std::string& ipAddress);
+#else
+    static std::string getInterfaceNameByIp(const std::string& ipAddress);
+#endif
+
+    /**
+     * @brief Finds the local IPv4 address that matches a given network segment.
      * @details Scans all active, non-loopback network interfaces to find an IP
      *          address belonging to the specified network.
      * @param targetNetworkSegment The target network segment, e.g., "192.168.1".
@@ -510,15 +546,15 @@ public:
     static std::string findLocalIpForNetwork(const std::string& targetNetworkSegment);
 
     /**
-     * @brief Get all active, non-loopback IPv4 addresses from the local machine.
-     * @details This function scans all network interfaces and collects their IPv4 addresses,
-     *          excluding virtual machine adapters like VMware/VirtualBox.
+     * @brief Gets all active, non-loopback IPv4 addresses from the local machine.
+     * @details This function is a simplified wrapper around getAllLocalIpAndInterfaceNames()
+     *          that returns only the IP addresses.
      * @return A vector of strings, where each string is a local IPv4 address.
      */
     static std::vector<std::string> getAllLocalIPv4s();
 
     /**
-     * @brief Check if a given IPv4 address exists on the local machine.
+     * @brief Checks if a given IPv4 address exists on the local machine.
      * @param ip The IPv4 address string to check.
      * @return true if the IP address is configured on any active local interface, false otherwise.
      */

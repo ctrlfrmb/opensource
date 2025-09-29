@@ -144,14 +144,6 @@ SSH_CORE_API void SSHClientStopCommandAsync(int instanceId);
  */
 SSH_CORE_API int SSHClientIsCommandRunningAsync(int instanceId);
 
-/**
- * @brief Gets the exit code of the last completed asynchronous command.
- * @param instanceId The ID of the client instance.
- * @return The exit code (>= 0) if the command has finished. If the command is still running,
- *         it will return a special status code like SSH_CORE_STATUS_COMMAND_RUNNING.
- */
-SSH_CORE_API int SSHClientGetCommandResultAsync(int instanceId);
-
 /*============================================================================
  * Synchronous Command Execution
  *============================================================================*/
@@ -220,11 +212,11 @@ SSH_CORE_API int SSHClientSetRemoteFileExecutableSync(int instanceId, const char
 /**
  * @brief Gets the progress of the current file transfer operation (upload/download).
  * @param instanceId The ID of the client instance.
- * @param bytesTransferred [out] Pointer to an integer to receive the bytes transferred so far.
+ * @param transferredBytes [out] Pointer to an integer to receive the bytes transferred so far.
  * @param totalBytes [out] Pointer to an integer to receive the total file size.
- * @return 1 on success, 0 if the instance ID is invalid.
+ * @return SSH_CORE_SUCCESS on success, or other error code.
  */
-SSH_CORE_API int SSHClientGetFileProgressAsync(int instanceId, int* bytesTransferred, int* totalBytes);
+SSH_CORE_API int SSHClientGetFileProgressAsync(int instanceId, int* transferredBytes, int* totalBytes);
 
 /*============================================================================
  * License Management

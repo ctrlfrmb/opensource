@@ -282,10 +282,10 @@ private:
     Common::logDebugHex(prefix, data, length)
 
 // High-performance logging macros
-#define LOG_DEBUG(...) Common::logDebug(__VA_ARGS__)
-#define LOG_INFO(...) Common::logInfo(__VA_ARGS__)
-#define LOG_WARN(...) Common::logWarn(__VA_ARGS__)
-#define LOG_ERROR(...) Common::logError(__VA_ARGS__)
+#define LOG_DEBUG(fmt, ...) Common::logDebug(FMT_STRING(fmt), ##__VA_ARGS__)
+#define LOG_INFO(fmt, ...)  Common::logInfo(FMT_STRING(fmt), ##__VA_ARGS__)
+#define LOG_WARN(fmt, ...)  Common::logWarn(FMT_STRING(fmt), ##__VA_ARGS__)
+#define LOG_ERROR(fmt, ...) Common::logError(FMT_STRING(fmt), ##__VA_ARGS__)
 
 //=============================================================================
 // Timer Logging Macros

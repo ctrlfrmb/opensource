@@ -27,7 +27,7 @@ struct SendFrame {
     uint64_t key{0}; //type(uint8_t) + group(uint8_t) + message id/row(uint32_t)
     std::vector<char> data; // send data
     uint32_t period{50};    // Send cycle time (ms)
-    uint32_t delay{0};      // Delay sending time (ms)
+    uint64_t delay{0};      // Delay sending time (ms)
 };
 
 using SendQueue = std::vector<SendFrame>;
