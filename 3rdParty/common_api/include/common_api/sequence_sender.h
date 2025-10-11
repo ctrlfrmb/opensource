@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------------
 *               Copyright Notice
 *-----------------------------------------------------------------------------
-* Copyright (c) 2022 leiwei. All rights reserved.
+* Copyright (c) 2022-2042 leiwei. All rights reserved.
 *
 * This software is released under the MIT License;
 * You may obtain a copy of the License at:
@@ -67,7 +67,7 @@ public:
     SequenceSender(const SequenceSender&) = delete;
     SequenceSender& operator=(const SequenceSender&) = delete;
 
-    void setSendCallback(std::function<int(const std::vector<char>&)> callback);
+    void setSendCallback(SendCallback callback);
     void setCompletionCallback(std::function<void(int)> callback);
     void setConfig(bool isForever, uint64_t repeatCount, uint32_t roundEndDelay = 0);
 
@@ -77,17 +77,6 @@ public:
 
     int updateData(uint64_t key, const std::vector<char>& data);
     bool isRunning() const { return is_running_.load(std::memory_order_acquire); }
-
-    /**
-     * @brief Gets the total number of frames sent since the last start or reset.
-     * @return The total count of sent frames.
-     */
-    uint64_t getCounter() const;
-
-    /**
-     * @brief Resets the sent frames counter to zero.
-     */
-    void resetCounter();
 
 private:
     int onTimerTick(uint64_t counter);
@@ -109,7 +98,7 @@ private:
     SendConfig config_;
 
     // Callbacks
-    std::function<int(const std::vector<char>&)> send_callback_{nullptr};
+    SendCallback send_callback_{nullptr};
     std::function<void(int)> completion_callback_{nullptr};
 
     // Frame management
@@ -124,9 +113,6 @@ private:
     // Tick-based scheduling state
     uint64_t current_tick_{0};      // Stores the latest tick from the timer callback
     uint64_t next_send_tick_{0};    // The target tick for the next send operation
-
-    // Frame sent counter
-    std::atomic_uint64_t total_frames_sent_counter_{0};
 };
 
 }

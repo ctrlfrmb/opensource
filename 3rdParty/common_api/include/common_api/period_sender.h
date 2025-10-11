@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------------
 *               Copyright Notice
 *-----------------------------------------------------------------------------
-* Copyright (c) 2022 leiwei. All rights reserved.
+* Copyright (c) 2022-2042 leiwei. All rights reserved.
 *
 * This software is released under the MIT License;
 * You may obtain a copy of the License at:
@@ -64,19 +64,20 @@ public:
     static constexpr size_t MIN_MAX_FRAMES = 1;
     static constexpr size_t MAX_MAX_FRAMES = 1024;
 
-    explicit PeriodSender(bool enableLowFrequency = false);
+    explicit PeriodSender();
     ~PeriodSender();
 
     PeriodSender(const PeriodSender&) = delete;
     PeriodSender& operator=(const PeriodSender&) = delete;
 
-    void setSendCallback(std::function<int(const std::vector<char>&)> callback);
+    void setSendCallback(SendCallback callback);
     bool setSendBufferSize(size_t size);
     size_t getSendBufferSize() const { return send_buffer_size_; }
     bool setMaxFrames(size_t maxFrames);
     size_t getMaxFrames() const { return max_frames_; }
-    uint64_t getCounter() const { return total_frames_sent_counter_.load(std::memory_order_acquire); }
-    void resetCounter() { total_frames_sent_counter_.store(0, std::memory_order_release); }
+
+    void setTimerStrategy(int strategy);
+    void enableCpuAffinity(bool enable);
 
     int addFrame(SendFrame&& frame);
     int addFrames(SendQueue&& frames);
@@ -138,21 +139,22 @@ private:
     };
 
     bool canModifyConfig() const;
+    void startTimer();
     int senderLoop(uint64_t counter);
     int clearFrames(uint16_t type, int group);
     bool isSendTime(const SendFrame& frame, uint64_t counter) const;
 
 private:
     mutable std::mutex api_mutex_;
-    bool enable_low_frequency_{false};
 
+    int timer_strategy_;
+    bool enable_cpu_affinity_;
     std::unique_ptr<CallbackTimer> sender_timer_;
     FramesContainer frames_container_;
-    std::atomic_uint64_t total_frames_sent_counter_{0};
 
     std::atomic_uint64_t current_timer_counter_{0};
 
-    std::function<int(const std::vector<char>&)> send_callback_;
+    SendCallback send_callback_;
     std::vector<char> send_buffer_;
     size_t send_buffer_size_;
     size_t max_frames_;

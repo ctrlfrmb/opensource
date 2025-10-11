@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------------
 *               Copyright Notice
 *-----------------------------------------------------------------------------
-* Copyright (c) 2022 leiwei. All rights reserved.
+* Copyright (c) 2022-2042 leiwei. All rights reserved.
 *
 * This software is released under the MIT License;
 * You may obtain a copy of the License at:
@@ -19,9 +19,20 @@
 #define COMMON_TYPES_H
 
 #include <vector>
+#include <functional>
 #include "common_global.h"
 
 namespace Common {
+
+/**
+ * @brief Timer strategy enumeration
+ */
+typedef enum {
+    TIMER_STRATEGY_AUTO = 0,                    // Auto-select based on interval
+    TIMER_STRATEGY_LOW_FREQUENCY,               // Kernel timer for low frequency (> 1ms)
+    TIMER_STRATEGY_HIGH_FREQUENCY_SLEEP,        // Hybrid strategy with kernel sleep + busy-wait
+    TIMER_STRATEGY_HIGH_FREQUENCY_BUSY_WAIT     // Pure busy-wait for maximum precision
+} TimerStrategy;
 
 struct SendFrame {
     uint64_t key{0}; //type(uint8_t) + group(uint8_t) + message id/row(uint32_t)
@@ -31,6 +42,7 @@ struct SendFrame {
 };
 
 using SendQueue = std::vector<SendFrame>;
+using SendCallback = std::function<int(const std::vector<char>&, int)>;
 
 }
 

@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------------
 *               Copyright Notice
 *-----------------------------------------------------------------------------
-* Copyright (c) 2022 leiwei. All rights reserved.
+* Copyright (c) 2022-2042 leiwei. All rights reserved.
 *
 * This software is released under the MIT License;
 * You may obtain a copy of the License at:
@@ -102,6 +102,24 @@ public:
      * @brief Set process to high priority
      */
     static void setProcessHighPriority();
+
+    /**
+     * @brief Sets the current thread to a high, but not real-time, priority.
+     * @return 0 on success, platform-specific error code on failure.
+     */
+    static int setThreadHighPriority();
+
+    /**
+     * @brief Sets the current thread to the highest possible real-time priority.
+     * @return 0 on success, platform-specific error code on failure.
+     */
+    static int setThreadRealTimePriority();
+
+    /**
+     * @brief Issues a CPU-specific instruction to pause, yielding execution to the other
+     *        hyper-thread on the same core.
+     */
+    static void cpuPause();
 
     /**
      * @brief Create a generic key

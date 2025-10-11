@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------------
 *               Copyright Notice
 *-----------------------------------------------------------------------------
-* Copyright (c) 2022 leiwei. All rights reserved.
+* Copyright (c) 2022-2042 leiwei. All rights reserved.
 *
 * This software is released under the MIT License;
 * You may obtain a copy of the License at:
