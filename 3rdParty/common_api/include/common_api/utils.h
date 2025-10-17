@@ -562,6 +562,7 @@ public:
      *         or an empty string if no match is found.
      */
     static std::string findLocalIpForNetwork(const std::string& targetNetworkSegment);
+    static std::vector<std::string> findLocalIpsForNetwork(const std::string& targetNetworkSegment);
 
     /**
      * @brief Gets all active, non-loopback IPv4 addresses from the local machine.
