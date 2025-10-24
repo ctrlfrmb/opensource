@@ -81,7 +81,7 @@ public:
 private:
     int onTimerTick(uint64_t counter);
     int sendCurrentFrame();
-    void handleCompletion(int exitCode);
+    int handleCompletion(int exitCode); // must be return -1;
     void clearFrameData();
 
 private:
@@ -92,7 +92,6 @@ private:
 
     // State management
     std::atomic_bool is_running_{false};
-    std::atomic_bool should_stop_{false};
 
     // Configuration
     SendConfig config_;
