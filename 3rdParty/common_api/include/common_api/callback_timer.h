@@ -40,7 +40,6 @@
 #include <functional>
 #include <mutex>
 #include <thread>
-#include <memory> // For std::unique_ptr
 
 #include "common_global.h"
 #include "common_types.h"

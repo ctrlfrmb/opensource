@@ -39,8 +39,8 @@ exists($$COMMON_API_INCLUDE_DIR) {
 INCLUDEPATH += $$SSH_CORE_LIB_ROOT/../
 
 # 包含第三方库（如果存在）
-exists($$SSH_CORE_LIB_ROOT/../fmt-11.1.4/format.pri) {
-    include($$SSH_CORE_LIB_ROOT/../fmt-11.1.4/format.pri)
+exists($$SSH_CORE_LIB_ROOT/../fmt-12.0.0/format.pri) {
+    include($$SSH_CORE_LIB_ROOT/../fmt-12.0.0/format.pri)
 }
 
 # 平台检测

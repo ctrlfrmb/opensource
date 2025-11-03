@@ -27,8 +27,8 @@ INCLUDEPATH += $$COMMON_API_LIB_ROOT/include
 INCLUDEPATH += $$COMMON_API_LIB_ROOT/../
 
 # 包含第三方库（如果存在）
-exists($$COMMON_API_LIB_ROOT/../fmt-11.1.4/format.pri) {
-    include($$COMMON_API_LIB_ROOT/../fmt-11.1.4/format.pri)
+exists($$COMMON_API_LIB_ROOT/../fmt-12.0.0/format.pri) {
+    include($$COMMON_API_LIB_ROOT/../fmt-12.0.0/format.pri)
 }
 
 # 平台检测

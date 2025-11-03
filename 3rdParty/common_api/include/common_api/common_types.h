@@ -20,7 +20,6 @@
 
 #include <vector>
 #include <functional>
-#include "common_global.h"
 
 namespace Common {
 

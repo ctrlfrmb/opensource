@@ -52,9 +52,9 @@
 #ifndef COMMON_LOGGER_MACROS_H
 #define COMMON_LOGGER_MACROS_H
 
-#include <fmt/core.h>
+#include <fmt/format.h>
+
 #include <string>
-#include <chrono>
 #include <cstdint>
 #include "common_global.h"
 
