@@ -147,6 +147,14 @@ public:
      */
     static void parseUtilsKey(uint64_t key, uint16_t& type, uint16_t& group);
 
+#ifdef _WIN32
+    // Convert UTF-8 std::string to std::wstring on Windows
+    static std::wstring utf8_to_wstring(const std::string& str);
+
+    // Convert std::wstring back to UTF-8 std::string for exceptions/messages
+    static std::string wstring_to_utf8(const std::wstring& wstr);
+#endif
+
     //=============================================================================
     // Time & Data Processing
     //=============================================================================
