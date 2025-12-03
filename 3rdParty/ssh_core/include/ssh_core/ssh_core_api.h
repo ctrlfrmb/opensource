@@ -48,7 +48,7 @@
 #ifndef SSH_CORE_API_H
 #define SSH_CORE_API_H
 
-#include "ssh_core_types.h"
+// #include "ssh_core_types.h"
 
 // Define platform-specific import/export macros
 #ifdef _WIN32

@@ -40,7 +40,6 @@
 #define COMMON_PERIOD_SENDER_H
 
 #include <atomic>
-#include <functional>
 #include <map>
 #include <memory>
 #include <mutex>

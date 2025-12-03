@@ -189,20 +189,28 @@ public:
      */
     static uint8_t calculateChecksum(const std::vector<uint8_t>& data);
 
+    static void bytesToHexStringWithHexChars(const uint8_t* data, size_t len, const char* hexChars, std::string& hexStr);
     /**
-     * @brief Convert byte array to uppercase hexadecimal string
-     * @param data Byte array pointer
-     * @param len Array length
-     * @return Hexadecimal string
+     * @brief Convert byte array to uppercase hexadecimal string.
+     * @param data Byte array pointer.
+     * @param len Array length.
+     * @param lastChar An optional character to append to the end of the string (e.g., '\n').
+     *                 Defaults to '\0' (no character appended).
+     * @return Hexadecimal string (e.g., "AA BB CC").
      */
     static std::string bytesToHexStringUpper(const uint8_t* data, size_t len);
+    static std::string bytesToHexStringUpper(const uint8_t* data, size_t len, char lastChar);
+
     /**
-     * @brief Convert byte array to lowercase hexadecimal string
-     * @param data Byte array pointer
-     * @param len Array length
-     * @return Hexadecimal string
+     * @brief Convert byte array to lowercase hexadecimal string.
+     * @param data Byte array pointer.
+     * @param len Array length.
+     * @param lastChar An optional character to append to the end of the string (e.g., '\n').
+     *                 Defaults to '\0' (no character appended).
+     * @return Hexadecimal string (e.g., "aa bb cc").
      */
     static std::string bytesToHexStringLower(const uint8_t* data, size_t len);
+    static std::string bytesToHexStringLower(const uint8_t* data, size_t len, char lastChar);
 
     /**
      * @brief Ensure file path exists (create necessary directories)
