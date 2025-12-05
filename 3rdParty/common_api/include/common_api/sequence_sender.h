@@ -36,11 +36,8 @@
 #ifndef COMMON_SEQUENCE_SENDER_H
 #define COMMON_SEQUENCE_SENDER_H
 
-#include <atomic>
 #include <functional>
 #include <shared_mutex>
-#include <vector>
-#include <memory>
 
 #include "common_types.h"
 #include "common_global.h"

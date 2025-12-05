@@ -39,12 +39,9 @@
 #ifndef COMMON_PERIOD_SENDER_H
 #define COMMON_PERIOD_SENDER_H
 
-#include <atomic>
 #include <map>
-#include <memory>
 #include <mutex>
 #include <shared_mutex>
-#include <vector>
 
 #include "common_types.h"
 #include "common_global.h"

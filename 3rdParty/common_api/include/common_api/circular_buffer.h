@@ -37,7 +37,6 @@
 #include <algorithm>    // for std::copy, std::fill
 #include <stdexcept>    // for std::out_of_range, std::logic_error
 #include <iterator>     // for std::random_access_iterator_tag
-#include <functional>   // for std::reference_wrapper
 #include <utility>      // for std::move
 #include <type_traits>  // for std::conditional_t, std::is_const_v, std::remove_const_t
 

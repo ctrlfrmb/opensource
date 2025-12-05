@@ -4,7 +4,7 @@
 /*-----------------------------------------------------------------------------
 *               Copyright Notice
 *-----------------------------------------------------------------------------
-* Copyright (c) 2025 leiwei. All rights reserved.
+* Copyright (c) 2025. All rights reserved.
 *
 * This software is released under the MIT License;
 * You may obtain a copy of the License at:
