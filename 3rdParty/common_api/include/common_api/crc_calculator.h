@@ -25,6 +25,7 @@
 
 #include "common_types.h"
 #include "common_global.h"
+#include <string>
 
 namespace Common {
 

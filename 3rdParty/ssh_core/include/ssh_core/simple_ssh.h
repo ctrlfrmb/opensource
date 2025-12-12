@@ -14,7 +14,7 @@
 * but must retain the author's copyright notice and license terms.
 *
 * Author: leiwei E-mail: ctrlfrmb@gmail.com
-* Version: v1.3.0
+* Version: v1.4.0
 * Date: 2025-06-21
 *-----------------------------------------------------------------------------*/
 
@@ -118,6 +118,7 @@ typedef enum {
 * @brief 初始化并打开日志功能。
 * @param logFile 日志文件路径，例如："logs/ssh_client.log"。
 * @param level 日志等级 (-1:默认INFO 0:DEBUG 1:INFO 2:WARN 3:ERROR)。
+*              特殊值: -200，表示记录ssh命令执行详细过程
 * @param maxSize 单个日志文件最大大小(MB)，范围(1~100)，-1为默认10MB。
 * @param maxFiles 保留的历史日志文件数量，范围(1~20)，-1为默认10个。
 * @return 0: 成功, <0: 错误码。
@@ -196,10 +197,20 @@ SIMPLE_SSH_API int SimpleSSHIsConnected(int instanceId);
 * @param outputBuffer 用于存储命令标准输出(stdout)和标准错误(stderr)的缓冲区。
 * @param bufferSize 缓冲区的大小。
 * @param exitCode [out] 接收命令的退出码 (0通常表示成功)。
+* @param execMode 执行模式
+*                0：标准执行模式（一次性执行，自动退出）
+*                1：交互式 shell 模式（保持上下文，模拟输入）
+* 注意：交互默认需要模拟用户输入，因此每条指令需要添加\n（默认Enter键）
+*      交互式命令：
+*       "adb connect 192.168.118.1\n"
+*       "adb shell\n"
+*       "lsusb\n"
+*       "exit\n"  // 退出 adb shell
+*       "exit\n"  // 退出 ssh shell
 * @param timeoutMs 超时时间(ms)。
 * @return 0: 成功, <0: 错误码 (如 BUFFER_TOO_SMALL, TIMEOUT)。
 */
-SIMPLE_SSH_API int SimpleSSHExecuteCmd(int instanceId, const char* cmdStr, char* outputBuffer, int bufferSize, int* exitCode, int timeoutMs);
+SIMPLE_SSH_API int SimpleSSHExecuteCmd(int instanceId, const char* cmdStr, char* outputBuffer, int bufferSize, int* exitCode, int execMode, int timeoutMs);
 
 /*============================================================================
  * 命令执行 (异步模式)
@@ -213,9 +224,19 @@ SIMPLE_SSH_API int SimpleSSHExecuteCmd(int instanceId, const char* cmdStr, char*
 *
 * @param instanceId 实例ID。
 * @param cmdStr 要执行的Shell命令字符串。
+* @param execMode 执行模式
+*                0：标准执行模式（一次性执行，自动退出）
+*                1：交互式 shell 模式（保持上下文，模拟输入）
+* 注意：交互默认需要模拟用户输入，因此每条指令需要添加\n（默认Enter键）
+*      交互式命令：
+*       "adb connect 192.168.118.1\n"
+*       "adb shell\n"
+*       "lsusb\n"
+*       "exit\n"  // 退出 adb shell
+*       "exit\n"  // 退出 ssh shell
 * @return 0: 命令启动成功, <0: 错误码。
 */
-SIMPLE_SSH_API int SimpleSSHStartCmdAsync(int instanceId, const char* cmdStr);
+SIMPLE_SSH_API int SimpleSSHStartCmdAsync(int instanceId, const char* cmdStr, int execMode);
 
 /**
 * @brief 读取异步命令的实时输出。

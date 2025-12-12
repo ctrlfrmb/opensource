@@ -13,6 +13,9 @@
 #include <stdexcept>
 #include <algorithm> // For std::min
 
+// MD 
+// g_timer = Common::PrecisionTimer::getInstance();
+
 namespace vci {
 namespace uds {
 namespace tp {
@@ -23,7 +26,7 @@ Transaction::Transaction(const UdsSessionContext& context, FrameSender sender, F
     m_sender(std::move(sender)),
     m_provider(std::move(provider)),
     m_request_payload(payload),
-	// TODO g_timer = Common::PrecisionTimer::getInstance();
+	// TODO MD 
     m_timer(Common::PrecisionTimer::getInstance()),
     m_state(State::START),
     m_result({false, VCI_UDS_RESULT_INTERNAL_ERROR, {}})

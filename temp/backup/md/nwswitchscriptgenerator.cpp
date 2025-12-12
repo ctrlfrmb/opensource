@@ -297,13 +297,13 @@ QString NWSwitchScriptGenerator::generateDUTRouteConfigScriptContent(const NWSwi
         // 当数据从交换机输出时，将严格的SNAT规则变得更通用。去掉对目标地址routeInfo.pcIP的检查
         // 当一个数据包准备从 veth-dut 接口离开时，只要 它的源IP是 routeInfo.productIP，就将它的源IP伪装成 routeInfo.vethIP
         // 这样就解决了主机网卡多个 IP 时，可能出现问题的情况
-		// TODO
+		// TODO MD
         script += QString("ip netns exec %1 nft add rule ip nat postrouting oifname %2 ip saddr %3 snat to %4\n")
             .arg(nsName)
             .arg(vethInterfaceName)
             .arg(routeInfo.productIP)
             .arg(routeInfo.vethIP);
-        // script += QString("ip netns exec %1 nft add rule ip nat postrouting oifname %2 ip saddr %3 ip daddr %4 snat to %5\n").arg(nsName).arg(vethInterfaceName).arg(routeInfo.productIP).arg(routeInfo.pcIP).arg(routeInfo.vethIP);
+        // MD script += QString("ip netns exec %1 nft add rule ip nat postrouting oifname %2 ip saddr %3 ip daddr %4 snat to %5\n").arg(nsName).arg(vethInterfaceName).arg(routeInfo.productIP).arg(routeInfo.pcIP).arg(routeInfo.vethIP);
         script += QString("ip netns exec %1 nft add rule ip nat postrouting oifname %2 ip saddr %3 ip daddr %4 snat to %5\n\n").arg(nsName).arg(ethInterfaceName).arg(routeInfo.pcIP).arg(routeInfo.productIP).arg(routeInfo.ethIP);
     }
     script += QString("log \"Final NAT ruleset for namespace %1:\"\n").arg(nsName);

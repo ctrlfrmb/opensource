@@ -121,17 +121,6 @@ SSH_CORE_API int SSHClientIsConnected(int instanceId);
 SSH_CORE_API int SSHClientStartCommandAsync(int instanceId, const char* command, int timeoutMs);
 
 /**
- * @brief Reads available output from the running asynchronous command's buffer.
- * @param instanceId The ID of the client instance.
- * @param buffer A character buffer to store the output.
- * @param bufferSize The size of the provided buffer.
- * @param bytesRead [out] Pointer to an integer that will receive the number of bytes written to the buffer.
- * @param timeoutMs The maximum time to wait for output, in milliseconds (0 for non-blocking).
- * @return SSH_CORE_SUCCESS on success, SSH_CORE_STATUS_READ_EMPTY if no data is available, or an error code.
- */
-SSH_CORE_API int SSHClientReadOutputAsync(int instanceId, char* buffer, int bufferSize, int* bytesRead, int timeoutMs);
-
-/**
  * @brief Requests to stop the currently running asynchronous command.
  * @param instanceId The ID of the client instance.
  */
@@ -143,6 +132,24 @@ SSH_CORE_API void SSHClientStopCommandAsync(int instanceId);
  * @return 1 if a command is running, 0 otherwise.
  */
 SSH_CORE_API int SSHClientIsCommandRunningAsync(int instanceId);
+
+/**
+ * @brief Reads available output from the running asynchronous command's buffer.
+ * @param instanceId The ID of the client instance.
+ * @param buffer A character buffer to store the output.
+ * @param bufferSize The size of the provided buffer.
+ * @param bytesRead [out] Pointer to an integer that will receive the number of bytes written to the buffer.
+ * @param timeoutMs The maximum time to wait for output, in milliseconds (0 for non-blocking).
+ * @return SSH_CORE_SUCCESS on success, SSH_CORE_STATUS_READ_EMPTY if no data is available, or an error code.
+ */
+SSH_CORE_API int SSHClientReadOutputAsync(int instanceId, char* buffer, int bufferSize, int* bytesRead, int timeoutMs);
+
+/**
+ * @brief Manually clears the output buffer for asynchronous commands.
+ * @details Useful when reusing a session to ensure no residual data from previous commands exists.
+ * @param instanceId The ID of the client instance.
+ */
+SSH_CORE_API void SSHClientClearOutputAsync(int instanceId);
 
 /*============================================================================
  * Synchronous Command Execution

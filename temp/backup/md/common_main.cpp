@@ -10,7 +10,7 @@
 static void CleanupResources() {
     try {
 #ifdef _WIN32
-		// TODO
+		// TODO DEL
         timeEndPeriod(1);
 #endif
         printf("Common api dll cleanup.\n");
@@ -21,7 +21,7 @@ static void CleanupResources() {
 
 static void InitializeLibaray() {
 #ifdef _WIN32
-	// TODO
+	// TODO DEL
     timeBeginPeriod(1);
     printf("Common api dll loaded.\n");
 #endif
