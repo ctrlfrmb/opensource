@@ -182,6 +182,8 @@ public:
      */
     static const char* getASCHeaderDateString();
 
+    static std::string generateUniqueMarker(const std::string& prefix="");
+
     /**
      * @brief Calculate data checksum
      * @param data Data vector

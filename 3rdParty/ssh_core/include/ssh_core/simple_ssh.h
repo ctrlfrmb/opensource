@@ -14,7 +14,7 @@
 * but must retain the author's copyright notice and license terms.
 *
 * Author: leiwei E-mail: ctrlfrmb@gmail.com
-* Version: v1.4.0
+* Version: v1.4.1
 * Date: 2025-06-21
 *-----------------------------------------------------------------------------*/
 
@@ -197,20 +197,11 @@ SIMPLE_SSH_API int SimpleSSHIsConnected(int instanceId);
 * @param outputBuffer 用于存储命令标准输出(stdout)和标准错误(stderr)的缓冲区。
 * @param bufferSize 缓冲区的大小。
 * @param exitCode [out] 接收命令的退出码 (0通常表示成功)。
-* @param execMode 执行模式
-*                0：标准执行模式（一次性执行，自动退出）
-*                1：交互式 shell 模式（保持上下文，模拟输入）
-* 注意：交互默认需要模拟用户输入，因此每条指令需要添加\n（默认Enter键）
-*      交互式命令：
-*       "adb connect 192.168.118.1\n"
-*       "adb shell\n"
-*       "lsusb\n"
-*       "exit\n"  // 退出 adb shell
-*       "exit\n"  // 退出 ssh shell
 * @param timeoutMs 超时时间(ms)。
+* @param execMode 执行模式， 0：单次执行，上下文无关联  1：关联执行（类XShell)，上下文相关。
 * @return 0: 成功, <0: 错误码 (如 BUFFER_TOO_SMALL, TIMEOUT)。
 */
-SIMPLE_SSH_API int SimpleSSHExecuteCmd(int instanceId, const char* cmdStr, char* outputBuffer, int bufferSize, int* exitCode, int execMode, int timeoutMs);
+SIMPLE_SSH_API int SimpleSSHExecuteCmd(int instanceId, const char* cmdStr, char* outputBuffer, int bufferSize, int* exitCode, int timeoutMs, int execMode);
 
 /*============================================================================
  * 命令执行 (异步模式)
@@ -224,19 +215,11 @@ SIMPLE_SSH_API int SimpleSSHExecuteCmd(int instanceId, const char* cmdStr, char*
 *
 * @param instanceId 实例ID。
 * @param cmdStr 要执行的Shell命令字符串。
-* @param execMode 执行模式
-*                0：标准执行模式（一次性执行，自动退出）
-*                1：交互式 shell 模式（保持上下文，模拟输入）
-* 注意：交互默认需要模拟用户输入，因此每条指令需要添加\n（默认Enter键）
-*      交互式命令：
-*       "adb connect 192.168.118.1\n"
-*       "adb shell\n"
-*       "lsusb\n"
-*       "exit\n"  // 退出 adb shell
-*       "exit\n"  // 退出 ssh shell
+* @param timeoutMs 超时时间(ms)。
+* @param execMode 执行模式， 0：单次执行，上下文无关联  1：关联执行（类XShell)，上下文相关。
 * @return 0: 命令启动成功, <0: 错误码。
 */
-SIMPLE_SSH_API int SimpleSSHStartCmdAsync(int instanceId, const char* cmdStr, int execMode);
+SIMPLE_SSH_API int SimpleSSHStartCmdAsync(int instanceId, const char* cmdStr, int timeoutMs, int execMode);
 
 /**
 * @brief 读取异步命令的实时输出。
@@ -256,9 +239,16 @@ SIMPLE_SSH_API int SimpleSSHReadCmdOutputAsync(int instanceId, char* buffer, int
 
 /**
 * @brief 停止当前正在执行的异步命令。
+* @param execMode 执行模式， 0：单次执行，上下文无关联  1：关联执行（类XShell)，上下文相关。
 * @param instanceId 实例ID。
 */
-SIMPLE_SSH_API void SimpleSSHStopCmdAsync(int instanceId);
+SIMPLE_SSH_API void SimpleSSHStopCmdAsync(int instanceId, int execMode);
+
+/**
+* @brief 清空执行命令输出缓存（异步）
+* @param instanceId 实例ID。
+*/
+SIMPLE_SSH_API void SimpleSSHClearOutputAsync(int instanceId);
 
 /*============================================================================
  * 文件传输 (同步模式)
