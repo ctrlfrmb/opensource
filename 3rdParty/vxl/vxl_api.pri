@@ -4,75 +4,40 @@
 # Copyright (c) 2025. All rights reserved.
 # ===================================================================
 
-# 确保 UTF-8 支持
-CONFIG += utf8_source
+VXL_ROOT = $$PWD
 
-# 库根目录 (即 vxl_api.pri 所在目录)
-VXL_LIB_ROOT = $$PWD
+# 1. 头文件路径
+INCLUDEPATH += $$VXL_ROOT/include
 
-# 头文件路径
-INCLUDEPATH += $$VXL_LIB_ROOT/include
-
-# 平台检测 (Vector 驱动主要在 Windows 下使用)
-win32 {
-    PLATFORM_DIR = windows
-} else {
-    error("Vector XL Driver is only supported on Windows.")
-}
-
-# 架构检测 (自动区分 x86 和 x64)
-# Vector 的库命名规则：x86为 vxlapi.lib, x64为 vxlapi64.lib
+# 2. 架构判定 (映射为目录名 x64/x86 和 库文件名)
 contains(QT_ARCH, x86_64) {
     ARCH_DIR = x64
     VXL_LIB_NAME = vxlapi64
-} else:contains(QT_ARCH, i386) {
+} else {
     ARCH_DIR = x86
     VXL_LIB_NAME = vxlapi
-} else {
-    ARCH_DIR = x64
-    VXL_LIB_NAME = vxlapi64
-    warning("Unknown architecture $$QT_ARCH, defaulting to x64 and vxlapi64")
 }
 
-# 构建类型检测 (Debug/Release)
-# 注意：通常第三方提供的 DLL 只有 Release 版或混合版。
-# 根据你的 tree 结构，你区分了 debug 和 release 目录，这里做相应适配。
-# CONFIG(debug, debug|release) {
-#     BUILD_DIR = debug
-# } else {
-#     BUILD_DIR = release
-# }
-BUILD_DIR = release
+# 3. 库文件路径配置
+# 根据你的tree结构，只有 release 版本的库，所以无论编译 debug 还是 release，都链接 release 库
+VXL_LIB_DIR = $$VXL_ROOT/lib/windows/$$ARCH_DIR/release
+VXL_BIN_DIR = $$VXL_ROOT/bin/windows/$$ARCH_DIR/release
 
-# 设置库文件(.lib) 和 二进制文件(.dll) 的路径
-VXL_LIB_DIR = $$VXL_LIB_ROOT/lib/$$PLATFORM_DIR/$$ARCH_DIR/$$BUILD_DIR
-VXL_BIN_DIR = $$VXL_LIB_ROOT/bin/$$PLATFORM_DIR/$$ARCH_DIR/$$BUILD_DIR
-
-# 具体的库文件路径
-LIB_FILE = $$VXL_LIB_DIR/$${VXL_LIB_NAME}.lib
-DLL_FILE = $$VXL_BIN_DIR/$${VXL_LIB_NAME}.dll
-
-# 检查库文件是否存在
-!exists($$LIB_FILE) {
-    error("Vector Library file not found: $$LIB_FILE")
-}
-
-# 链接库
+# 4. 链接库
 LIBS += -L$$VXL_LIB_DIR -l$$VXL_LIB_NAME
 
-# Post-Link: 自动将 DLL 复制到生成目录
-win32 {
-    isEmpty(DESTDIR) {
-        TARGET_DIR = $$OUT_PWD
-    } else {
-        TARGET_DIR = $$DESTDIR
-    }
+# Windows 系统依赖库 (Vector驱动通常需要)
+win32: LIBS += -luser32 -lkernel32 -ladvapi32
 
-    DLL_SOURCE = $$shell_path($$DLL_FILE)
-    DLL_TARGET = $$shell_path($$TARGET_DIR)
-
-    # 使用 copy /Y 命令覆盖复制
-    QMAKE_POST_LINK += copy /Y $$shell_quote($$DLL_SOURCE) $$shell_quote($$DLL_TARGET) $$escape_expand(\\n\\t)
+# 5. 定义一个拷贝函数，用于将 vxlapi64.dll 拷贝到构建目录，方便调试运行
+defineReplace(copyVxlDll) {
+    src = $$1
+    dst = $$2
+    return(copy /Y $$shell_quote($$shell_path($$src)) $$shell_quote($$shell_path($$dst)))
 }
 
-message("Vector XL Driver configured: $$ARCH_DIR | $$BUILD_DIR")
+# 自动将 vxl 的 dll 拷贝到生成目录
+VXL_DLL_PATH = $$VXL_BIN_DIR/$${VXL_LIB_NAME}.dll
+exists($$VXL_DLL_PATH) {
+    QMAKE_POST_LINK += $$copyVxlDll($$VXL_DLL_PATH, $$DESTDIR) $$escape_expand(\\n\\t)
+}
