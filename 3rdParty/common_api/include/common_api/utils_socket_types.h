@@ -61,6 +61,7 @@ enum {
     UTILS_SOCKET_ERROR_SET_BLOCKING_FAILED = -107,      ///< Failed to set blocking mode
     UTILS_SOCKET_ERROR_GET_NAME_FAILED = -108,          ///< Failed to get socket name
     UTILS_SOCKET_ERROR_CLOSE_FAILED = -109,             ///< Failed to close socket
+    UTILS_SOCKET_ERROR_UDP_SET_CONNRESET_FAILED = -121, ///< Failed to set UDP CONNRESET option
 
     // --- TCP Connection Errors (200-299) ---
     UTILS_SOCKET_ERROR_TCP_CONNECT_FAILED = -200,       ///< TCP connection failed

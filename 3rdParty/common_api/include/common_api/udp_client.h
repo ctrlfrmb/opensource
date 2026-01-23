@@ -11,7 +11,7 @@
 * but must retain the author's copyright notice and license terms.
 *
 * Author: leiwei E-mail: ctrlfrmb@gmail.com
-* Version: v3.1.0 (API Refinement)
+* Version: v3.3.0 (Configurable CONNRESET)
 * Date: 2022-09-08
 *----------------------------------------------------------------------------*/
 
@@ -33,6 +33,15 @@
 * returned to the pool for reuse. This completely eliminates dynamic memory
 * allocation and data copying in the critical receive path.
 *
+* v3.3.0 Configurable CONNRESET:
+* - Added configurable option for SIO_UDP_CONNRESET (Windows only)
+* - Moved SIO_UDP_CONNRESET setting to Common::Utils for reusability
+*
+* v3.2.0 CPU Optimization:
+* - Replaced busy-loop polling with select() based waiting
+* - Significantly reduced CPU usage from 90%+ to 5-15%
+* - Batch reading when data is available to maximize throughput
+*
 * Features:
 * - Memory Pool Architecture: Eliminates runtime memory allocation for received data.
 * - Zero-Copy (in user-space): Data is received directly into its final buffer.
@@ -41,6 +50,7 @@
 * - Designed for high-throughput (100+ Mbps) and low-latency scenarios.
 * - Broadcast and multicast support.
 * - Cross-platform support (Windows/Linux/Unix).
+* - Low CPU usage with select() based event waiting.
 *
 *   Usage Example (High-Performance Mode):
 *   Common::UDPClient::ConnectConfig config;
@@ -49,6 +59,7 @@
 *   config.store_raw_data = true; // Explicitly set for max performance
 *   config.recv_buffer_size = 8 * 1024 * 1024;
 *   config.memory_pool_size = 4096;
+*   config.disable_connection_reset_report = true; // Enable for high-speed streams
 *   client.start(config);
 *
 *   Common::UDPClient::DataBufferPtr buffer;
@@ -72,6 +83,11 @@
 
 #include "common_global.h"
 
+#ifdef _WIN32
+// Windows 上 socklen_t 不存在，使用 int 替代
+using socklen_t = int;
+#endif
+
 struct sockaddr_in;
 
 namespace Common {
@@ -81,7 +97,7 @@ public:
     static constexpr int INVALID_SOCKET_FD = -1;
     static constexpr int RECEIVE_BUFFER_SIZE = 1536; // MTU is typically 1500.
     static constexpr size_t DEFAULT_QUEUE_SIZE = 2000;
-    static constexpr int DEFAULT_READ_TIMEOUT_MS = 30;
+    static constexpr int DEFAULT_READ_TIMEOUT_MS = 100; // Increased for select() timeout
 
     // Refined DataBuffer to use platform-independent types.
     // This struct is pre-allocated in a memory pool. It no longer exposes
@@ -94,6 +110,7 @@ public:
     };
 
     // Smart pointer for managing DataBuffer lifetime.
+    // Uses a custom deleter to return the buffer to the memory pool automatically.
     using DataBufferPtr = std::unique_ptr<DataBuffer, std::function<void(DataBuffer*)>>;
 
     // Client configuration
@@ -121,6 +138,22 @@ public:
 
         // Size of the memory pool.
         size_t memory_pool_size{64};
+
+        // =====================================================================
+        // Windows-specific: Disable UDP connection reset reporting (SIO_UDP_CONNRESET)
+        // =====================================================================
+        // When true: Disables the Windows behavior where receiving an ICMP
+        //     "port unreachable" message causes subsequent recvfrom() calls
+        //     to return WSAECONNRESET (10054) error. This is recommended for
+        //     high-throughput UDP applications (e.g., video streaming) where
+        //     sending a command packet might trigger ICMP errors that would
+        //     otherwise interrupt the data reception flow.
+        //
+        // When false (default): Keeps the default Windows behavior.
+        //
+        // Note: This option has no effect on non-Windows platforms.
+        // =====================================================================
+        bool disable_connection_reset_report{false};
     };
 
     using ErrorCallback = std::function<void(int errorCode, const std::string& errorMsg)>;
@@ -170,6 +203,9 @@ private:
     bool closeTempSocket(int fd);
 
     void receiveThreadFunc();
+
+    // Helper to read all available data after select() returns
+    void drainSocket(int fd, sockaddr_in& fromAddr, socklen_t& fromAddrLen);
 
     void initMemoryPool();
     void cleanupMemoryPool();

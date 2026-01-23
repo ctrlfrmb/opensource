@@ -459,6 +459,31 @@ public:
     static int setSendTimeout(int fd, int timeoutMs);
 
     /**
+     * @brief Set UDP connection reset report behavior (Windows-specific)
+     *
+     * On Windows, when a UDP packet is sent to an unreachable port, the remote
+     * host may return an ICMP "port unreachable" message. By default, Windows
+     * converts this into a WSAECONNRESET (10054) error that is returned on the
+     * next recvfrom() call. This can be problematic for high-throughput UDP
+     * applications where occasional ICMP errors should not interrupt reception.
+     *
+     * This function uses the SIO_UDP_CONNRESET ioctl to control this behavior.
+     *
+     * @param fd Socket file descriptor (must be a UDP socket)
+     * @param enable true = enable CONNRESET reporting (Windows default behavior)
+     *               false = disable CONNRESET reporting (ignore ICMP errors)
+     * @return Error code: UTILS_SOCKET_SUCCESS=success, other=failure
+     *
+     * @note This function has no effect on non-Windows platforms and always
+     *       returns UTILS_SOCKET_SUCCESS.
+     *
+     * @example
+     *   // Disable CONNRESET for high-speed video streaming
+     *   Common::Utils::setUdpConnResetReport(udpSocket, false);
+     */
+    static int setUdpConnResetReport(int fd, bool enable);
+
+    /**
      * @brief Set socket receive buffer size
      * @param fd Socket file descriptor
      * @param size Buffer size (bytes)
