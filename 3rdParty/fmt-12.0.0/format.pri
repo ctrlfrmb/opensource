@@ -1,4 +1,13 @@
-CONFIG += c++17
+# 判断如果是 Windows 且使用 MSVC 编译器
+win32-msvc* {
+    # 强制添加 /std:c++17 标志
+    QMAKE_CXXFLAGS += /std:c++17
+    # 如果还需要更激进的兼容性，可以用 /std:c++latest
+} else {
+    # 非 MSVC (如 MinGW/GCC/Clang) 使用标准配置
+    CONFIG += c++17
+}
+
 
 INCLUDEPATH += $$PWD/include
 
