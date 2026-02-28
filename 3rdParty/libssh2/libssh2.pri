@@ -76,6 +76,7 @@ win32 {
 
     # 2. 链接所有必需的 Windows 系统库
     LIBS += -lws2_32
+    LIBS += -liphlpapi
     LIBS += -lcrypt32
     LIBS += -lbcrypt
     LIBS += -luser32
