@@ -215,6 +215,14 @@ public:
     static std::string bytesToHexStringLower(const uint8_t* data, size_t len, char lastChar);
 
     /**
+     * @brief Ensure path exists (create necessary directories)
+     * @param path File or directory path
+     * @param isDirectory true: path itself is a directory to create; false: path is a file, create its parent directory
+     * @return true=success (directory already exists or created successfully), false=failure
+     */
+    static bool ensurePath(const std::string& path, bool isDirectory = false);
+
+    /**
      * @brief Ensure file path exists (create necessary directories)
      * @param filePath File path
      * @return true=success, false=failure
