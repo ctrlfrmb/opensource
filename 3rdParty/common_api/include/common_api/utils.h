@@ -280,7 +280,7 @@ public:
      * @return 0=success, <0=failure
      */
     static int setSignalValueByLSB(uint8_t* data, uint8_t dataLen, uint16_t startBit,
-                                  uint16_t signalSize, uint64_t value);
+                                   uint16_t signalSize, uint64_t value);
 
     /**
      * @brief Get unsigned signal value using LSB format (Intel format, little-endian)
@@ -291,7 +291,7 @@ public:
      * @return Unsigned signal value
      */
     static uint64_t getUnsignedSignalValueByLSB(const uint8_t* data, uint8_t dataLen,
-                                               uint16_t startBit, uint16_t signalSize);
+                                                uint16_t startBit, uint16_t signalSize);
 
     /**
      * @brief Get signed signal value using LSB format (Intel format, little-endian)
@@ -302,7 +302,7 @@ public:
      * @return Signed signal value
      */
     static int64_t getSignedSignalValueByLSB(const uint8_t* data, uint8_t dataLen,
-                                            uint16_t startBit, uint16_t signalSize);
+                                             uint16_t startBit, uint16_t signalSize);
 
     /**
      * @brief Set signal value using MSB format (Motorola format, big-endian)
@@ -314,7 +314,7 @@ public:
      * @return 0=success, <0=failure
      */
     static int setSignalValueByMSB(uint8_t* data, uint8_t dataLen, uint16_t startBit,
-                                  uint16_t signalSize, uint64_t value);
+                                   uint16_t signalSize, uint64_t value);
 
     /**
      * @brief Get unsigned signal value using MSB format (Motorola format, big-endian)
@@ -325,7 +325,7 @@ public:
      * @return Unsigned signal value
      */
     static uint64_t getUnsignedSignalValueByMSB(const uint8_t* data, uint8_t dataLen,
-                                               uint16_t startBit, uint16_t signalSize);
+                                                uint16_t startBit, uint16_t signalSize);
 
     /**
      * @brief Get signed signal value using MSB format (Motorola format, big-endian)
@@ -336,7 +336,7 @@ public:
      * @return Signed signal value
      */
     static int64_t getSignedSignalValueByMSB(const uint8_t* data, uint8_t dataLen,
-                                            uint16_t startBit, uint16_t signalSize);
+                                             uint16_t startBit, uint16_t signalSize);
 
     /**
      * @brief Set signal value based on bit list
@@ -347,7 +347,7 @@ public:
      * @return 0=success, <0=failure
      */
     static int setSignalValueByBitList(uint8_t* data, uint8_t dataLen,
-                                      const std::vector<uint16_t>& bitList, uint64_t value);
+                                       const std::vector<uint16_t>& bitList, uint64_t value);
 
     /**
      * @brief Get actual bit set for a signal
@@ -390,9 +390,9 @@ public:
      * @param out_filecontent [out] Generated file content
      * @return bool Returns true if successfully generated, false if input is empty.
      */
-   static bool generateLicenseKeyByCompany(const std::string& companyName,
-                                  std::string& out_filename,
-                                  std::string& out_filecontent);
+    static bool generateLicenseKeyByCompany(const std::string& companyName,
+                                            std::string& out_filename,
+                                            std::string& out_filecontent);
 
     //=============================================================================
     // Socket Network Operations (Enhanced)
