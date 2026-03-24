@@ -1,14 +1,17 @@
 # libssh2.pri - libssh2 库配置文件（包含 OpenSSL 和 zlib 依赖）
-# 使用方法: 在你的主 .pro 文件中添加 include(../3rdParty/libssh2/libssh2.pri)
+# 策略:
+#   Windows - 使用 3rdParty 内的预编译静态库 (.lib)
+#   Linux   - 使用 3rdParty 内从源码编译的静态库 (.a) + 系统 OpenSSL/zlib
+#   两个平台共用同一份头文件（版本均为 1.11.1）
 # Author: leiwei E-mail: ctrlfrmb@gmail.com
 
 # libssh2 库根目录
 LIBSSH2_ROOT = $$PWD
 
-# 头文件路径
+# --- 头文件路径（全平台统一，版本 1.11.1）---
 INCLUDEPATH += $$LIBSSH2_ROOT/include
 
-# --- 平台、架构和构建类型检测 ---
+# --- 平台、架构检测 ---
 
 win32 {
     PLATFORM_DIR = windows
@@ -27,54 +30,44 @@ contains(QT_ARCH, x86_64) {
     ARCH_DIR = x86
     ARCH_NAME = x86
 } else {
-    # 默认使用 x64，并给出警告
     ARCH_DIR = x64
     ARCH_NAME = x64
     warning("Unknown architecture $$QT_ARCH, defaulting to x64")
 }
 
-# 根据 Debug/Release 配置选择不同的库文件名
-CONFIG(debug, debug|release) {
-    BUILD_DIR = debug
-    BUILD_TYPE = debug
-    # Debug 库通常有 'd' 后缀
-    LIBSSH2_LIB_NAME = libssh2d.lib
-    LIBSSL_LIB_NAME = libssld.lib
-    LIBCRYPTO_LIB_NAME = libcryptod.lib
-    ZLIB_LIB_NAME = zlibd.lib
-} else {
-    BUILD_DIR = release
-    BUILD_TYPE = release
-    # Release 库
-    LIBSSH2_LIB_NAME = libssh2.lib
-    LIBSSL_LIB_NAME = libssl.lib
-    LIBCRYPTO_LIB_NAME = libcrypto.lib
-    ZLIB_LIB_NAME = zlib.lib
-}
+# --- 平台分支配置 ---
 
-# --- 库路径和链接配置 ---
-
-# 设置库文件路径
-LIBSSH2_LIBDIR = $$LIBSSH2_ROOT/lib/$$PLATFORM_DIR/$$ARCH_DIR/$$BUILD_DIR
-
-# 添加库路径
-LIBS += -L$$LIBSSH2_LIBDIR
-
-# 链接库文件
 win32 {
-    # 强制将 LIBSSH2_API 定义为空。
-    # libssh2.h 的逻辑会在我们构建 DLL (ssh_core.dll) 时，错误地将 LIBSSH2_API
-    # 设置为 __declspec(dllimport)，导致链接错误。
-    # 通过在这里预先定义，可以跳过头文件中的逻辑，确保静态链接。
+    # =================================================================
+    # Windows: 预编译静态库 (.lib)  ← 与原始文件完全一致
+    # =================================================================
+
+    CONFIG(debug, debug|release) {
+        BUILD_DIR = debug
+        BUILD_TYPE = debug
+        LIBSSH2_LIB_NAME = libssh2d.lib
+        LIBSSL_LIB_NAME = libssld.lib
+        LIBCRYPTO_LIB_NAME = libcryptod.lib
+        ZLIB_LIB_NAME = zlibd.lib
+    } else {
+        BUILD_DIR = release
+        BUILD_TYPE = release
+        LIBSSH2_LIB_NAME = libssh2.lib
+        LIBSSL_LIB_NAME = libssl.lib
+        LIBCRYPTO_LIB_NAME = libcrypto.lib
+        ZLIB_LIB_NAME = zlib.lib
+    }
+
+    LIBSSH2_LIBDIR = $$LIBSSH2_ROOT/lib/$$PLATFORM_DIR/$$ARCH_DIR/$$BUILD_DIR
+    LIBS += -L$$LIBSSH2_LIBDIR
+
     DEFINES += "LIBSSH2_API="
 
-    # 1. 链接我们自己的静态库 (使用变量以支持Debug/Release)
     LIBS += $$LIBSSH2_LIB_NAME
     LIBS += $$LIBSSL_LIB_NAME
     LIBS += $$LIBCRYPTO_LIB_NAME
     LIBS += $$ZLIB_LIB_NAME
 
-    # 2. 链接所有必需的 Windows 系统库
     LIBS += -lws2_32
     LIBS += -liphlpapi
     LIBS += -lcrypt32
@@ -82,22 +75,9 @@ win32 {
     LIBS += -luser32
     LIBS += -ladvapi32
 
-#    # 3. 解决静态/动态运行时库冲突
 #    QMAKE_LFLAGS_RELEASE += /NODEFAULTLIB:LIBCMT
 #    QMAKE_LFLAGS_DEBUG += /NODEFAULTLIB:LIBCMTD
-} else:unix {
-    # Unix/Linux/macOS 平台链接库
-    LIBS += -lssh2 -lssl -lcrypto -lz
-    QMAKE_RPATHDIR += $$LIBSSH2_LIBDIR
-}
 
-# --- 调试与检查 ---
-
-# message("Using libssh2: $$ARCH_NAME/$$BUILD_TYPE")
-# message("Library path: $$LIBSSH2_LIBDIR")
-
-# 库文件存在性检查
-win32 {
     !exists($$LIBSSH2_LIBDIR/$$LIBSSH2_LIB_NAME) {
         warning("libssh2 library not found at: $$LIBSSH2_LIBDIR/$$LIBSSH2_LIB_NAME")
     }
@@ -110,4 +90,37 @@ win32 {
     !exists($$LIBSSH2_LIBDIR/$$ZLIB_LIB_NAME) {
         warning("zlib library not found at: $$LIBSSH2_LIBDIR/$$ZLIB_LIB_NAME")
     }
+
+} else:unix:!macx {
+    # =================================================================
+    # Linux: 自编译静态库 (.a) + 系统 OpenSSL/zlib 动态库
+    # =================================================================
+
+    CONFIG(debug, debug|release) {
+        BUILD_DIR = debug
+    } else {
+        BUILD_DIR = release
+    }
+
+    LIBSSH2_LIBDIR = $$LIBSSH2_ROOT/lib/$$PLATFORM_DIR/$$ARCH_DIR/$$BUILD_DIR
+    LIBSSH2_STATIC = $$LIBSSH2_LIBDIR/libssh2.a
+
+    # 直接指定 .a 文件路径，避免链接器去系统路径找旧的 libssh2.so
+    LIBS += $$LIBSSH2_STATIC
+
+    # OpenSSL 和 zlib 使用系统动态库
+    LIBS += -lssl -lcrypto -lz -ldl -lpthread
+
+    !exists($$LIBSSH2_STATIC) {
+        error("Linux libssh2 static library not found at: $$LIBSSH2_STATIC")
+    }
+
+} else:macx {
+    # =================================================================
+    # macOS
+    # =================================================================
+    LIBS += -lssh2 -lssl -lcrypto -lz
 }
+
+# --- 调试与检查 ---
+# message("Using libssh2 on: $$PLATFORM_DIR/$$ARCH_NAME")

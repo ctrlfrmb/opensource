@@ -442,6 +442,14 @@ public:
      */
     static int setReuseAddr(int fd, bool enable);
 
+     /**
+     * @brief Set SO_REUSEPORT option (port reuse, if supported)
+     * @param fd Socket file descriptor
+     * @param enable Whether to enable port reuse
+     * @return Error code: UTILS_SOCKET_SUCCESS=success, other=failure
+     */
+    static int bindToLocalAddress(int fd, const std::string& localIp, int localPort = 0);
+
     /**
      * @brief Set SO_BROADCAST option (UDP broadcast)
      * @param fd Socket file descriptor

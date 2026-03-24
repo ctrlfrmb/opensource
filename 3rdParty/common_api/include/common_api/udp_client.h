@@ -7,11 +7,8 @@
 * You may obtain a copy of the License at:
 * https://opensource.org/licenses/MIT
 *
-* This is free software: you are free to use, modify and distribute,
-* but must retain the author's copyright notice and license terms.
-*
 * Author: leiwei E-mail: ctrlfrmb@gmail.com
-* Version: v3.3.0 (Configurable CONNRESET)
+* Version: v4.0.0 (Simplified API + Source Filtering)
 * Date: 2022-09-08
 *----------------------------------------------------------------------------*/
 
@@ -20,53 +17,15 @@
 * @brief High-performance asynchronous UDP client optimized for high-throughput
 *        data acquisition using a memory pool to eliminate runtime allocations.
 *
-* This revised UDPClient class is engineered for demanding applications that
-* require zero-packet-loss reception of high-frequency UDP datagrams. It replaces
-* the previous dual-mode queue system with a unified, high-performance memory
-* pool architecture.
+* v4.0.0 Changes:
+* - Simplified API: Removed redundant vector<char>/string overloads for
+*   send(), sendTo(), broadcast(). Only const char* + size_t versions remain.
+* - Added kernel-level source address filtering (filter_by_remote) via connect()
+*   for multi-instance scenarios sharing the same local port.
+* - Fixed bindSocket() to properly bind INADDR_ANY when local_ip is empty
+*   but local_port is specified.
+* - Connected socket optimization: uses send()/recv() instead of sendto()/recvfrom().
 *
-* The core optimization is the pre-allocation of a pool of fixed-size buffers.
-* The dedicated receive thread borrows a buffer from this pool, receives data
-* directly into it, and then passes a smart pointer to the buffer into a
-* lock-free queue. The consumer thread retrieves this smart pointer, processes
-* the data, and upon the smart pointer's destruction, the buffer is automatically
-* returned to the pool for reuse. This completely eliminates dynamic memory
-* allocation and data copying in the critical receive path.
-*
-* v3.3.0 Configurable CONNRESET:
-* - Added configurable option for SIO_UDP_CONNRESET (Windows only)
-* - Moved SIO_UDP_CONNRESET setting to Common::Utils for reusability
-*
-* v3.2.0 CPU Optimization:
-* - Replaced busy-loop polling with select() based waiting
-* - Significantly reduced CPU usage from 90%+ to 5-15%
-* - Batch reading when data is available to maximize throughput
-*
-* Features:
-* - Memory Pool Architecture: Eliminates runtime memory allocation for received data.
-* - Zero-Copy (in user-space): Data is received directly into its final buffer.
-* - Thread-safe asynchronous communication with a dedicated receive thread.
-* - High-performance lock-free queue for passing buffer pointers.
-* - Designed for high-throughput (100+ Mbps) and low-latency scenarios.
-* - Broadcast and multicast support.
-* - Cross-platform support (Windows/Linux/Unix).
-* - Low CPU usage with select() based event waiting.
-*
-*   Usage Example (High-Performance Mode):
-*   Common::UDPClient::ConnectConfig config;
-*   config.server_ip = "192.168.1.100";
-*   config.server_port = 8080;
-*   config.store_raw_data = true; // Explicitly set for max performance
-*   config.recv_buffer_size = 8 * 1024 * 1024;
-*   config.memory_pool_size = 4096;
-*   config.disable_connection_reset_report = true; // Enable for high-speed streams
-*   client.start(config);
-*
-*   Common::UDPClient::DataBufferPtr buffer;
-*   if (client.receive(buffer)) {
-*       // Process data using buffer->data and buffer->data_len
-*       // In this mode, buffer->from_ip and buffer->from_port will be empty/zero.
-*   }
 */
 
 #ifndef COMMON_UDP_CLIENT_H
@@ -83,37 +42,32 @@
 
 #include "common_global.h"
 
-#ifdef _WIN32
-// Windows 上 socklen_t 不存在，使用 int 替代
-using socklen_t = int;
-#endif
-
 struct sockaddr_in;
 
 namespace Common {
 
 class COMMON_API_EXPORT UDPClient {
 public:
-    static constexpr int INVALID_SOCKET_FD = -1;
-    static constexpr int RECEIVE_BUFFER_SIZE = 1536; // MTU is typically 1500.
-    static constexpr size_t DEFAULT_QUEUE_SIZE = 2000;
-    static constexpr int DEFAULT_READ_TIMEOUT_MS = 100; // Increased for select() timeout
+#ifdef _WIN32
+    using socklen_t = int;
+#else
+    using socklen_t = unsigned int;
+#endif
 
-    // Refined DataBuffer to use platform-independent types.
-    // This struct is pre-allocated in a memory pool. It no longer exposes
-    // platform-specific types like sockaddr_in.
+    static constexpr int INVALID_SOCKET_FD = -1;
+    static constexpr int RECEIVE_BUFFER_SIZE = 1536;
+    static constexpr size_t DEFAULT_QUEUE_SIZE = 2000;
+    static constexpr int DEFAULT_READ_TIMEOUT_MS = 100;
+
     struct DataBuffer {
-        char data[RECEIVE_BUFFER_SIZE]; // Pre-allocated buffer for one UDP datagram.
-        int data_len = 0;               // Actual length of the received data.
-        std::string from_ip;            // Sender's IP address string.
-        int from_port = 0;              // Sender's port.
+        char data[RECEIVE_BUFFER_SIZE];
+        int data_len = 0;
+        std::string from_ip;
+        int from_port = 0;
     };
 
-    // Smart pointer for managing DataBuffer lifetime.
-    // Uses a custom deleter to return the buffer to the memory pool automatically.
     using DataBufferPtr = std::unique_ptr<DataBuffer, std::function<void(DataBuffer*)>>;
 
-    // Client configuration
     struct ConnectConfig {
         std::string local_ip;
         int local_port{0};
@@ -123,12 +77,8 @@ public:
         bool enable_broadcast{false};
         bool enable_reuse_addr{true};
 
-        // This flag now controls whether sender address info is processed.
-        // true (default, recommended for performance): Only raw data is stored.
-        //     from_ip and from_port in DataBuffer will be empty/zero.
-        //     This avoids costly address-to-string conversions in the receive thread.
-        // false: from_ip and from_port will be populated. Use only when sender
-        //     information is strictly required, as it impacts performance.
+        // true (default): Only raw data is stored. from_ip/from_port will be empty/zero.
+        // false: from_ip and from_port will be populated (slower due to address conversion).
         bool store_raw_data{false};
 
         size_t max_queue_size{DEFAULT_QUEUE_SIZE};
@@ -136,24 +86,27 @@ public:
         int send_buffer_size{0};
         int recv_buffer_size{8 * 1024 * 1024}; // 8M
 
-        // Size of the memory pool.
         size_t memory_pool_size{64};
 
-        // =====================================================================
-        // Windows-specific: Disable UDP connection reset reporting (SIO_UDP_CONNRESET)
-        // =====================================================================
-        // When true: Disables the Windows behavior where receiving an ICMP
-        //     "port unreachable" message causes subsequent recvfrom() calls
-        //     to return WSAECONNRESET (10054) error. This is recommended for
-        //     high-throughput UDP applications (e.g., video streaming) where
-        //     sending a command packet might trigger ICMP errors that would
-        //     otherwise interrupt the data reception flow.
-        //
-        // When false (default): Keeps the default Windows behavior.
-        //
-        // Note: This option has no effect on non-Windows platforms.
-        // =====================================================================
+        // Windows-specific: Disable UDP CONNRESET reporting (SIO_UDP_CONNRESET)
         bool disable_connection_reset_report{false};
+
+        // =====================================================================
+        // Kernel-level source address filtering via connect()
+        // =====================================================================
+        // When true AND server_ip/server_port are set:
+        //   Calls connect() on the UDP socket after bind(). This tells the
+        //   kernel to ONLY deliver packets from the specified remote address
+        //   to this socket. Essential when multiple sockets bind to the same
+        //   local port (SO_REUSEADDR) but communicate with different devices.
+        //
+        // When false (default): Standard behavior, receives from any source.
+        //
+        // IMPORTANT: When enabled, sendTo() to a DIFFERENT address will fail.
+        //   Only send() to the configured default server will work.
+        //   broadcast() is also unavailable on a connected socket.
+        // =====================================================================
+        bool filter_by_remote{false};
     };
 
     using ErrorCallback = std::function<void(int errorCode, const std::string& errorMsg)>;
@@ -170,24 +123,33 @@ public:
     void stop();
     bool isRunning() const;
 
-    // --- Send Operations ---
-    bool send(const std::vector<char>& data);
-    bool send(const std::string& data);
-    bool send(const char* data, size_t length);
-    bool sendTo(const std::vector<char>& data, const std::string& targetIp, int targetPort);
-    bool sendTo(const std::string& data, const std::string& targetIp, int targetPort);
-    bool sendTo(const char* data, size_t length, const std::string& targetIp, int targetPort);
-    bool broadcast(const std::vector<char>& data, int targetPort, const std::string& broadcastIp = "255.255.255.255");
-    bool broadcast(const std::string& data, int targetPort, const std::string& broadcastIp = "255.255.255.255");
-    bool broadcast(const char* data, size_t length, int targetPort, const std::string& broadcastIp = "255.255.255.255");
+    // =========================================================================
+    // Send Operations (simplified: only const char* + size_t versions)
+    // =========================================================================
 
-    // --- High-Performance Receive Operations ---
+    /// @brief Send data to the default server configured in ConnectConfig
+    bool send(const char* data, size_t length);
+
+    /// @brief Send data to a specific target address
+    bool sendTo(const char* data, size_t length, const std::string& targetIp, int targetPort);
+
+    /// @brief Broadcast data (requires enable_broadcast=true, incompatible with filter_by_remote)
+    bool broadcast(const char* data, size_t length, int targetPort,
+                   const std::string& broadcastIp = "255.255.255.255");
+
+    // =========================================================================
+    // High-Performance Receive Operations
+    // =========================================================================
+
     bool receive(DataBufferPtr& buffer);
     size_t receiveBulk(std::vector<DataBufferPtr>& buffers, size_t maxCount = 100);
     void clearReceiveQueue();
     size_t getReceiveQueueSize() const;
 
-    // --- Getters ---
+    // =========================================================================
+    // Getters
+    // =========================================================================
+
     const ConnectConfig& getConfig() const;
     std::string getLocalIp() const;
     int getLocalPort() const;
@@ -199,12 +161,11 @@ private:
     int createSocket();
     bool setSocketOptions(int fd);
     bool bindSocket(int fd);
+    bool connectSocket(int fd);
     void closeSocket();
     bool closeTempSocket(int fd);
 
     void receiveThreadFunc();
-
-    // Helper to read all available data after select() returns
     void drainSocket(int fd, sockaddr_in& fromAddr, socklen_t& fromAddrLen);
 
     void initMemoryPool();
@@ -219,6 +180,7 @@ private:
     ConnectConfig config_;
     std::atomic_int socket_fd_{INVALID_SOCKET_FD};
     std::atomic_bool is_running_{false};
+    std::atomic_bool is_connected_{false};
     std::thread receive_thread_;
     ErrorCallback error_callback_{nullptr};
     std::atomic<int> local_port_{0};

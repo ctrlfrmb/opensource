@@ -20,6 +20,7 @@
 
 #include <vector>
 #include <functional>
+#include <cstdint>
 
 namespace Common {
 

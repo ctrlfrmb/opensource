@@ -1,3 +1,7 @@
+# format.pri - 开源Format库配置文件
+# Author: leiwei E-mail: ctrlfrmb@gmail.com
+# Copyright (c) 2021. All rights reserved.
+
 # 判断如果是 Windows 且使用 MSVC 编译器
 win32-msvc* {
     # 强制添加 /std:c++17 标志

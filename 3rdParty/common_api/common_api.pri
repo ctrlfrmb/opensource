@@ -75,11 +75,11 @@ win32 {
 }
 
 !exists($$LIB_FILE) {
-    error("Library file not found: $$LIB_FILE")
+    message("WARNING: Library file not found: $$LIB_FILE")
 }
 
 win32:!exists($$DLL_FILE) {
-    error("DLL file not found: $$DLL_FILE")
+    message("WARNING: DLL file not found: $$DLL_FILE")
 }
 
 # 添加库路径并链接库

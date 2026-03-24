@@ -38,6 +38,7 @@
 
 #include <functional>
 #include <shared_mutex>
+#include <memory>
 
 #include "common_types.h"
 #include "common_global.h"

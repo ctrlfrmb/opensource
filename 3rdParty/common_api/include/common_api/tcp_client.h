@@ -80,6 +80,7 @@
 #include <vector>
 #include <memory>
 #include <mutex>
+#include <condition_variable>
 #include <concurrentqueue.h>
 
 #include "common_global.h"
@@ -96,6 +97,7 @@ public:
     // Connection configuration
     struct ConnectConfig {
         std::string local_ip;                              // Local binding IP (optional)
+        int local_port{0};                                 // Local binding port (optional, 0 for any)
         std::string server_ip;                             // Server IP
         int server_port{0};                                // Server port
         int connect_timeout{2000};                         // Connection timeout (milliseconds)
