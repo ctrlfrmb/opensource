@@ -1,0 +1,155 @@
+{
+  "language": "en",
+  "note": "ITIDs 0x16-0x29: Vehicle Tracking Data. All sub_fields are 4-byte (32-bit) unsigned. Recent data resets with Service $04 or when PSA reaches 50 hours. Lifetime data only resets on KAM loss/reprogram.",
+  "note_zh": "ITIDs 0x16-0x29：车辆追踪数据。所有子字段为4字节（32位）无符号。近期数据在服务$04或PSA达到50小时时重置。终身数据仅在KAM丢失/重新编程时重置。",
+  "info_types": [
+    {
+      "id": 22, "iso_id": 63510,
+      "name": "Vehicle Operation Data - Engine Run/Idle Time", "name_zh": "车辆运行数据 - 发动机运行/怠速时间",
+      "description": "32 bytes: 8 fields × 4 bytes each. Ignition counters (counts), engine run time and idle time (seconds).",
+      "description_zh": "32字节：8个字段×每个4字节。点火计数器（次数），发动机运行时间和怠速时间（秒）。",
+      "format": "structured", "data_bytes": 32,
+      "_sub_fields": [
+        { "index": 0, "label": "IGNCNTR-R", "name": "Ignition Counter (Recent)", "name_zh": "点火计数器（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 1, "label": "IGNCNTR-L", "name": "Ignition Counter (Lifetime)", "name_zh": "点火计数器（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 2, "label": "FEOCNTR-R", "name": "Fueled Engine Operation Ignition Cycle Counter (Recent)", "name_zh": "燃油发动机运行点火循环计数器（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 3, "label": "FEOCNTR-L", "name": "Fueled Engine Operation Ignition Cycle Counter (Lifetime)", "name_zh": "燃油发动机运行点火循环计数器（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 4, "label": "ERT-R", "name": "Total Engine Run Time (Recent)", "name_zh": "发动机总运行时间（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 5, "label": "ERT-L", "name": "Total Engine Run Time (Lifetime)", "name_zh": "发动机总运行时间（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 6, "label": "IERT-R", "name": "Total Idle Engine Run Time (Recent)", "name_zh": "发动机怠速总运行时间（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 7, "label": "IERT-L", "name": "Total Idle Engine Run Time (Lifetime)", "name_zh": "发动机怠速总运行时间（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" }
+      ]
+    },
+    {
+      "id": 23, "iso_id": 63511,
+      "name": "Vehicle Operation Data - Distance/Fuel Used", "name_zh": "车辆运行数据 - 距离/燃油消耗",
+      "description": "16 bytes: 4 fields × 4 bytes. Distance (0.1 km/bit), Fuel (0.01 L/bit).",
+      "description_zh": "16字节：4个字段×4字节。距离（0.1 km/位），燃油（0.01 L/位）。",
+      "format": "structured", "data_bytes": 16,
+      "_sub_fields": [
+        { "index": 0, "label": "DT-R", "name": "Total Distance Traveled (Recent)", "name_zh": "总行驶距离（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "km" },
+        { "index": 1, "label": "DT-L", "name": "Total Distance Traveled (Lifetime)", "name_zh": "总行驶距离（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "km" },
+        { "index": 2, "label": "FC-R", "name": "Total Fuel Consumed (Recent)", "name_zh": "总燃油消耗（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.01", "data_bytes": 4, "unit": "L" },
+        { "index": 3, "label": "FC-L", "name": "Total Fuel Consumed (Lifetime)", "name_zh": "总燃油消耗（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.01", "data_bytes": 4, "unit": "L" }
+      ]
+    },
+    {
+      "id": 24, "iso_id": 63512,
+      "name": "Vehicle Operation Data - PKE/EOE", "name_zh": "车辆运行数据 - PKE/EOE",
+      "description": "16 bytes (not 12): 4 fields × 4 bytes. PKE (1 km/hr²/bit), EOE (0.1 kWh/bit).",
+      "description_zh": "16字节（非12）：4个字段×4字节。PKE（1 km/hr²/位），EOE（0.1 kWh/位）。",
+      "format": "structured", "data_bytes": 16,
+      "_sub_fields": [
+        { "index": 0, "label": "PKE-R", "name": "Positive Kinetic Energy (Recent)", "name_zh": "正动能（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "km/hr²", "note": "Fixed: removed erroneous *2 from original JSON" },
+        { "index": 1, "label": "PKE-L", "name": "Positive Kinetic Energy (Lifetime)", "name_zh": "正动能（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "km/hr²" },
+        { "index": 2, "label": "EOE-R", "name": "Engine Output Energy (Recent)", "name_zh": "发动机输出能量（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "kWh" },
+        { "index": 3, "label": "EOE-L", "name": "Engine Output Energy (Lifetime)", "name_zh": "发动机输出能量（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "kWh" }
+      ]
+    },
+    {
+      "id": 25, "iso_id": 63513,
+      "name": "Vehicle Operation Data - PSA", "name_zh": "车辆运行数据 - 推进系统活动",
+      "description": "24 bytes: 6 fields × 4 bytes. All 1 s/bit.",
+      "description_zh": "24字节：6个字段×4字节。均为1秒/位。",
+      "format": "structured", "data_bytes": 24,
+      "_sub_fields": [
+        { "index": 0, "label": "PSA-R", "name": "Total Propulsion System Active Time (Recent)", "name_zh": "推进系统活动总时间（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 1, "label": "PSA-L", "name": "Total Propulsion System Active Time (Lifetime)", "name_zh": "推进系统活动总时间（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 2, "label": "IPSA-R", "name": "Total Idle Propulsion System Active Time (Recent)", "name_zh": "怠速推进系统活动总时间（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 3, "label": "IPSA-L", "name": "Total Idle Propulsion System Active Time (Lifetime)", "name_zh": "怠速推进系统活动总时间（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 4, "label": "CPSA-R", "name": "Total City Propulsion System Active Time (Recent)", "name_zh": "城市推进系统活动总时间（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 5, "label": "CPSA-L", "name": "Total City Propulsion System Active Time (Lifetime)", "name_zh": "城市推进系统活动总时间（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" }
+      ]
+    },
+    {
+      "id": 26, "iso_id": 63514,
+      "name": "Plug-in Hybrid Vehicle Distance Data", "name_zh": "插电式混动车辆距离数据",
+      "description": "24 bytes: 6 fields × 4 bytes. All 0.1 km/bit.",
+      "description_zh": "24字节：6个字段×4字节。均为0.1 km/位。",
+      "format": "structured", "data_bytes": 24,
+      "_sub_fields": [
+        { "index": 0, "label": "CDEODT-R", "name": "Charge Depleting Engine Off Distance (Recent)", "name_zh": "充电消耗发动机关闭距离（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "km" },
+        { "index": 1, "label": "CDEODT-L", "name": "Charge Depleting Engine Off Distance (Lifetime)", "name_zh": "充电消耗发动机关闭距离（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "km" },
+        { "index": 2, "label": "CDERDT-R", "name": "Charge Depleting Engine Running Distance (Recent)", "name_zh": "充电消耗发动机运行距离（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "km" },
+        { "index": 3, "label": "CDERDT-L", "name": "Charge Depleting Engine Running Distance (Lifetime)", "name_zh": "充电消耗发动机运行距离（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "km" },
+        { "index": 4, "label": "CIDT-R", "name": "Driver-Selectable Charge Increasing Distance (Recent)", "name_zh": "驾驶员可选充电增加距离（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "km" },
+        { "index": 5, "label": "CIDT-L", "name": "Driver-Selectable Charge Increasing Distance (Lifetime)", "name_zh": "驾驶员可选充电增加距离（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "km" }
+      ]
+    },
+    {
+      "id": 27, "iso_id": 63515,
+      "name": "Plug-in Hybrid Vehicle Fuel Data", "name_zh": "插电式混动车辆燃油数据",
+      "description": "16 bytes: 4 fields × 4 bytes. All 0.01 L/bit.",
+      "description_zh": "16字节：4个字段×4字节。均为0.01 L/位。",
+      "format": "structured", "data_bytes": 16,
+      "_sub_fields": [
+        { "index": 0, "label": "CDFC-R", "name": "Fuel Consumed in Charge Depleting (Recent)", "name_zh": "充电消耗中燃油消耗（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.01", "data_bytes": 4, "unit": "L" },
+        { "index": 1, "label": "CDFC-L", "name": "Fuel Consumed in Charge Depleting (Lifetime)", "name_zh": "充电消耗中燃油消耗（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.01", "data_bytes": 4, "unit": "L" },
+        { "index": 2, "label": "CIFC-R", "name": "Fuel Consumed in Charge Increasing (Recent)", "name_zh": "充电增加中燃油消耗（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.01", "data_bytes": 4, "unit": "L" },
+        { "index": 3, "label": "CIFC-L", "name": "Fuel Consumed in Charge Increasing (Lifetime)", "name_zh": "充电增加中燃油消耗（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.01", "data_bytes": 4, "unit": "L" }
+      ]
+    },
+    {
+      "id": 28, "iso_id": 63516,
+      "name": "Plug-in Hybrid Vehicle Grid Data", "name_zh": "插电式混动车辆电网数据",
+      "description": "24 bytes: 6 fields × 4 bytes. All 0.1 kWh/bit.",
+      "description_zh": "24字节：6个字段×4字节。均为0.1 kWh/位。",
+      "format": "structured", "data_bytes": 24,
+      "_sub_fields": [
+        { "index": 0, "label": "CDEOGE-R", "name": "Grid Energy in CD Engine Off (Recent)", "name_zh": "CD发动机关闭电网能量（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "kWh" },
+        { "index": 1, "label": "CDEOGE-L", "name": "Grid Energy in CD Engine Off (Lifetime)", "name_zh": "CD发动机关闭电网能量（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "kWh" },
+        { "index": 2, "label": "CDERGE-R", "name": "Grid Energy in CD Engine Running (Recent)", "name_zh": "CD发动机运行电网能量（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "kWh" },
+        { "index": 3, "label": "CDERGE-L", "name": "Grid Energy in CD Engine Running (Lifetime)", "name_zh": "CD发动机运行电网能量（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "kWh" },
+        { "index": 4, "label": "GE-R", "name": "Total Grid Energy into Battery (Recent)", "name_zh": "电网能量充入电池总量（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "kWh" },
+        { "index": 5, "label": "GE-L", "name": "Total Grid Energy into Battery (Lifetime)", "name_zh": "电网能量充入电池总量（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)*0.1", "data_bytes": 4, "unit": "kWh" }
+      ]
+    },
+    {
+      "id": 29, "iso_id": 63517,
+      "name": "Active Aerodynamic Features #1 Off-cycle Credit", "name_zh": "主动空气动力学特性#1非循环积分",
+      "description": "32 bytes: 8 fields × 4 bytes. Active Grille Shutters A/B, Timer 1/2, Recent/Lifetime. 1 s/bit.",
+      "description_zh": "32字节：8个字段×4字节。主动格栅百叶窗A/B，计时器1/2，近期/终身。1秒/位。",
+      "format": "structured", "data_bytes": 32,
+      "_sub_fields": [
+        { "index": 0, "label": "AGSA_TIME1-R", "name": "Active Grille Shutter A Timer 1 (Recent)", "name_zh": "主动格栅A计时器1（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 1, "label": "AGSA_TIME2-R", "name": "Active Grille Shutter A Timer 2 (Recent)", "name_zh": "主动格栅A计时器2（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 2, "label": "AGSA_TIME1-L", "name": "Active Grille Shutter A Timer 1 (Lifetime)", "name_zh": "主动格栅A计时器1（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 3, "label": "AGSA_TIME2-L", "name": "Active Grille Shutter A Timer 2 (Lifetime)", "name_zh": "主动格栅A计时器2（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 4, "label": "AGSB_TIME1-R", "name": "Active Grille Shutter B Timer 1 (Recent)", "name_zh": "主动格栅B计时器1（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 5, "label": "AGSB_TIME2-R", "name": "Active Grille Shutter B Timer 2 (Recent)", "name_zh": "主动格栅B计时器2（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 6, "label": "AGSB_TIME1-L", "name": "Active Grille Shutter B Timer 1 (Lifetime)", "name_zh": "主动格栅B计时器1（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 7, "label": "AGSB_TIME2-L", "name": "Active Grille Shutter B Timer 2 (Lifetime)", "name_zh": "主动格栅B计时器2（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" }
+      ]
+    },
+    {
+      "id": 30, "iso_id": 63518,
+      "name": "Active Aerodynamic Features #2 Off-cycle Credit", "name_zh": "主动空气动力学特性#2非循环积分",
+      "description": "16 bytes: 4 fields × 4 bytes. Vehicle Ride Height Control. 1 s/bit.",
+      "description_zh": "16字节：4个字段×4字节。车辆行驶高度控制。1秒/位。",
+      "format": "structured", "data_bytes": 16,
+      "_sub_fields": [
+        { "index": 0, "label": "VRHC_TIME1-R", "name": "Vehicle Ride Height Control Timer 1 (Recent)", "name_zh": "车辆高度控制计时器1（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 1, "label": "VRHC_TIME2-R", "name": "Vehicle Ride Height Control Timer 2 (Recent)", "name_zh": "车辆高度控制计时器2（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 2, "label": "VRHC_TIME1-L", "name": "Vehicle Ride Height Control Timer 1 (Lifetime)", "name_zh": "车辆高度控制计时器1（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 3, "label": "VRHC_TIME2-L", "name": "Vehicle Ride Height Control Timer 2 (Lifetime)", "name_zh": "车辆高度控制计时器2（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" }
+      ]
+    },
+    {
+      "id": 31, "iso_id": 63519,
+      "name": "Active Aerodynamic Features #3 Off-cycle Credit", "name_zh": "主动空气动力学特性#3非循环积分",
+      "description": "32 bytes: 8 fields × 4 bytes. Features #1/#2, Timer 1/2, Recent/Lifetime. 1 s/bit.",
+      "description_zh": "32字节：8个字段×4字节。特性#1/#2，计时器1/2，近期/终身。1秒/位。",
+      "format": "structured", "data_bytes": 32,
+      "_sub_fields": [
+        { "index": 0, "label": "AAF1_TIME1-R", "name": "Aerodynamic Feature #1 Timer 1 (Recent)", "name_zh": "空气动力学特性#1计时器1（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 1, "label": "AAF1_TIME2-R", "name": "Aerodynamic Feature #1 Timer 2 (Recent)", "name_zh": "空气动力学特性#1计时器2（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 2, "label": "AAF1_TIME1-L", "name": "Aerodynamic Feature #1 Timer 1 (Lifetime)", "name_zh": "空气动力学特性#1计时器1（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 3, "label": "AAF1_TIME2-L", "name": "Aerodynamic Feature #1 Timer 2 (Lifetime)", "name_zh": "空气动力学特性#1计时器2（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 4, "label": "AAF2_TIME1-R", "name": "Aerodynamic Feature #2 Timer 1 (Recent)", "name_zh": "空气动力学特性#2计时器1（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 5, "label": "AAF2_TIME2-R", "name": "Aerodynamic Feature #2 Timer 2 (Recent)", "name_zh": "空气动力学特性#2计时器2（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 6, "label": "AAF2_TIME1-L", "name": "Aerodynamic Feature #2 Timer 1 (Lifetime)", "name_zh": "空气动力学特性#2计时器1（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 7, "label": "AAF2_TIME2-L", "name": "Aerodynamic Feature #2 Timer 2 (Lifetime)", "name_zh": "空气动力学特性#2计时器2（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" }
+      ]
+    }
+  ]
+}

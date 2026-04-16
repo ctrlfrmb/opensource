@@ -1,0 +1,1006 @@
+{
+  "language": "en",
+  "pids": [
+    {
+      "pid": 32,
+      "iso_pid": 62496,
+      "name": "Supported PIDs [$21-$40]",
+      "name_zh": "支持的PID [$21-$40]",
+      "type": "supported",
+      "data_bytes": 4
+    },
+    {
+      "pid": 33,
+      "iso_pid": 62497,
+      "name": "Distance Traveled While MIL is Activated",
+      "name_zh": "MIL激活期间行驶距离",
+      "description": "Reset to $0000 when MIL changes from deactivated to activated. Accumulate km while MIL ON. Do not change while MIL OFF. Reset if cleared by Service $04 or 40 warm-ups without MIL. Does not wrap at $FFFF. Freeze if no vehicle speed source available.",
+      "description_zh": "MIL从未激活变为激活时重置为$0000。MIL点亮期间按公里累计。MIL熄灭时不变。通过Service $04清除或40次暖机无MIL后重置。达到$FFFF不回绕。无车速来源时冻结数值。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "MIL_DIST",
+          "name": "Distance Traveled While MIL is Activated",
+          "name_zh": "MIL激活期间行驶距离",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B)",
+          "unit": "km",
+          "min": 0.0,
+          "max": 65535.0,
+          "display": "MIL_DIST: xxxxx km (xxxxx miles)",
+          "unit_alt": "miles",
+          "alt_factor": 0.6214,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [],
+      "numeric_fields": [],
+      "reset_on_clear": true
+    },
+    {
+      "pid": 34,
+      "iso_pid": 62498,
+      "name": "Fuel Pressure (relative to manifold vacuum)",
+      "name_zh": "燃油压力（相对于歧管真空）",
+      "description": "FP shall display fuel pressure when the reading is referenced to manifold vacuum (relative pressure).",
+      "description_zh": "FP显示以歧管真空为基准的燃油压力（相对压力）。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "FP_REL",
+          "name": "Fuel Pressure (relative to manifold vacuum)",
+          "name_zh": "燃油压力（相对于歧管真空）",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 0.079",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 5177.265,
+          "display": "FP: xxxx.xxx kPa (xxx.x PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 35,
+      "iso_pid": 62499,
+      "name": "Fuel Rail Pressure (gauge)",
+      "name_zh": "燃油轨压力（表压）",
+      "description": "FRP shall display fuel rail pressure at the engine referenced to atmosphere (gauge pressure). Intended for diesel fuel pressure and gasoline direct injection systems with higher pressure range than PIDs $0A and $22.",
+      "description_zh": "FRP显示以大气压力为基准的发动机燃油轨压力（表压）。适用于柴油燃油压力和比PID $0A和$22压力范围更高的汽油直喷系统。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "FRP",
+          "name": "Fuel Rail Pressure (gauge)",
+          "name_zh": "燃油轨压力（表压）",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 10",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655350.0,
+          "display": "FRP: xxxxxx kPa (xxxxx.x PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 36,
+      "iso_pid": 62500,
+      "name": "Wide Range O2 Sensor - Lambda and Voltage - B1S1 ($13) / B1S1 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电压 - 组1传感器1($13) / 组1传感器1($1D)",
+      "description": "PIDs $24-$2B: Linear or wide-ratio O2 sensors displaying equivalence ratio and voltage. If PID $4F is not supported or includes $00, use default scaling. Otherwise calculate per PID $4F definition.",
+      "description_zh": "PID $24-$2B：显示当量比和电压的线性或宽域氧传感器。如PID $4F不支持或包含$00，使用默认缩放。否则按PID $4F定义计算。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA11",
+          "name": "Equivalence Ratio (Lambda) - B1S1 ($13) / B1S1 ($1D)",
+          "name_zh": "当量比(Lambda) - 组1传感器1($13) / 组1传感器1($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDA11: x.xxx"
+        },
+        {
+          "label": "O2S11_V",
+          "name": "Wide Range O2S Voltage - B1S1 ($13) / B1S1 ($1D)",
+          "name_zh": "宽域氧传感器电压 - 组1传感器1($13) / 组1传感器1($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 8 / 65536",
+          "unit": "V",
+          "min": 0.0,
+          "max": 7.999,
+          "display": "O2S11: x.xxx V"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 37,
+      "iso_pid": 62501,
+      "name": "Wide Range O2 Sensor - Lambda and Voltage - B1S2 ($13) / B1S2 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电压 - 组1传感器2($13) / 组1传感器2($1D)",
+      "description": "Equivalence ratio and voltage for O2S12 ($13) / O2S12 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S12($13) / O2S12($1D)的当量比和电压。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA12",
+          "name": "Equivalence Ratio (Lambda) - B1S2 ($13) / B1S2 ($1D)",
+          "name_zh": "当量比(Lambda) - 组1传感器2($13) / 组1传感器2($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDA12: x.xxx"
+        },
+        {
+          "label": "O2S12_V",
+          "name": "Wide Range O2S Voltage - B1S2 ($13) / B1S2 ($1D)",
+          "name_zh": "宽域氧传感器电压 - 组1传感器2($13) / 组1传感器2($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 8 / 65536",
+          "unit": "V",
+          "min": 0.0,
+          "max": 7.999,
+          "display": "O2S12: x.xxx V"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 38,
+      "iso_pid": 62502,
+      "name": "Wide Range O2 Sensor - Lambda and Voltage - B1S3 ($13) / B2S1 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电压 - 组1传感器3($13) / 组2传感器1($1D)",
+      "description": "Equivalence ratio and voltage for O2S13 ($13) / O2S21 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S13($13) / O2S21($1D)的当量比和电压。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA13_21",
+          "name": "Equivalence Ratio (Lambda) - B1S3 ($13) / B2S1 ($1D)",
+          "name_zh": "当量比(Lambda) - 组1传感器3($13) / 组2传感器1($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDAxy: x.xxx"
+        },
+        {
+          "label": "O2S13_21_V",
+          "name": "Wide Range O2S Voltage - B1S3 ($13) / B2S1 ($1D)",
+          "name_zh": "宽域氧传感器电压 - 组1传感器3($13) / 组2传感器1($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 8 / 65536",
+          "unit": "V",
+          "min": 0.0,
+          "max": 7.999,
+          "display": "O2Sxy: x.xxx V"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 39,
+      "iso_pid": 62503,
+      "name": "Wide Range O2 Sensor - Lambda and Voltage - B1S4 ($13) / B2S2 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电压 - 组1传感器4($13) / 组2传感器2($1D)",
+      "description": "Equivalence ratio and voltage for O2S14 ($13) / O2S22 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S14($13) / O2S22($1D)的当量比和电压。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA14_22",
+          "name": "Equivalence Ratio (Lambda) - B1S4 ($13) / B2S2 ($1D)",
+          "name_zh": "当量比(Lambda) - 组1传感器4($13) / 组2传感器2($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDAxy: x.xxx"
+        },
+        {
+          "label": "O2S14_22_V",
+          "name": "Wide Range O2S Voltage - B1S4 ($13) / B2S2 ($1D)",
+          "name_zh": "宽域氧传感器电压 - 组1传感器4($13) / 组2传感器2($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 8 / 65536",
+          "unit": "V",
+          "min": 0.0,
+          "max": 7.999,
+          "display": "O2Sxy: x.xxx V"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 40,
+      "iso_pid": 62504,
+      "name": "Wide Range O2 Sensor - Lambda and Voltage - B2S1 ($13) / B3S1 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电压 - 组2传感器1($13) / 组3传感器1($1D)",
+      "description": "Equivalence ratio and voltage for O2S21 ($13) / O2S31 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S21($13) / O2S31($1D)的当量比和电压。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA21_31",
+          "name": "Equivalence Ratio (Lambda) - B2S1 ($13) / B3S1 ($1D)",
+          "name_zh": "当量比(Lambda) - 组2传感器1($13) / 组3传感器1($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDAxy: x.xxx"
+        },
+        {
+          "label": "O2S21_31_V",
+          "name": "Wide Range O2S Voltage - B2S1 ($13) / B3S1 ($1D)",
+          "name_zh": "宽域氧传感器电压 - 组2传感器1($13) / 组3传感器1($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 8 / 65536",
+          "unit": "V",
+          "min": 0.0,
+          "max": 7.999,
+          "display": "O2Sxy: x.xxx V"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 41,
+      "iso_pid": 62505,
+      "name": "Wide Range O2 Sensor - Lambda and Voltage - B2S2 ($13) / B3S2 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电压 - 组2传感器2($13) / 组3传感器2($1D)",
+      "description": "Equivalence ratio and voltage for O2S22 ($13) / O2S32 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S22($13) / O2S32($1D)的当量比和电压。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA22_32",
+          "name": "Equivalence Ratio (Lambda) - B2S2 ($13) / B3S2 ($1D)",
+          "name_zh": "当量比(Lambda) - 组2传感器2($13) / 组3传感器2($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDAxy: x.xxx"
+        },
+        {
+          "label": "O2S22_32_V",
+          "name": "Wide Range O2S Voltage - B2S2 ($13) / B3S2 ($1D)",
+          "name_zh": "宽域氧传感器电压 - 组2传感器2($13) / 组3传感器2($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 8 / 65536",
+          "unit": "V",
+          "min": 0.0,
+          "max": 7.999,
+          "display": "O2Sxy: x.xxx V"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 42,
+      "iso_pid": 62506,
+      "name": "Wide Range O2 Sensor - Lambda and Voltage - B2S3 ($13) / B4S1 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电压 - 组2传感器3($13) / 组4传感器1($1D)",
+      "description": "Equivalence ratio and voltage for O2S23 ($13) / O2S41 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S23($13) / O2S41($1D)的当量比和电压。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA23_41",
+          "name": "Equivalence Ratio (Lambda) - B2S3 ($13) / B4S1 ($1D)",
+          "name_zh": "当量比(Lambda) - 组2传感器3($13) / 组4传感器1($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDAxy: x.xxx"
+        },
+        {
+          "label": "O2S23_41_V",
+          "name": "Wide Range O2S Voltage - B2S3 ($13) / B4S1 ($1D)",
+          "name_zh": "宽域氧传感器电压 - 组2传感器3($13) / 组4传感器1($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 8 / 65536",
+          "unit": "V",
+          "min": 0.0,
+          "max": 7.999,
+          "display": "O2Sxy: x.xxx V"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 43,
+      "iso_pid": 62507,
+      "name": "Wide Range O2 Sensor - Lambda and Voltage - B2S4 ($13) / B4S2 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电压 - 组2传感器4($13) / 组4传感器2($1D)",
+      "description": "Equivalence ratio and voltage for O2S24 ($13) / O2S42 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S24($13) / O2S42($1D)的当量比和电压。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA24_42",
+          "name": "Equivalence Ratio (Lambda) - B2S4 ($13) / B4S2 ($1D)",
+          "name_zh": "当量比(Lambda) - 组2传感器4($13) / 组4传感器2($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDAxy: x.xxx"
+        },
+        {
+          "label": "O2S24_42_V",
+          "name": "Wide Range O2S Voltage - B2S4 ($13) / B4S2 ($1D)",
+          "name_zh": "宽域氧传感器电压 - 组2传感器4($13) / 组4传感器2($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 8 / 65536",
+          "unit": "V",
+          "min": 0.0,
+          "max": 7.999,
+          "display": "O2Sxy: x.xxx V"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+	    {
+      "pid": 44,
+      "iso_pid": 62508,
+      "name": "Commanded EGR",
+      "name_zh": "指令EGR",
+      "description": "Commanded EGR displayed as a percent, normalized to max EGR commanded output. 0% = no flow (off/fully closed), 100% = max flow (on/fully open). Applies to on/off solenoid, duty-cycled vacuum solenoid, linear or stepper motor valve, or any other actuation method.",
+      "description_zh": "EGR指令值以百分比显示，归一化到最大EGR指令输出。0%=无流量（关闭/全关），100%=最大流量（开启/全开）。适用于开关电磁阀、占空比真空电磁阀、直线或步进电机阀或任何其他驱动方式。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "EGR_PCT",
+          "name": "Commanded EGR",
+          "name_zh": "指令EGR",
+          "bytes": "A",
+          "formula": "A * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "EGR_PCT: xxx.x%"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 45,
+      "iso_pid": 62509,
+      "name": "EGR Error",
+      "name_zh": "EGR误差",
+      "description": "EGR error as a percent of commanded EGR. Defined as: ((EGR_actual - EGR_commanded) / EGR_commanded) * 100%. Negative = less than commanded, positive = more than commanded. When commanded EGR = 0%, report 0% if actual = 0%, or 99.2% if actual > 0%. If closed loop control is not used, this PID shall not be supported.",
+      "description_zh": "EGR误差为指令EGR的百分比。定义为：((实际EGR - 指令EGR) / 指令EGR) × 100%。负值=低于指令值，正值=高于指令值。指令EGR为0%时，若实际为0%则报告0%，若实际>0%则报告99.2%。未使用闭环控制时不应支持此PID。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "EGR_ERR",
+          "name": "EGR Error",
+          "name_zh": "EGR误差",
+          "bytes": "A",
+          "formula": "A * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "EGR_ERR: xxx.x%"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 46,
+      "iso_pid": 62510,
+      "name": "Commanded Evaporative Purge",
+      "name_zh": "指令蒸发净化",
+      "description": "Commanded evaporative purge control valve displayed as a percent, normalized to max EVAP purge commanded output. 0% = no flow (off/fully closed), 100% = max flow (on/fully open).",
+      "description_zh": "蒸发净化控制阀指令值以百分比显示，归一化到最大蒸发净化指令输出。0%=无流量（关闭/全关），100%=最大流量（开启/全开）。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "EVAP_PCT",
+          "name": "Commanded Evaporative Purge",
+          "name_zh": "指令蒸发净化",
+          "bytes": "A",
+          "formula": "A * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "EVAP_PCT: xxx.x %"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 47,
+      "iso_pid": 62511,
+      "name": "Fuel Level Input",
+      "name_zh": "燃油液位输入",
+      "description": "FLI indicates nominal fuel tank liquid fill capacity as a percent of maximum. May be from sensor, vehicle serial data bus, or inferred. Gaseous fuel vehicles display percent of usable fuel capacity. Bi-fuel vehicles report from the tank of the fuel type currently in use.",
+      "description_zh": "FLI指示油箱液体装填量占最大容量的百分比。可来自传感器、车辆串行数据总线或推算。使用气体燃料的车辆显示可用燃料容量百分比。双燃料车辆报告当前使用的燃料类型所在油箱的值。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "FLI",
+          "name": "Fuel Level Input",
+          "name_zh": "燃油液位输入",
+          "bytes": "A",
+          "formula": "A * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "FLI: xxx.x %"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 48,
+      "iso_pid": 62512,
+      "name": "Number of Warm-ups Since DTCs Cleared",
+      "name_zh": "清除DTC后暖机次数",
+      "description": "Number of OBD warm-up cycles since all DTCs were cleared. A warm-up: coolant temp rises ≥22°C (40°F) from engine start and reaches ≥70°C (160°F) (≥60°C/140°F for diesel). Remains at 255 if exceeded; does not wrap. May be reported by single ECU or each MIL-activating ECU.",
+      "description_zh": "清除所有DTC后的OBD暖机循环次数。暖机定义：冷却液温度从发动机启动后上升≥22°C(40°F)并达到≥70°C(160°F)（柴油≥60°C/140°F）。超过255次后保持255不回绕。可由单个ECU或每个可激活MIL的ECU报告。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "WARM_UPS",
+          "name": "Number of warm-ups since DTCs cleared",
+          "name_zh": "清除DTC后暖机次数",
+          "bytes": "A",
+          "formula": "A",
+          "unit": "",
+          "min": 0.0,
+          "max": 255.0,
+          "display": "WARM_UPS: xxx"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": [],
+      "reset_on_clear": true
+    },
+    {
+      "pid": 49,
+      "iso_pid": 62513,
+      "name": "Distance Traveled Since DTCs Cleared",
+      "name_zh": "清除DTC后行驶距离",
+      "description": "Distance accumulated since DTCs were cleared. Not associated with any particular DTC; indicates last time DTCs were cleared by external test equipment. Remains at 65,535 km if exceeded; does not wrap. Freeze if no vehicle speed source available.",
+      "description_zh": "清除DTC后累计的行驶距离。不与特定DTC关联；指示上次通过外部测试设备清除DTC的时间。超过65,535公里后保持不回绕。无车速来源时冻结数值。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "CLR_DIST",
+          "name": "Distance traveled since DTCs cleared",
+          "name_zh": "清除DTC后行驶距离",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B)",
+          "unit": "km",
+          "min": 0.0,
+          "max": 65535.0,
+          "display": "CLR_DIST: xxxxx km (xxxxx miles)",
+          "unit_alt": "miles",
+          "alt_factor": 0.6214,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [],
+      "numeric_fields": [],
+      "reset_on_clear": true
+    },
+    {
+      "pid": 50,
+      "iso_pid": 62514,
+      "name": "Evap System Vapor Pressure",
+      "name_zh": "蒸发系统蒸气压力",
+      "description": "Evaporative system vapor pressure, normally from a fuel tank pressure (FTP) sensor or evap system vapor line sensor. For wider range, use PID $54 instead. Only one of PID $32, $54, or $A3 shall be supported.",
+      "description_zh": "蒸发系统蒸气压力，通常来自油箱压力(FTP)传感器或蒸发系统蒸气管路传感器。如需更宽范围，使用PID $54。PID $32、$54、$A3仅可支持其中一个。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "EVAP_VP",
+          "name": "Evap System Vapor Pressure",
+          "name_zh": "蒸发系统蒸气压力",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 0.25",
+          "unit": "Pa",
+          "min": -8192.0,
+          "max": 8191.75,
+          "display": "EVAP_VP: xxxx.xx Pa (xx.xxx inH₂O)",
+          "signed": true,
+          "unit_alt": "inH2O",
+          "alt_factor": 0.00401865,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 51,
+      "iso_pid": 62515,
+      "name": "Barometric Pressure",
+      "name_zh": "大气压力",
+      "description": "BARO normally obtained from a dedicated sensor, from MAP sensor at key-on, or inferred from MAF sensor and other inputs. Weather services may report BARO adjusted to sea level; displayed value may differ. After battery disconnect, inferred BARO stored in NVRAM may not be accurate.",
+      "description_zh": "大气压力通常来自专用传感器、钥匙开启时的MAP传感器、或由MAF传感器及其他输入推算。气象服务可能报告调整至海平面的气压值，显示值可能不同。断电后，存储在NVRAM中的推算气压值可能不准确。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "BARO",
+          "name": "Barometric Pressure",
+          "name_zh": "大气压力",
+          "bytes": "A",
+          "formula": "A",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 255.0,
+          "display": "BARO: xxx kPa (xx.x inHg)",
+          "unit_alt": "inHg",
+          "alt_factor": 0.2953,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+	{
+      "pid": 52,
+      "iso_pid": 62516,
+      "name": "Wide Range O2 Sensor - Lambda and Current - B1S1 ($13) / B1S1 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电流 - 组1传感器1($13) / 组1传感器1($1D)",
+      "description": "PIDs $34-$3B: Linear or wide-ratio O2 sensors displaying equivalence ratio and current. If PID $4F is not supported or includes $00, use default scaling. Otherwise calculate per PID $4F definition.",
+      "description_zh": "PID $34-$3B：显示当量比和电流的线性或宽域氧传感器。如PID $4F不支持或包含$00，使用默认缩放。否则按PID $4F定义计算。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA11",
+          "name": "Equivalence Ratio (Lambda) - B1S1 ($13) / B1S1 ($1D)",
+          "name_zh": "当量比(Lambda) - 组1传感器1($13) / 组1传感器1($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDA11: x.xxx"
+        },
+        {
+          "label": "O2S11_I",
+          "name": "Wide Range O2S Current - B1S1 ($13) / B1S1 ($1D)",
+          "name_zh": "宽域氧传感器电流 - 组1传感器1($13) / 组1传感器1($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 256 / 65536 - 128",
+          "unit": "mA",
+          "min": -128.0,
+          "max": 127.996,
+          "display": "O2S11: x.xxx mA",
+          "signed": true
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 53,
+      "iso_pid": 62517,
+      "name": "Wide Range O2 Sensor - Lambda and Current - B1S2 ($13) / B1S2 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电流 - 组1传感器2($13) / 组1传感器2($1D)",
+      "description": "Equivalence ratio and current for O2S12 ($13) / O2S12 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S12($13) / O2S12($1D)的当量比和电流。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA12",
+          "name": "Equivalence Ratio (Lambda) - B1S2 ($13) / B1S2 ($1D)",
+          "name_zh": "当量比(Lambda) - 组1传感器2($13) / 组1传感器2($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDA12: x.xxx"
+        },
+        {
+          "label": "O2S12_I",
+          "name": "Wide Range O2S Current - B1S2 ($13) / B1S2 ($1D)",
+          "name_zh": "宽域氧传感器电流 - 组1传感器2($13) / 组1传感器2($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 256 / 65536 - 128",
+          "unit": "mA",
+          "min": -128.0,
+          "max": 127.996,
+          "display": "O2S12: x.xxx mA",
+          "signed": true
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 54,
+      "iso_pid": 62518,
+      "name": "Wide Range O2 Sensor - Lambda and Current - B1S3 ($13) / B2S1 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电流 - 组1传感器3($13) / 组2传感器1($1D)",
+      "description": "Equivalence ratio and current for O2S13 ($13) / O2S21 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S13($13) / O2S21($1D)的当量比和电流。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA13_21",
+          "name": "Equivalence Ratio (Lambda) - B1S3 ($13) / B2S1 ($1D)",
+          "name_zh": "当量比(Lambda) - 组1传感器3($13) / 组2传感器1($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDAxy: x.xxx"
+        },
+        {
+          "label": "O2S13_21_I",
+          "name": "Wide Range O2S Current - B1S3 ($13) / B2S1 ($1D)",
+          "name_zh": "宽域氧传感器电流 - 组1传感器3($13) / 组2传感器1($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 256 / 65536 - 128",
+          "unit": "mA",
+          "min": -128.0,
+          "max": 127.996,
+          "display": "O2Sxy: x.xxx mA",
+          "signed": true
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 55,
+      "iso_pid": 62519,
+      "name": "Wide Range O2 Sensor - Lambda and Current - B1S4 ($13) / B2S2 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电流 - 组1传感器4($13) / 组2传感器2($1D)",
+      "description": "Equivalence ratio and current for O2S14 ($13) / O2S22 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S14($13) / O2S22($1D)的当量比和电流。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA14_22",
+          "name": "Equivalence Ratio (Lambda) - B1S4 ($13) / B2S2 ($1D)",
+          "name_zh": "当量比(Lambda) - 组1传感器4($13) / 组2传感器2($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDAxy: x.xxx"
+        },
+        {
+          "label": "O2S14_22_I",
+          "name": "Wide Range O2S Current - B1S4 ($13) / B2S2 ($1D)",
+          "name_zh": "宽域氧传感器电流 - 组1传感器4($13) / 组2传感器2($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 256 / 65536 - 128",
+          "unit": "mA",
+          "min": -128.0,
+          "max": 127.996,
+          "display": "O2Sxy: x.xxx mA",
+          "signed": true
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 56,
+      "iso_pid": 62520,
+      "name": "Wide Range O2 Sensor - Lambda and Current - B2S1 ($13) / B3S1 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电流 - 组2传感器1($13) / 组3传感器1($1D)",
+      "description": "Equivalence ratio and current for O2S21 ($13) / O2S31 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S21($13) / O2S31($1D)的当量比和电流。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA21_31",
+          "name": "Equivalence Ratio (Lambda) - B2S1 ($13) / B3S1 ($1D)",
+          "name_zh": "当量比(Lambda) - 组2传感器1($13) / 组3传感器1($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDAxy: x.xxx"
+        },
+        {
+          "label": "O2S21_31_I",
+          "name": "Wide Range O2S Current - B2S1 ($13) / B3S1 ($1D)",
+          "name_zh": "宽域氧传感器电流 - 组2传感器1($13) / 组3传感器1($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 256 / 65536 - 128",
+          "unit": "mA",
+          "min": -128.0,
+          "max": 127.996,
+          "display": "O2Sxy: x.xxx mA",
+          "signed": true
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 57,
+      "iso_pid": 62521,
+      "name": "Wide Range O2 Sensor - Lambda and Current - B2S2 ($13) / B3S2 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电流 - 组2传感器2($13) / 组3传感器2($1D)",
+      "description": "Equivalence ratio and current for O2S22 ($13) / O2S32 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S22($13) / O2S32($1D)的当量比和电流。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA22_32",
+          "name": "Equivalence Ratio (Lambda) - B2S2 ($13) / B3S2 ($1D)",
+          "name_zh": "当量比(Lambda) - 组2传感器2($13) / 组3传感器2($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDAxy: x.xxx"
+        },
+        {
+          "label": "O2S22_32_I",
+          "name": "Wide Range O2S Current - B2S2 ($13) / B3S2 ($1D)",
+          "name_zh": "宽域氧传感器电流 - 组2传感器2($13) / 组3传感器2($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 256 / 65536 - 128",
+          "unit": "mA",
+          "min": -128.0,
+          "max": 127.996,
+          "display": "O2Sxy: x.xxx mA",
+          "signed": true
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 58,
+      "iso_pid": 62522,
+      "name": "Wide Range O2 Sensor - Lambda and Current - B2S3 ($13) / B4S1 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电流 - 组2传感器3($13) / 组4传感器1($1D)",
+      "description": "Equivalence ratio and current for O2S23 ($13) / O2S41 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S23($13) / O2S41($1D)的当量比和电流。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA23_41",
+          "name": "Equivalence Ratio (Lambda) - B2S3 ($13) / B4S1 ($1D)",
+          "name_zh": "当量比(Lambda) - 组2传感器3($13) / 组4传感器1($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDAxy: x.xxx"
+        },
+        {
+          "label": "O2S23_41_I",
+          "name": "Wide Range O2S Current - B2S3 ($13) / B4S1 ($1D)",
+          "name_zh": "宽域氧传感器电流 - 组2传感器3($13) / 组4传感器1($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 256 / 65536 - 128",
+          "unit": "mA",
+          "min": -128.0,
+          "max": 127.996,
+          "display": "O2Sxy: x.xxx mA",
+          "signed": true
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 59,
+      "iso_pid": 62523,
+      "name": "Wide Range O2 Sensor - Lambda and Current - B2S4 ($13) / B4S2 ($1D)",
+      "name_zh": "宽域氧传感器Lambda及电流 - 组2传感器4($13) / 组4传感器2($1D)",
+      "description": "Equivalence ratio and current for O2S24 ($13) / O2S42 ($1D). $FF if sensor not used.",
+      "description_zh": "O2S24($13) / O2S42($1D)的当量比和电流。传感器未使用时为$FF。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LAMBDA24_42",
+          "name": "Equivalence Ratio (Lambda) - B2S4 ($13) / B4S2 ($1D)",
+          "name_zh": "当量比(Lambda) - 组2传感器4($13) / 组4传感器2($1D)",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 2 / 65536",
+          "unit": "",
+          "min": 0.0,
+          "max": 1.999,
+          "display": "LAMBDAxy: x.xxx"
+        },
+        {
+          "label": "O2S24_42_I",
+          "name": "Wide Range O2S Current - B2S4 ($13) / B4S2 ($1D)",
+          "name_zh": "宽域氧传感器电流 - 组2传感器4($13) / 组4传感器2($1D)",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 256 / 65536 - 128",
+          "unit": "mA",
+          "min": -128.0,
+          "max": 127.996,
+          "display": "O2Sxy: x.xxx mA",
+          "signed": true
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 60,
+      "iso_pid": 62524,
+      "name": "Catalyst Temperature Bank 1, Sensor 1",
+      "name_zh": "催化器温度 气缸组1，传感器1",
+      "description": "CATEMP11 shall display catalyst temperature for a bank 1 catalyst or the Bank 1, Sensor 1 catalyst temperature sensor. May be obtained directly from a sensor or inferred by the control strategy.",
+      "description_zh": "CATEMP11显示气缸组1催化器温度或气缸组1传感器1催化器温度传感器的温度。可直接从传感器获取或由控制策略推算。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "CATEMP11",
+          "name": "Catalyst Temperature Bank 1, Sensor 1",
+          "name_zh": "催化器温度 气缸组1，传感器1",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "CATEMP11: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 61,
+      "iso_pid": 62525,
+      "name": "Catalyst Temperature Bank 2, Sensor 1",
+      "name_zh": "催化器温度 气缸组2，传感器1",
+      "description": "CATEMP21 shall display catalyst temperature for a bank 2 catalyst or the Bank 2, Sensor 1 catalyst temperature sensor. May be obtained directly from a sensor or inferred by the control strategy.",
+      "description_zh": "CATEMP21显示气缸组2催化器温度或气缸组2传感器1催化器温度传感器的温度。可直接从传感器获取或由控制策略推算。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "CATEMP21",
+          "name": "Catalyst Temperature Bank 2, Sensor 1",
+          "name_zh": "催化器温度 气缸组2，传感器1",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "CATEMP21: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 62,
+      "iso_pid": 62526,
+      "name": "Catalyst Temperature Bank 1, Sensor 2",
+      "name_zh": "催化器温度 气缸组1，传感器2",
+      "description": "CATEMP12 shall display catalyst temperature for an additional bank 1 catalyst or the Bank 1, Sensor 2 catalyst temperature sensor. May be obtained directly from a sensor or inferred by the control strategy.",
+      "description_zh": "CATEMP12显示气缸组1附加催化器温度或气缸组1传感器2催化器温度传感器的温度。可直接从传感器获取或由控制策略推算。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "CATEMP12",
+          "name": "Catalyst Temperature Bank 1, Sensor 2",
+          "name_zh": "催化器温度 气缸组1，传感器2",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "CATEMP12: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 63,
+      "iso_pid": 62527,
+      "name": "Catalyst Temperature Bank 2, Sensor 2",
+      "name_zh": "催化器温度 气缸组2，传感器2",
+      "description": "CATEMP22 shall display catalyst temperature for an additional bank 2 catalyst or the Bank 2, Sensor 2 catalyst temperature sensor. May be obtained directly from a sensor or inferred by the control strategy.",
+      "description_zh": "CATEMP22显示气缸组2附加催化器温度或气缸组2传感器2催化器温度传感器的温度。可直接从传感器获取或由控制策略推算。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "CATEMP22",
+          "name": "Catalyst Temperature Bank 2, Sensor 2",
+          "name_zh": "催化器温度 气缸组2，传感器2",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "CATEMP22: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    }
+  ]
+}

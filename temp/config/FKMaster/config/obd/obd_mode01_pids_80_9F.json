@@ -1,0 +1,471 @@
+{
+  "version": "2.2",
+  "language": "en",
+  "description": "OBD-II Mode 01 PIDs 0x80-0x9F — AECD Run Time, NOx/PM Sensors, DEF/SCR, WWH-OBD, Hybrid/EV, Extended EGT, Fuel Rate, O2 Wide Range CI (SAE J1979 / ISO 15031-5)",
+
+  "pids": [
+    {
+      "pid": 128, "iso_pid": 62592,
+      "name": "PIDs Supported [81-A0]", "name_zh": "支持的PID [81-A0]",
+      "type": "supported", "data_bytes": 4
+    },
+    {
+      "pid": 129, "iso_pid": 62593,
+      "name": "Engine Run Time for AECD #1-#5", "name_zh": "AECD #1-#5 发动机运行时间",
+      "description": "Auxiliary Emissions Control Device run times. A=support bitmap (bit0-4 for AECD#1-5). Each AECD has Timer 1 (AECD active conditions met) and Timer 2 (total engine run time while AECD monitored). 1 sec/bit, unsigned 32-bit.",
+      "description_zh": "辅助排放控制装置运行时间。A=支持位图(位0-4对应AECD#1-5)。每个AECD有计时器1(AECD激活条件满足时间)和计时器2(AECD监测期间总发动机运行时间)。1秒/位。",
+      "type": "special", "data_bytes": 41,
+      "format": "aecd_runtime",
+      "_sub_fields": [
+        { "offset": 0,  "size": 1, "label": "AECD_SUP",  "type": "bitmap" },
+        { "offset": 1,  "size": 4, "label": "AECD1_T1",  "unit": "s", "name": "AECD #1 Timer 1 (active)", "name_zh": "AECD#1 计时器1(激活)" },
+        { "offset": 5,  "size": 4, "label": "AECD1_T2",  "unit": "s", "name": "AECD #1 Timer 2 (engine run)", "name_zh": "AECD#1 计时器2(运行)" },
+        { "offset": 9,  "size": 4, "label": "AECD2_T1",  "unit": "s", "name": "AECD #2 Timer 1 (active)", "name_zh": "AECD#2 计时器1(激活)" },
+        { "offset": 13, "size": 4, "label": "AECD2_T2",  "unit": "s", "name": "AECD #2 Timer 2 (engine run)", "name_zh": "AECD#2 计时器2(运行)" },
+        { "offset": 17, "size": 4, "label": "AECD3_T1",  "unit": "s", "name": "AECD #3 Timer 1 (active)", "name_zh": "AECD#3 计时器1(激活)" },
+        { "offset": 21, "size": 4, "label": "AECD3_T2",  "unit": "s", "name": "AECD #3 Timer 2 (engine run)", "name_zh": "AECD#3 计时器2(运行)" },
+        { "offset": 25, "size": 4, "label": "AECD4_T1",  "unit": "s", "name": "AECD #4 Timer 1 (active)", "name_zh": "AECD#4 计时器1(激活)" },
+        { "offset": 29, "size": 4, "label": "AECD4_T2",  "unit": "s", "name": "AECD #4 Timer 2 (engine run)", "name_zh": "AECD#4 计时器2(运行)" },
+        { "offset": 33, "size": 4, "label": "AECD5_T1",  "unit": "s", "name": "AECD #5 Timer 1 (active)", "name_zh": "AECD#5 计时器1(激活)" },
+        { "offset": 37, "size": 4, "label": "AECD5_T2",  "unit": "s", "name": "AECD #5 Timer 2 (engine run)", "name_zh": "AECD#5 计时器2(运行)" }
+      ]
+    },
+    {
+      "pid": 130, "iso_pid": 62594,
+      "name": "Engine Run Time for AECD #6-#10", "name_zh": "AECD #6-#10 发动机运行时间",
+      "description": "Same structure as PID $81 but for AECDs #6-#10.",
+      "type": "special", "data_bytes": 41,
+      "format": "aecd_runtime",
+      "_sub_fields": [
+        { "offset": 0,  "size": 1, "label": "AECD_SUP",   "type": "bitmap" },
+        { "offset": 1,  "size": 4, "label": "AECD6_T1",   "unit": "s", "name": "AECD #6 Timer 1", "name_zh": "AECD#6 计时器1" },
+        { "offset": 5,  "size": 4, "label": "AECD6_T2",   "unit": "s", "name": "AECD #6 Timer 2", "name_zh": "AECD#6 计时器2" },
+        { "offset": 9,  "size": 4, "label": "AECD7_T1",   "unit": "s", "name": "AECD #7 Timer 1", "name_zh": "AECD#7 计时器1" },
+        { "offset": 13, "size": 4, "label": "AECD7_T2",   "unit": "s", "name": "AECD #7 Timer 2", "name_zh": "AECD#7 计时器2" },
+        { "offset": 17, "size": 4, "label": "AECD8_T1",   "unit": "s", "name": "AECD #8 Timer 1", "name_zh": "AECD#8 计时器1" },
+        { "offset": 21, "size": 4, "label": "AECD8_T2",   "unit": "s", "name": "AECD #8 Timer 2", "name_zh": "AECD#8 计时器2" },
+        { "offset": 25, "size": 4, "label": "AECD9_T1",   "unit": "s", "name": "AECD #9 Timer 1", "name_zh": "AECD#9 计时器1" },
+        { "offset": 29, "size": 4, "label": "AECD9_T2",   "unit": "s", "name": "AECD #9 Timer 2", "name_zh": "AECD#9 计时器2" },
+        { "offset": 33, "size": 4, "label": "AECD10_T1",  "unit": "s", "name": "AECD #10 Timer 1", "name_zh": "AECD#10 计时器1" },
+        { "offset": 37, "size": 4, "label": "AECD10_T2",  "unit": "s", "name": "AECD #10 Timer 2", "name_zh": "AECD#10 计时器2" }
+      ]
+    },
+    {
+      "pid": 131, "iso_pid": 62595,
+      "name": "NOx Sensor", "name_zh": "NOx传感器",
+      "description": "A=support bitmap (bit0=B1S1, bit1=B1S2, bit2=B2S1, bit3=B2S2). 0.05 ppm/bit, range 0-3276.75 ppm. $FFFF = not available/error.",
+      "description_zh": "A=支持位图。0.05 ppm/位，范围0-3276.75 ppm。$FFFF=不可用/错误。",
+      "type": "numeric", "data_bytes": 9,
+      "items": [
+        { "label": "NOX_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "NOX_B1S1", "bytes": "B,C", "formula": "(256 * B + C) * 0.05", "unit": "ppm", "min": 0, "max": 3276.75, "display": "xxxx.xx", "name": "NOx Bank 1 Sensor 1", "name_zh": "NOx B1-S1" },
+        { "label": "NOX_B1S2", "bytes": "D,E", "formula": "(256 * D + E) * 0.05", "unit": "ppm", "min": 0, "max": 3276.75, "display": "xxxx.xx", "name": "NOx Bank 1 Sensor 2", "name_zh": "NOx B1-S2" },
+        { "label": "NOX_B2S1", "bytes": "F,G", "formula": "(256 * F + G) * 0.05", "unit": "ppm", "min": 0, "max": 3276.75, "display": "xxxx.xx", "name": "NOx Bank 2 Sensor 1", "name_zh": "NOx B2-S1" },
+        { "label": "NOX_B2S2", "bytes": "H,I", "formula": "(256 * H + I) * 0.05", "unit": "ppm", "min": 0, "max": 3276.75, "display": "xxxx.xx", "name": "NOx Bank 2 Sensor 2", "name_zh": "NOx B2-S2" }
+      ]
+    },
+    {
+      "pid": 132, "iso_pid": 62596,
+      "name": "Manifold Surface Temperature", "name_zh": "歧管表面温度",
+      "description": "A=support bitmap (bit0=Bank1, bit1=Bank2). 1°C with -40 offset.",
+      "type": "numeric", "data_bytes": 3,
+      "items": [
+        { "label": "MST_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "MST_B1", "bytes": "B", "formula": "B - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215 },
+        { "label": "MST_B2", "bytes": "C", "formula": "C - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215 }
+      ]
+    },
+    {
+      "pid": 133, "iso_pid": 62597,
+      "name": "NOx Reagent System", "name_zh": "NOx还原剂系统(尿素/DEF)",
+      "description": "A=support bitmap. B=Average reagent quality (100/255 %). C=Reagent tank level (100/255 %). D,E=Distance since last refill (1 km/bit). F,G=Approximate refill volume (0.1 L/bit). H=Commanded reagent consumption (100/255 %). I=Actual reagent consumption (100/255 %).",
+      "description_zh": "A=支持位图。B=平均还原剂质量。C=还原剂罐液位。D,E=上次加注后距离。F,G=大约加注量。H=指令还原剂消耗率。I=实际还原剂消耗率。",
+      "type": "numeric", "data_bytes": 12,
+      "items": [
+        { "label": "REAG_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "REAG_QLT", "bytes": "B", "formula": "B * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" },
+        { "label": "REAG_LVL", "bytes": "C", "formula": "C * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" },
+        { "label": "REAG_DIST", "bytes": "D,E", "formula": "256 * D + E", "unit": "km", "unit_alt": "miles", "alt_factor": 0.62137, "min": 0, "max": 65535 },
+        { "label": "REAG_VOL", "bytes": "F,G", "formula": "(256 * F + G) * 0.1", "unit": "L", "min": 0, "max": 6553.5, "display": "xxxx.x" },
+        { "label": "REAG_CMD", "bytes": "H", "formula": "H * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" },
+        { "label": "REAG_ACT", "bytes": "I", "formula": "I * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }
+      ]
+    },
+    {
+      "pid": 134, "iso_pid": 62598,
+      "name": "PM Sensor Bank 1 & 2", "name_zh": "颗粒物传感器 组1和2",
+      "description": "A=support bitmap (bit0=B1, bit1=B2). B,C=PM B1 output (0.01 mg/m³/bit). D,E=PM B2 output.",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "PM_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "PM_B1", "bytes": "B,C", "formula": "(256 * B + C) * 0.01", "unit": "mg/m³", "min": 0, "max": 655.35, "display": "xxxx.xx" },
+        { "label": "PM_B2", "bytes": "D,E", "formula": "(256 * D + E) * 0.01", "unit": "mg/m³", "min": 0, "max": 655.35, "display": "xxxx.xx" }
+      ]
+    },
+    {
+      "pid": 135, "iso_pid": 62599,
+      "name": "Intake Manifold Absolute Pressure (wide range, dual)", "name_zh": "进气歧管绝对压力(宽范围,双)",
+      "description": "A=support bitmap (bit0=MAP A, bit1=MAP B). B,C=MAP A (0.03125 kPa/bit). D,E=MAP B.",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "MAPW_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "MAP_A", "bytes": "B,C", "formula": "(256 * B + C) * 0.03125", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 2047.97, "display": "xxxx.xx" },
+        { "label": "MAP_B", "bytes": "D,E", "formula": "(256 * D + E) * 0.03125", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 2047.97, "display": "xxxx.xx" }
+      ]
+    },
+    {
+      "pid": 136, "iso_pid": 62600,
+      "name": "SCR Inducement System", "name_zh": "SCR诱导系统",
+      "description": "Status/state of driver inducement due to SCR-related faults.",
+      "type": "special", "data_bytes": 13,
+      "format": "scr_inducement"
+    },
+    {
+      "pid": 137, "iso_pid": 62601,
+      "name": "Engine Run Time for AECD #11-#15", "name_zh": "AECD #11-#15 发动机运行时间",
+      "description": "Same structure as PID $81 but for AECDs #11-#15.",
+      "type": "special", "data_bytes": 41,
+      "format": "aecd_runtime",
+      "_sub_fields": [
+        { "offset": 0,  "size": 1, "label": "AECD_SUP",   "type": "bitmap" },
+        { "offset": 1,  "size": 4, "label": "AECD11_T1",  "unit": "s" },
+        { "offset": 5,  "size": 4, "label": "AECD11_T2",  "unit": "s" },
+        { "offset": 9,  "size": 4, "label": "AECD12_T1",  "unit": "s" },
+        { "offset": 13, "size": 4, "label": "AECD12_T2",  "unit": "s" },
+        { "offset": 17, "size": 4, "label": "AECD13_T1",  "unit": "s" },
+        { "offset": 21, "size": 4, "label": "AECD13_T2",  "unit": "s" },
+        { "offset": 25, "size": 4, "label": "AECD14_T1",  "unit": "s" },
+        { "offset": 29, "size": 4, "label": "AECD14_T2",  "unit": "s" },
+        { "offset": 33, "size": 4, "label": "AECD15_T1",  "unit": "s" },
+        { "offset": 37, "size": 4, "label": "AECD15_T2",  "unit": "s" }
+      ]
+    },
+    {
+      "pid": 138, "iso_pid": 62602,
+      "name": "Engine Run Time for AECD #16-#20", "name_zh": "AECD #16-#20 发动机运行时间",
+      "description": "Same structure as PID $81 but for AECDs #16-#20.",
+      "type": "special", "data_bytes": 41,
+      "format": "aecd_runtime",
+      "_sub_fields": [
+        { "offset": 0,  "size": 1, "label": "AECD_SUP",   "type": "bitmap" },
+        { "offset": 1,  "size": 4, "label": "AECD16_T1",  "unit": "s" },
+        { "offset": 5,  "size": 4, "label": "AECD16_T2",  "unit": "s" },
+        { "offset": 9,  "size": 4, "label": "AECD17_T1",  "unit": "s" },
+        { "offset": 13, "size": 4, "label": "AECD17_T2",  "unit": "s" },
+        { "offset": 17, "size": 4, "label": "AECD18_T1",  "unit": "s" },
+        { "offset": 21, "size": 4, "label": "AECD18_T2",  "unit": "s" },
+        { "offset": 25, "size": 4, "label": "AECD19_T1",  "unit": "s" },
+        { "offset": 29, "size": 4, "label": "AECD19_T2",  "unit": "s" },
+        { "offset": 33, "size": 4, "label": "AECD20_T1",  "unit": "s" },
+        { "offset": 37, "size": 4, "label": "AECD20_T2",  "unit": "s" }
+      ]
+    },
+    {
+      "pid": 139, "iso_pid": 62603,
+      "name": "Diesel Aftertreatment Status", "name_zh": "柴油后处理状态",
+      "description": "A=support bitmap. B=DPF regen status/type. C=NOx absorber regen. Bit-encoded per byte.",
+      "type": "bitmap", "data_bytes": 7,
+      "bits": [
+        { "byte": "B", "bit": 0, "name": "DPF B1 regen active", "name_zh": "DPF B1再生激活", "v0": "NO", "v1": "YES" },
+        { "byte": "B", "bit": 1, "name": "DPF B2 regen active", "name_zh": "DPF B2再生激活", "v0": "NO", "v1": "YES" },
+        { "byte": "B", "bit": 2, "name": "DPF B1 regen type", "name_zh": "DPF B1再生类型", "v0": "Passive", "v1": "Active" },
+        { "byte": "B", "bit": 3, "name": "DPF B2 regen type", "name_zh": "DPF B2再生类型", "v0": "Passive", "v1": "Active" },
+        { "byte": "C", "bit": 0, "name": "NOx absorber B1 regen active", "name_zh": "NOx吸附器B1再生激活", "v0": "NO", "v1": "YES" },
+        { "byte": "C", "bit": 1, "name": "NOx absorber B2 regen active", "name_zh": "NOx吸附器B2再生激活", "v0": "NO", "v1": "YES" },
+        { "byte": "C", "bit": 2, "name": "NOx absorber B1 desulfurization", "name_zh": "NOx吸附器B1脱硫", "v0": "NO", "v1": "YES" },
+        { "byte": "C", "bit": 3, "name": "NOx absorber B2 desulfurization", "name_zh": "NOx吸附器B2脱硫", "v0": "NO", "v1": "YES" }
+      ]
+    },
+    {
+      "pid": 140, "iso_pid": 62604,
+      "name": "O2 Sensor (Wide Range)", "name_zh": "氧传感器(宽范围扩展)",
+      "description": "A=support bitmap. Extended wide-range O2 sensor data.",
+      "type": "numeric", "data_bytes": 9,
+      "items": [
+        { "label": "O2W_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "O2W_CONC1", "bytes": "B,C", "formula": "(256 * B + C) * 0.000244140625", "unit": "λ", "min": 0, "max": 15.999, "display": "xx.xxx" },
+        { "label": "O2W_CURR1", "bytes": "D,E", "formula": "(256 * D + E - 32768) * 0.00390625", "unit": "mA", "min": -128, "max": 127.996, "display": "xxx.xxx" },
+        { "label": "O2W_CONC2", "bytes": "F,G", "formula": "(256 * F + G) * 0.000244140625", "unit": "λ", "min": 0, "max": 15.999, "display": "xx.xxx" },
+        { "label": "O2W_CURR2", "bytes": "H,I", "formula": "(256 * H + I - 32768) * 0.00390625", "unit": "mA", "min": -128, "max": 127.996, "display": "xxx.xxx" }
+      ]
+    },
+    {
+      "pid": 141, "iso_pid": 62605,
+      "name": "Throttle Position G", "name_zh": "节气门位置G",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "TP_G", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 142, "iso_pid": 62606,
+      "name": "Engine Friction — Percent Torque", "name_zh": "发动机摩擦—扭矩百分比",
+      "description": "Friction and pumping losses as percent of reference torque (PID $63). Net brake torque = PID $62 - PID $8E.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "TQ_FRIC", "bytes": "A", "formula": "A - 125", "unit": "%", "min": -125, "max": 130 }]
+    },
+    {
+      "pid": 143, "iso_pid": 62607,
+      "name": "PM Sensor Bank 1 & 2 (output-based)", "name_zh": "颗粒物传感器 组1和2(输出值)",
+      "description": "A=support bitmap. B,C=PM B1 output (0.01 unit/bit). D,E=PM B2.",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "PMO_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "PMO_B1", "bytes": "B,C", "formula": "(256 * B + C) * 0.01", "unit": "mg/m³", "min": 0, "max": 655.35, "display": "xxxx.xx" },
+        { "label": "PMO_B2", "bytes": "D,E", "formula": "(256 * D + E) * 0.01", "unit": "mg/m³", "min": 0, "max": 655.35, "display": "xxxx.xx" }
+      ]
+    },
+    {
+      "pid": 144, "iso_pid": 62608,
+      "name": "WWH-OBD Vehicle OBD System Information", "name_zh": "WWH-OBD车辆OBD系统信息",
+      "_fix": "Rewritten from standard table — 3 bytes: A=bit-mapped status, B,C=continuous MI counter",
+      "description": "Byte A: bits 0-1=Display strategy (00=non-discriminatory, 01=discriminatory, 10=reserved, 11=N/A). Bits 2-5=Vehicle MI activation mode (0000=Off, 0001=On Demand, 0010=Short, 0011=Continuous, 1110=Error, 1111=N/A). Bit 6=Emission system readiness (0=complete, 1=not complete). Bit 7=reserved. Bytes B,C=Continuous MI counter (1h/bit).",
+      "description_zh": "字节A：位0-1=显示策略(00=非歧视性, 01=歧视性, 10=保留, 11=不可用)。位2-5=车辆MI激活模式(0000=关, 0001=按需, 0010=短暂, 0011=持续, 1110=错误, 1111=不可用)。位6=排放系统就绪(0=完成, 1=未完成)。位7=保留。字节B,C=持续MI计数器(1h/位)。",
+      "type": "bitmap", "data_bytes": 3,
+      "numeric_fields": [
+        { "label": "MI_DISP_VOBD", "bytes": "A", "formula": "A & 3", "unit": "", "min": 0, "max": 3,
+          "name": "MI Display Strategy", "name_zh": "MI显示策略",
+          "_values": { "0": "Non-discriminatory", "1": "Discriminatory", "2": "Reserved", "3": "N/A" } },
+        { "label": "MI_MODE_VOBD", "bytes": "A", "formula": "(A >> 2) & 15", "unit": "", "min": 0, "max": 15,
+          "name": "Vehicle MI Activation Mode", "name_zh": "车辆MI激活模式",
+          "_values": { "0": "Mode 1 (MI Off)", "1": "Mode 2 (On Demand)", "2": "Mode 3 (Short)", "3": "Mode 4 (Continuous)", "14": "Error", "15": "N/A" } },
+        { "label": "VOBD_MI_TIME", "bytes": "B,C", "formula": "256 * B + C", "unit": "h", "min": 0, "max": 65535,
+          "name": "Continuous MI Counter", "name_zh": "持续MI计数器" }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 6, "name": "Emission system readiness", "name_zh": "排放系统就绪", "v0": "All monitors complete", "v1": "Not complete" }
+      ]
+    },
+    {
+      "pid": 145, "iso_pid": 62609,
+      "name": "WWH-OBD ECU OBD System Information", "name_zh": "WWH-OBD ECU OBD系统信息",
+      "_fix": "Rewritten from standard table — 5 bytes: A=ECU MI mode, B,C=MI counter, D,E=B1 counter",
+      "description": "Byte A: bits 0-3=ECU MI Activation Mode (same encoding as PID $90). Bits 4-7=reserved. Bytes B,C=ECU Continuous MI counter (1h/bit). Bytes D,E=Highest ECU B1 counter (1h/bit). For WWH-OBD, PID $01 Data A shall be $00.",
+      "description_zh": "字节A：位0-3=ECU MI激活模式(同PID $90编码)。位4-7=保留。字节B,C=ECU持续MI计数器(1h/位)。字节D,E=最高ECU B1计数器(1h/位)。WWH-OBD时PID $01的字节A应为$00。",
+      "type": "bitmap", "data_bytes": 5,
+      "numeric_fields": [
+        { "label": "MI_MODE_ECU", "bytes": "A", "formula": "A & 15", "unit": "", "min": 0, "max": 15,
+          "name": "ECU MI Activation Mode", "name_zh": "ECU MI激活模式",
+          "_values": { "0": "Mode 1 (MI Off)", "1": "Mode 2 (On Demand)", "2": "Mode 3 (Short)", "3": "Mode 4 (Continuous)", "14": "Error", "15": "N/A" } },
+        { "label": "OBD_MI_TIME", "bytes": "B,C", "formula": "256 * B + C", "unit": "h", "min": 0, "max": 65535,
+          "name": "ECU Continuous MI Counter", "name_zh": "ECU持续MI计数器" },
+        { "label": "OBD_B1_TIME", "bytes": "D,E", "formula": "256 * D + E", "unit": "h", "min": 0, "max": 65535,
+          "name": "Highest ECU B1 Counter", "name_zh": "最高ECU B1计数器" }
+      ],
+      "bits": []
+    },
+    {
+      "pid": 146, "iso_pid": 62610,
+      "name": "Fuel System Status (Compression Ignition)", "name_zh": "燃油系统状态(压燃式)",
+      "_fix": "Rewritten from standard table — 2 bytes: A=support bitmap, B=CI fuel control status",
+      "description": "CI engines only. A=support (bit0=FP1, bit1=FIQ1, bit2=FIT1, bit3=IFB1, bit4=FP2, bit5=FIQ2, bit6=FIT2, bit7=IFB2). B=status (same bit mapping: 1=closed loop). Engine off → all bits in B = 0.",
+      "description_zh": "仅压燃式发动机。A=支持(位0=燃油压力1, 位1=喷射量1, 位2=喷射正时1, 位3=怠速平衡1, 位4-7同第2系统)。B=状态(1=闭环控制)。发动机关闭时B全部为0。",
+      "type": "bitmap", "data_bytes": 2,
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Fuel Pressure Control 1 supported", "name_zh": "燃油压力控制1支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 1, "name": "Fuel Injection Quantity Control 1 supported", "name_zh": "喷射量控制1支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 2, "name": "Fuel Injection Timing Control 1 supported", "name_zh": "喷射正时控制1支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 3, "name": "Idle Fuel Balance/Contribution Control 1 supported", "name_zh": "怠速燃油平衡控制1支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 4, "name": "Fuel Pressure Control 2 supported", "name_zh": "燃油压力控制2支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 5, "name": "Fuel Injection Quantity Control 2 supported", "name_zh": "喷射量控制2支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 6, "name": "Fuel Injection Timing Control 2 supported", "name_zh": "喷射正时控制2支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 7, "name": "Idle Fuel Balance/Contribution Control 2 supported", "name_zh": "怠速燃油平衡控制2支持", "v0": "NO", "v1": "YES" },
+        { "byte": "B", "bit": 0, "name": "Fuel Pressure 1 in closed loop", "name_zh": "燃油压力1闭环", "v0": "Open", "v1": "Closed" },
+        { "byte": "B", "bit": 1, "name": "Fuel Injection Quantity 1 in closed loop", "name_zh": "喷射量1闭环", "v0": "Open", "v1": "Closed" },
+        { "byte": "B", "bit": 2, "name": "Fuel Injection Timing 1 in closed loop", "name_zh": "喷射正时1闭环", "v0": "Open", "v1": "Closed" },
+        { "byte": "B", "bit": 3, "name": "Idle Fuel Balance/Contribution 1 in closed loop", "name_zh": "怠速燃油平衡1闭环", "v0": "Open", "v1": "Closed" },
+        { "byte": "B", "bit": 4, "name": "Fuel Pressure 2 in closed loop", "name_zh": "燃油压力2闭环", "v0": "Open", "v1": "Closed" },
+        { "byte": "B", "bit": 5, "name": "Fuel Injection Quantity 2 in closed loop", "name_zh": "喷射量2闭环", "v0": "Open", "v1": "Closed" },
+        { "byte": "B", "bit": 6, "name": "Fuel Injection Timing 2 in closed loop", "name_zh": "喷射正时2闭环", "v0": "Open", "v1": "Closed" },
+        { "byte": "B", "bit": 7, "name": "Idle Fuel Balance/Contribution 2 in closed loop", "name_zh": "怠速燃油平衡2闭环", "v0": "Open", "v1": "Closed" }
+      ]
+    },
+    {
+      "pid": 147, "iso_pid": 62611,
+      "name": "WWH-OBD Vehicle OBD Counters", "name_zh": "WWH-OBD车辆OBD计数器",
+      "_fix": "Rewritten from standard table — 3 bytes: A=support, B,C=cumulative continuous MI counter",
+      "description": "A: bit 0=Cumulative continuous MI counter supported, bits 1-7=reserved. B,C=Cumulative continuous MI counter (1h/bit). This counter increments any time the vehicle MI is ON. Never reset.",
+      "description_zh": "A: 位0=累计持续MI计数器支持, 位1-7=保留。B,C=累计持续MI计数器(1h/位)。车辆MI亮时递增，不可重置。",
+      "type": "bitmap", "data_bytes": 3,
+      "numeric_fields": [
+        { "label": "MI_TIME_CUM", "bytes": "B,C", "formula": "256 * B + C", "unit": "h", "min": 0, "max": 65535,
+          "name": "Cumulative Continuous MI Counter", "name_zh": "累计持续MI计数器" }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Cumulative continuous MI counter supported", "name_zh": "累计持续MI计数器支持", "v0": "NO", "v1": "YES" }
+      ]
+    },
+    {
+      "pid": 148, "iso_pid": 62612,
+      "name": "NOx Control — Driver Inducement System Status and Counters", "name_zh": "NOx控制—驾驶员诱导系统状态和计数器",
+      "_fix": "Rewritten from standard table — 12 bytes: A=support, B=inducement status, C-L=5 counters",
+      "description": "A=support (bit0=warning, bit1=reagent quality ctr, bit2=reagent consumption ctr, bit3=dosing ctr, bit4=EGR ctr, bit5=monitoring system ctr). B=System Status (bit0=warning active, bits1-2=Level1 inducement, bits3-4=Level2, bits5-6=Level3). C,D=Reagent Quality Counter (1h/bit). E,F=Reagent Consumption Counter. G,H=Dosing Activity Counter. I,J=EGR Valve Counter. K,L=Monitoring System Counter. $FFFF=counter not supported.",
+      "description_zh": "A=支持(位0=警告, 位1=还原剂质量计数器, 位2=还原剂消耗计数器, 位3=喷射计数器, 位4=EGR阀计数器, 位5=监测系统计数器)。B=系统状态(位0=警告激活, 位1-2=一级诱导, 位3-4=二级, 位5-6=三级)。C-L=5个计数器(1h/位)。$FFFF=不支持。",
+      "type": "bitmap", "data_bytes": 12,
+      "numeric_fields": [
+        { "label": "INDUC_L1", "bytes": "B", "formula": "(B >> 1) & 3", "unit": "", "min": 0, "max": 3,
+          "name": "Level 1 Inducement Status", "name_zh": "一级诱导状态",
+          "_values": { "0": "Inactive", "1": "Enabled", "2": "Active", "3": "Not supported" } },
+        { "label": "INDUC_L2", "bytes": "B", "formula": "(B >> 3) & 3", "unit": "", "min": 0, "max": 3,
+          "name": "Level 2 Inducement Status", "name_zh": "二级诱导状态",
+          "_values": { "0": "Inactive", "1": "Enabled", "2": "Active", "3": "Not supported" } },
+        { "label": "INDUC_L3", "bytes": "B", "formula": "(B >> 5) & 3", "unit": "", "min": 0, "max": 3,
+          "name": "Level 3 Inducement Status", "name_zh": "三级诱导状态",
+          "_values": { "0": "Inactive", "1": "Enabled", "2": "Active", "3": "Not supported" } },
+        { "label": "REAG_QUAL_TIME", "bytes": "C,D", "formula": "256 * C + D", "unit": "h", "min": 0, "max": 65535,
+          "name": "Reagent Quality Counter", "name_zh": "还原剂质量计数器" },
+        { "label": "REAG_CON_TIME", "bytes": "E,F", "formula": "256 * E + F", "unit": "h", "min": 0, "max": 65535,
+          "name": "Reagent Consumption Counter", "name_zh": "还原剂消耗计数器" },
+        { "label": "REAG_DOSE_TIME", "bytes": "G,H", "formula": "256 * G + H", "unit": "h", "min": 0, "max": 65535,
+          "name": "Dosing Activity Counter", "name_zh": "喷射活动计数器" },
+        { "label": "EGR_TIME", "bytes": "I,J", "formula": "256 * I + J", "unit": "h", "min": 0, "max": 65535,
+          "name": "EGR Valve Counter", "name_zh": "EGR阀计数器" },
+        { "label": "NOX_DTC_TIME", "bytes": "K,L", "formula": "256 * K + L", "unit": "h", "min": 0, "max": 65535,
+          "name": "Monitoring System Counter", "name_zh": "监测系统计数器" }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "NOx warning system activation status supported", "name_zh": "NOx警告系统激活状态支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 1, "name": "Reagent quality counter supported", "name_zh": "还原剂质量计数器支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 2, "name": "Reagent consumption counter supported", "name_zh": "还原剂消耗计数器支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 3, "name": "Absence of reagent dosing counter supported", "name_zh": "无还原剂喷射计数器支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 4, "name": "EGR valve counter supported", "name_zh": "EGR阀计数器支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 5, "name": "Malfunction of NOx monitoring system counter supported", "name_zh": "NOx监测系统故障计数器支持", "v0": "NO", "v1": "YES" },
+        { "byte": "B", "bit": 0, "name": "NOx warning system activation status", "name_zh": "NOx警告系统激活状态", "v0": "Inactive", "v1": "Active" }
+      ]
+    },
+    {
+      "pid": 152, "iso_pid": 62616,
+      "name": "Exhaust Gas Temperature Bank 1 (extended)", "name_zh": "排气温度传感器 组1(扩展)",
+      "description": "A=support bitmap (bit0=S5, bit1=S6, bit2=S7, bit3=S8, bits4-7=reserved). B,C=EGT B1S5. D,E=EGT B1S6. F,G=EGT B1S7. H,I=EGT B1S8. 0.1°C with -40 offset. Extends PID $78 (sensors 1-4).",
+      "type": "numeric", "data_bytes": 9,
+      "items": [
+        { "label": "EGT1X_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "EGT_B1S5", "bytes": "B,C", "formula": "(256 * B + C) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x" },
+        { "label": "EGT_B1S6", "bytes": "D,E", "formula": "(256 * D + E) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x" },
+        { "label": "EGT_B1S7", "bytes": "F,G", "formula": "(256 * F + G) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x" },
+        { "label": "EGT_B1S8", "bytes": "H,I", "formula": "(256 * H + I) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x" }
+      ]
+    },
+    {
+      "pid": 153, "iso_pid": 62617,
+      "name": "Exhaust Gas Temperature Bank 2 (extended)", "name_zh": "排气温度传感器 组2(扩展)",
+      "description": "Same structure as PID $98 but for Bank 2 sensors 5-8. Extends PID $79.",
+      "type": "numeric", "data_bytes": 9,
+      "items": [
+        { "label": "EGT2X_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "EGT_B2S5", "bytes": "B,C", "formula": "(256 * B + C) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x" },
+        { "label": "EGT_B2S6", "bytes": "D,E", "formula": "(256 * D + E) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x" },
+        { "label": "EGT_B2S7", "bytes": "F,G", "formula": "(256 * F + G) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x" },
+        { "label": "EGT_B2S8", "bytes": "H,I", "formula": "(256 * H + I) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x" }
+      ]
+    },
+    {
+      "pid": 154, "iso_pid": 62618,
+      "name": "Hybrid/EV Vehicle System Data", "name_zh": "混合动力/电动车辆系统数据",
+      "_fix": "Rewritten from standard table — 6 bytes: A=support, B=charging state, C,D=voltage(0.015625V), E,F=current(signed 0.1A)",
+      "description": "A=support bitmap (bit0=HEV state, bit1=battery voltage, bit2=battery current, bit3=enhanced state). B: bit0=Charging state (0=CSM, 1=CDM), bits1-2=Enhanced state (00=CSM, 01=CDM, 10=CIM, 11=Not PSA), bits3-7=reserved. C,D=Battery system voltage (0.015625 V/bit, range 0-1023.98V). E,F=Battery system current (signed, 0.1 A/bit, negative=charge, positive=discharge).",
+      "description_zh": "A=支持位图(位0=HEV状态, 位1=电池电压, 位2=电池电流, 位3=增强状态)。B: 位0=充电状态(0=CSM, 1=CDM), 位1-2=增强状态(00=CSM, 01=CDM, 10=CIM, 11=非PSA)。C,D=电池系统电压(0.015625V/位)。E,F=电池系统电流(有符号, 0.1A/位, 负=充电, 正=放电)。",
+      "type": "bitmap", "data_bytes": 6,
+      "numeric_fields": [
+        { "label": "HEV_MODE_ENH", "bytes": "B", "formula": "(B >> 1) & 3", "unit": "", "min": 0, "max": 3,
+          "name": "Enhanced Charging State", "name_zh": "增强充电状态",
+          "_values": { "0": "Charge Sustaining (CSM)", "1": "Charge Depleting (CDM)", "2": "Charge Increasing (CIM)", "3": "Not PSA" } },
+        { "label": "HEV_BATT_V", "bytes": "C,D", "formula": "(256 * C + D) * 0.015625", "unit": "V", "min": 0, "max": 1023.98, "display": "xxxx.xx",
+          "name": "Battery System Voltage", "name_zh": "电池系统电压" },
+        { "label": "HEV_BATT_A", "bytes": "E,F", "formula": "(256 * E + F - 32768) * 0.1", "unit": "A", "min": -3276.8, "max": 3276.7, "display": "xxxx.x",
+          "name": "Battery System Current", "name_zh": "电池系统电流" }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "HEV Vehicle State supported", "name_zh": "HEV车辆状态支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 1, "name": "HEV Battery Voltage supported", "name_zh": "HEV电池电压支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 2, "name": "HEV Battery Current supported", "name_zh": "HEV电池电流支持", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 3, "name": "Enhanced HEV Vehicle State supported", "name_zh": "增强HEV车辆状态支持", "v0": "NO", "v1": "YES" },
+        { "byte": "B", "bit": 0, "name": "Charging State", "name_zh": "充电状态", "v0": "Charge Sustaining / Not PHEV", "v1": "Charge Depleting" }
+      ]
+    },
+    {
+      "pid": 155, "iso_pid": 62619,
+      "name": "Diesel Exhaust Fluid Sensor Output", "name_zh": "柴油尾气处理液传感器输出",
+      "_fix": "Rewritten from standard table — 4 bytes: A=support+DEF type(bits4-7), B=concentration(0.25%), C=temp, D=level",
+      "description": "A: bits0-3=support (bit0=DEF type, bit1=concentration, bit2=temperature, bit3=level). Bits4-7=DEF Type (0000=Urea too high, 0001=Urea too low, 0010=Diesel, 0011=Proper mixture, 1101=No fault/no results). B=DEF Concentration (0.25%/bit, 0-63.75%, 32.5%=proper). C=DEF Tank Temperature (1°C, -40 offset). D=DEF Tank Level (100/255 %/bit).",
+      "description_zh": "A: 位0-3=支持(位0=DEF类型, 位1=浓度, 位2=温度, 位3=液位)。位4-7=DEF类型(0000=尿素过高, 0001=过低, 0010=柴油, 0011=正常混合, 1101=无故障无结果)。B=DEF浓度(0.25%/位, 32.5%=正常)。C=DEF罐温度。D=DEF罐液位(100/255 %/位)。",
+      "type": "numeric", "data_bytes": 4,
+      "numeric_fields": [
+        { "label": "DEF_TYPE", "bytes": "A", "formula": "(A >> 4) & 15", "unit": "", "min": 0, "max": 15,
+          "name": "DEF Type", "name_zh": "DEF类型",
+          "_values": { "0": "Urea Too High", "1": "Urea Too Low", "2": "Diesel", "3": "Proper Mixture", "13": "No fault, no results" } }
+      ],
+      "items": [
+        { "label": "DEF_SUP", "bytes": "A", "formula": "A & 15", "unit": "bitmap", "min": 0, "max": 15 },
+        { "label": "DEF_CON", "bytes": "B", "formula": "B * 0.25", "unit": "%", "min": 0, "max": 63.75, "display": "xx.xx",
+          "name": "DEF Concentration", "name_zh": "DEF浓度" },
+        { "label": "DEF_TEMP", "bytes": "C", "formula": "C - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215,
+          "name": "DEF Temperature", "name_zh": "DEF温度" },
+        { "label": "DEF_LVL", "bytes": "D", "formula": "D * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x",
+          "name": "DEF Level", "name_zh": "DEF液位" }
+      ]
+    },
+    {
+      "pid": 156, "iso_pid": 62620,
+      "name": "O2 Sensor (Wide Range) — CI Engines", "name_zh": "氧传感器(宽范围)—压燃式发动机",
+      "_fix": "Rewritten from standard table — 17 bytes: A=support(8bits), B-I=O2%(0.001526%), J-Q=Lambda(0.000122)",
+      "description": "CI engines only. A=support bitmap (bit0-3=concentration B1S3/B1S4/B2S3/B2S4, bit4-7=lambda B1S3/B1S4/B2S3/B2S4). B,C=O2 Concentration B1S3. D,E=B1S4. F,G=B2S3. H,I=B2S4. J,K=Lambda B1S3. L,M=B1S4. N,O=B2S3. P,Q=B2S4. Concentration: 0.001526 %/bit (0-100%). Lambda: 0.000122/bit (0-7.99).",
+      "description_zh": "仅压燃式发动机。A=支持位图(位0-3=浓度, 位4-7=Lambda)。B-I=O2浓度(0.001526%/位)。J-Q=Lambda(0.000122/位)。",
+      "type": "numeric", "data_bytes": 17,
+      "items": [
+        { "label": "O2CI_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "O2S13_PCT", "bytes": "B,C", "formula": "(256 * B + C) * 0.001526", "unit": "%", "min": 0, "max": 100, "display": "xxx.xxxxxx", "name": "O2 Concentration B1S3", "name_zh": "O2浓度 B1-S3" },
+        { "label": "O2S14_PCT", "bytes": "D,E", "formula": "(256 * D + E) * 0.001526", "unit": "%", "min": 0, "max": 100, "display": "xxx.xxxxxx", "name": "O2 Concentration B1S4", "name_zh": "O2浓度 B1-S4" },
+        { "label": "O2S23_PCT", "bytes": "F,G", "formula": "(256 * F + G) * 0.001526", "unit": "%", "min": 0, "max": 100, "display": "xxx.xxxxxx", "name": "O2 Concentration B2S3", "name_zh": "O2浓度 B2-S3" },
+        { "label": "O2S24_PCT", "bytes": "H,I", "formula": "(256 * H + I) * 0.001526", "unit": "%", "min": 0, "max": 100, "display": "xxx.xxxxxx", "name": "O2 Concentration B2S4", "name_zh": "O2浓度 B2-S4" },
+        { "label": "LAMBDA13", "bytes": "J,K", "formula": "(256 * J + K) * 0.000122", "unit": "λ", "min": 0, "max": 7.99, "display": "x.xxx", "name": "O2 Lambda B1S3", "name_zh": "O2 Lambda B1-S3" },
+        { "label": "LAMBDA14", "bytes": "L,M", "formula": "(256 * L + M) * 0.000122", "unit": "λ", "min": 0, "max": 7.99, "display": "x.xxx", "name": "O2 Lambda B1S4", "name_zh": "O2 Lambda B1-S4" },
+        { "label": "LAMBDA23", "bytes": "N,O", "formula": "(256 * N + O) * 0.000122", "unit": "λ", "min": 0, "max": 7.99, "display": "x.xxx", "name": "O2 Lambda B2S3", "name_zh": "O2 Lambda B2-S3" },
+        { "label": "LAMBDA24", "bytes": "P,Q", "formula": "(256 * P + Q) * 0.000122", "unit": "λ", "min": 0, "max": 7.99, "display": "x.xxx", "name": "O2 Lambda B2S4", "name_zh": "O2 Lambda B2-S4" }
+      ]
+    },
+    {
+      "pid": 157, "iso_pid": 62621,
+      "name": "Engine Fuel Rate (mass-based)", "name_zh": "发动机燃油消耗率(质量基准)",
+      "_fix": "Rewritten from standard table — 4 bytes, NO support bitmap: A,B=engine fuel rate, C,D=vehicle fuel rate",
+      "description": "No support bitmap. A,B=Engine fuel rate (0.02 g/s/bit, 0-1310.7 g/s). C,D=Vehicle fuel rate (includes aftertreatment fuel, 0.02 g/s/bit). Both updated min 1000ms. Zero when engine off. For PEMS, replaces PID $5E.",
+      "description_zh": "无支持位图。A,B=发动机燃油率(0.02 g/s/位)。C,D=车辆燃油率(含后处理系统燃油)。两者最少1000ms更新。发动机关闭时为零。PEMS用，替代PID $5E。",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "ENG_FR", "bytes": "A,B", "formula": "(256 * A + B) * 0.02", "unit": "g/s", "min": 0, "max": 1310.7, "display": "xxxx.xx",
+          "name": "Engine Fuel Rate", "name_zh": "发动机燃油率" },
+        { "label": "VEH_FR", "bytes": "C,D", "formula": "(256 * C + D) * 0.02", "unit": "g/s", "min": 0, "max": 1310.7, "display": "xxxx.xx",
+          "name": "Vehicle Fuel Rate", "name_zh": "车辆燃油率" }
+      ]
+    },
+    {
+      "pid": 158, "iso_pid": 62622,
+      "name": "Engine Exhaust Flow Rate", "name_zh": "发动机排气流量",
+      "_fix": "Rewritten from standard table — 2 bytes, NO support bitmap: A,B=exhaust flow rate",
+      "description": "No support bitmap. A,B=Exhaust flow rate (0.2 kg/h/bit, 0-13107.0 kg/h). Measured/calculated upstream of aftertreatment. Updated min 1000ms. Zero when engine off. For PEMS.",
+      "description_zh": "无支持位图。A,B=排气流量(0.2 kg/h/位, 0-13107.0 kg/h)。后处理上游实测/计算值。最少1000ms更新。发动机关闭时为零。PEMS用。",
+      "type": "numeric", "data_bytes": 2,
+      "items": [
+        { "label": "EXH_FLOW", "bytes": "A,B", "formula": "(256 * A + B) * 0.2", "unit": "kg/h", "min": 0, "max": 13107.0, "display": "xxxxx.x",
+          "name": "Exhaust Flow Rate", "name_zh": "排气流量" }
+      ]
+    },
+    {
+      "pid": 159, "iso_pid": 62623,
+      "name": "Fuel System Percentage Use", "name_zh": "燃油系统使用百分比",
+      "_fix": "Rewritten from standard table — 9 bytes: A=support(8bits for 4 banks×2 systems), B-I=8 percentages",
+      "description": "A=support bitmap (bit0=FuelA B1, bit1=FuelB B1, bit2=FuelA B2, bit3=FuelB B2, bit4=FuelA B3, bit5=FuelB B3, bit6=FuelA B4, bit7=FuelB B4). B=FuelA B1, C=FuelB B1, D=FuelA B2, E=FuelB B2, F=FuelA B3, G=FuelB B3, H=FuelA B4, I=FuelB B4. Each 100/255 %/bit. A+B per bank should sum to 100%. All 0% when engine off or fuel cut.",
+      "description_zh": "A=支持位图(8位, 4组×2系统)。B-I=8个百分比值(100/255 %/位)。同组A+B之和应为100%。发动机关闭或断油时全部为0%。",
+      "type": "numeric", "data_bytes": 9,
+      "items": [
+        { "label": "FSPU_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "FUELSYSA_B1", "bytes": "B", "formula": "B * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Fuel A % Bank 1", "name_zh": "燃油A% 组1" },
+        { "label": "FUELSYSB_B1", "bytes": "C", "formula": "C * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Fuel B % Bank 1", "name_zh": "燃油B% 组1" },
+        { "label": "FUELSYSA_B2", "bytes": "D", "formula": "D * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Fuel A % Bank 2", "name_zh": "燃油A% 组2" },
+        { "label": "FUELSYSB_B2", "bytes": "E", "formula": "E * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Fuel B % Bank 2", "name_zh": "燃油B% 组2" },
+        { "label": "FUELSYSA_B3", "bytes": "F", "formula": "F * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Fuel A % Bank 3", "name_zh": "燃油A% 组3" },
+        { "label": "FUELSYSB_B3", "bytes": "G", "formula": "G * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Fuel B % Bank 3", "name_zh": "燃油B% 组3" },
+        { "label": "FUELSYSA_B4", "bytes": "H", "formula": "H * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Fuel A % Bank 4", "name_zh": "燃油A% 组4" },
+        { "label": "FUELSYSB_B4", "bytes": "I", "formula": "I * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Fuel B % Bank 4", "name_zh": "燃油B% 组4" }
+      ]
+    }
+  ]
+}

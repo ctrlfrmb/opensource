@@ -1,0 +1,353 @@
+{
+  "language": "en",
+  "pids": [
+    {
+      "pid": 160,
+      "iso_pid": 62624,
+      "name": "Supported PIDs [$A1-$C0]",
+      "name_zh": "支持的PID [$A1-$C0]",
+      "type": "supported",
+      "data_bytes": 4
+    },
+    {
+      "pid": 161,
+      "iso_pid": 62625,
+      "name": "NOx Sensor Corrected",
+      "name_zh": "NOx传感器校正值",
+      "description": "Corrected NOx sensor signal (B1S1/S2, B2S1/S2). Includes all learned adaptions and offsets. 1 ppm/bit, 0~65535 ppm. 2016 MY+ engines with NOx sensors may require this in addition to raw PID $83. Bits 4-7 of A indicate data availability (1 = no fault but no results; data reports $FFFF).",
+      "description_zh": "校正后NOx传感器信号（组1传感器1/2，组2传感器1/2）。包含所有学习自适应和偏移量。1 ppm/位，0~65535 ppm。2016年及以后带NOx传感器的发动机可能需要此PID作为原始PID $83的补充。A字节位4-7指示数据可用性（1=无故障但无结果；数据报告$FFFF）。",
+      "data_bytes": 9,
+      "type": "bitmap",
+      "items": [
+        { "label": "NOXC_SUP", "name": "Support of NOx Sensor Corrected Data", "name_zh": "NOx传感器校正数据支持", "bytes": "A", "formula": "Bit Mapped", "unit": "", "min": 0.0, "max": 0.0, "display": "" },
+        { "label": "NOXC11", "name": "NOx Sensor Corrected Concentration B1S1", "name_zh": "NOx传感器校正浓度 组1传感器1", "bytes": "B,C", "formula": "(B * 256 + C)", "unit": "ppm", "min": 0.0, "max": 65535.0, "display": "NOXC11: xxxxx ppm" },
+        { "label": "NOXC12", "name": "NOx Sensor Corrected Concentration B1S2", "name_zh": "NOx传感器校正浓度 组1传感器2", "bytes": "D,E", "formula": "(D * 256 + E)", "unit": "ppm", "min": 0.0, "max": 65535.0, "display": "NOXC12: xxxxx ppm" },
+        { "label": "NOXC21", "name": "NOx Sensor Corrected Concentration B2S1", "name_zh": "NOx传感器校正浓度 组2传感器1", "bytes": "F,G", "formula": "(F * 256 + G)", "unit": "ppm", "min": 0.0, "max": 65535.0, "display": "NOXC21: xxxxx ppm" },
+        { "label": "NOXC22", "name": "NOx Sensor Corrected Concentration B2S2", "name_zh": "NOx传感器校正浓度 组2传感器2", "bytes": "H,I", "formula": "(H * 256 + I)", "unit": "ppm", "min": 0.0, "max": 65535.0, "display": "NOXC22: xxxxx ppm" }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "NOxC B1S1 supported", "name_zh": "NOx校正组1传感器1支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "NOxC B1S2 supported", "name_zh": "NOx校正组1传感器2支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "NOxC B2S1 supported", "name_zh": "NOx校正组2传感器1支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "NOxC B2S2 supported", "name_zh": "NOx校正组2传感器2支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 4, "name": "NOxC B1S1 data availability", "name_zh": "NOx校正组1传感器1数据可用性", "v0": "Data available", "v1": "No fault, no results ($FFFF)" },
+        { "byte": "A", "bit": 5, "name": "NOxC B1S2 data availability", "name_zh": "NOx校正组1传感器2数据可用性", "v0": "Data available", "v1": "No fault, no results ($FFFF)" },
+        { "byte": "A", "bit": 6, "name": "NOxC B2S1 data availability", "name_zh": "NOx校正组2传感器1数据可用性", "v0": "Data available", "v1": "No fault, no results ($FFFF)" },
+        { "byte": "A", "bit": 7, "name": "NOxC B2S2 data availability", "name_zh": "NOx校正组2传感器2数据可用性", "v0": "Data available", "v1": "No fault, no results ($FFFF)" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 162,
+      "iso_pid": 62626,
+      "name": "Cylinder Fuel Rate",
+      "name_zh": "气缸燃油速率",
+      "description": "Calculated amount of fuel injected into the cylinder for combustion during the most recent intake stroke. 0.03125 mg/stroke per bit, 0~2047.97 mg/stroke. Zero when engine not running.",
+      "description_zh": "最近一次进气冲程中喷入气缸用于燃烧的计算燃油量。0.03125 mg/冲程/位，0~2047.97 mg/冲程。发动机未运行时为零。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "CYL_RATE",
+          "name": "Cylinder Fuel Rate",
+          "name_zh": "气缸燃油速率",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 0.03125",
+          "unit": "mg/stroke",
+          "min": 0.0,
+          "max": 2047.97,
+          "display": "CYL_RATE: xxxx.xx mg/stroke"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 163,
+      "iso_pid": 62627,
+      "name": "Evap System Vapor Pressure",
+      "name_zh": "蒸发系统蒸气压力",
+      "description": "Evaporative system vapor pressure from sensors in fuel tank or vapor line. Two sensors (A/B) with two ranges each: standard (0.25 Pa/bit signed, ±8192 Pa) and wide range (2 Pa/bit signed, ±65536 Pa). Not allowed to support same sensor with two ranges.",
+      "description_zh": "来自燃油箱或蒸气管路传感器的蒸发系统蒸气压力。两个传感器（A/B）各有两个量程：标准（0.25 Pa/位有符号，±8192 Pa）和宽量程（2 Pa/位有符号，±65536 Pa）。不允许同一传感器使用两个量程。",
+      "data_bytes": 9,
+      "type": "bitmap",
+      "items": [
+        { "label": "EVAP_VP_SUP", "name": "Support of Evap System Vapor Pressure", "name_zh": "蒸发系统蒸气压力支持", "bytes": "A", "formula": "Bit Mapped", "unit": "", "min": 0.0, "max": 0.0, "display": "" },
+        {
+          "label": "EVAP_A_VP",
+          "name": "Evap System Vapor Pressure A",
+          "name_zh": "蒸发系统蒸气压力A",
+          "bytes": "B,C",
+          "formula": "(B * 256 + C) * 0.25",
+          "unit": "Pa",
+          "min": -8192.0,
+          "max": 8191.75,
+          "signed": true,
+          "display": "EVAP_A_VP: xxxx.xx Pa (xx.xxx inH2O)",
+          "unit_alt": "inH2O",
+          "alt_factor": 0.00401865,
+          "alt_offset": 0
+        },
+        {
+          "label": "EVAP_A_VP_WR",
+          "name": "Evap System Vapor Pressure A (wide range)",
+          "name_zh": "蒸发系统蒸气压力A（宽量程）",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 2",
+          "unit": "Pa",
+          "min": -65536.0,
+          "max": 65534.0,
+          "signed": true,
+          "display": "EVAP_A_VP: xxxxx Pa (xxx.xx inH2O)",
+          "unit_alt": "inH2O",
+          "alt_factor": 0.00401865,
+          "alt_offset": 0
+        },
+        {
+          "label": "EVAP_B_VP",
+          "name": "Evap System Vapor Pressure B",
+          "name_zh": "蒸发系统蒸气压力B",
+          "bytes": "F,G",
+          "formula": "(F * 256 + G) * 0.25",
+          "unit": "Pa",
+          "min": -8192.0,
+          "max": 8191.75,
+          "signed": true,
+          "display": "EVAP_B_VP: xxxx.xx Pa (xx.xxx inH2O)",
+          "unit_alt": "inH2O",
+          "alt_factor": 0.00401865,
+          "alt_offset": 0
+        },
+        {
+          "label": "EVAP_B_VP_WR",
+          "name": "Evap System Vapor Pressure B (wide range)",
+          "name_zh": "蒸发系统蒸气压力B（宽量程）",
+          "bytes": "H,I",
+          "formula": "(H * 256 + I) * 2",
+          "unit": "Pa",
+          "min": -65536.0,
+          "max": 65534.0,
+          "signed": true,
+          "display": "EVAP_B_VP: xxxxx Pa (xxx.xx inH2O)",
+          "unit_alt": "inH2O",
+          "alt_factor": 0.00401865,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Evap Vapor Pressure A supported", "name_zh": "蒸气压力A支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Evap Vapor Pressure A (wide range) supported", "name_zh": "蒸气压力A宽量程支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "Evap Vapor Pressure B supported", "name_zh": "蒸气压力B支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "Evap Vapor Pressure B (wide range) supported", "name_zh": "蒸气压力B宽量程支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 164,
+      "iso_pid": 62628,
+      "name": "Transmission Actual Gear",
+      "name_zh": "变速器实际挡位",
+      "description": "Byte B bits 4-7: actual gear (4-bit, 0=neutral, 1-15=gear). Bytes C,D: gear ratio (0.001/bit, 0~65.535, ratio of input to output shaft speed).",
+      "description_zh": "字节B位4-7：实际挡位（4位，0=空挡，1-15=挡位）。字节C,D：齿轮比（0.001/位，0~65.535，输入轴与输出轴转速之比）。",
+      "data_bytes": 4,
+      "type": "bitmap",
+      "items": [
+        { "label": "GEAR_SUP", "name": "Transmission Actual Gear Status Supported", "name_zh": "变速器实际挡位状态支持", "bytes": "A", "formula": "Bit Mapped", "unit": "", "min": 0.0, "max": 0.0, "display": "" },
+        { "label": "GEAR_ACT_BYTE", "name": "Transmission Actual Gear (byte B)", "name_zh": "变速器实际挡位（字节B）", "bytes": "B", "formula": "State Encoded", "unit": "", "min": 0.0, "max": 0.0, "display": "" },
+        {
+          "label": "GEAR_RAT",
+          "name": "Transmission Actual Gear Ratio",
+          "name_zh": "变速器实际齿轮比",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 0.001",
+          "unit": "",
+          "min": 0.0,
+          "max": 65.535,
+          "display": "GEAR_RAT: xx.xxx"
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Transmission Actual Gear supported", "name_zh": "变速器实际挡位支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Transmission Actual Gear Ratio supported", "name_zh": "变速器实际齿轮比支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": [
+        {
+          "label": "GEAR_ACT",
+          "name": "Transmission Actual Gear",
+          "name_zh": "变速器实际挡位",
+          "byte": "B",
+          "bits": "4-7",
+          "formula": "(B >> 4) & 0x0F",
+          "unit": "",
+          "enums": [
+            { "code": 0, "name": "Neutral", "name_zh": "空挡" },
+            { "code": 1, "name": "Gear 1", "name_zh": "1挡" },
+            { "code": 2, "name": "Gear 2", "name_zh": "2挡" },
+            { "code": 3, "name": "Gear 3", "name_zh": "3挡" },
+            { "code": 4, "name": "Gear 4", "name_zh": "4挡" },
+            { "code": 5, "name": "Gear 5", "name_zh": "5挡" },
+            { "code": 6, "name": "Gear 6", "name_zh": "6挡" },
+            { "code": 7, "name": "Gear 7", "name_zh": "7挡" },
+            { "code": 8, "name": "Gear 8", "name_zh": "8挡" },
+            { "code": 9, "name": "Gear 9", "name_zh": "9挡" },
+            { "code": 10, "name": "Gear 10", "name_zh": "10挡" },
+            { "code": 11, "name": "Gear 11", "name_zh": "11挡" },
+            { "code": 12, "name": "Gear 12", "name_zh": "12挡" },
+            { "code": 13, "name": "Gear 13", "name_zh": "13挡" },
+            { "code": 14, "name": "Gear 14", "name_zh": "14挡" },
+            { "code": 15, "name": "Gear 15", "name_zh": "15挡" }
+          ],
+          "display": "GEAR_ACT: 0-15"
+        }
+      ]
+    },
+    {
+      "pid": 165,
+      "iso_pid": 62629,
+      "name": "Diesel Exhaust Fluid Dosing",
+      "name_zh": "柴油排气液加注",
+      "description": "Commanded DEF dosing (0.5%/bit, 0~100%) and DEF usage for the current driving cycle (0.0005 L/bit, 0~32.7675 L). DEF_UCDC resets to zero after engine start on subsequent driving cycle.",
+      "description_zh": "指令DEF加注量（0.5%/位，0~100%）和当前驾驶循环的DEF使用量（0.0005 L/位，0~32.7675 L）。DEF_UCDC在后续驾驶循环发动机启动后重置为零。",
+      "data_bytes": 4,
+      "type": "bitmap",
+      "items": [
+        { "label": "DEF_DOSE_SUP", "name": "Support of DEF Dosing Data", "name_zh": "DEF加注数据支持", "bytes": "A", "formula": "Bit Mapped", "unit": "", "min": 0.0, "max": 0.0, "display": "" },
+        {
+          "label": "DEF_CMD",
+          "name": "Commanded DEF Dosing",
+          "name_zh": "指令DEF加注量",
+          "bytes": "B",
+          "formula": "B * 0.5",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "DEF_CMD: xxx.x %"
+        },
+        {
+          "label": "DEF_UCDC",
+          "name": "DEF Usage for the Current Driving Cycle",
+          "name_zh": "当前驾驶循环DEF使用量",
+          "bytes": "C,D",
+          "formula": "(C * 256 + D) * 0.0005",
+          "unit": "L",
+          "min": 0.0,
+          "max": 32.7675,
+          "display": "DEF_UCDC: xx.xxxx L (x.xxxx gal)",
+          "unit_alt": "gal",
+          "alt_factor": 0.264172,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Commanded DEF Dosing supported", "name_zh": "指令DEF加注支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "DEF Usage for Current Driving Cycle supported", "name_zh": "当前驾驶循环DEF使用量支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 166,
+      "iso_pid": 62630,
+      "name": "Vehicle Odometer",
+      "name_zh": "车辆里程表",
+      "description": "Vehicle odometer reading, 0.1 km/bit, 0~429,496,729.5 km. Reported by single ECU using operator-visible odometer. Updated minimum 1 sec. Continues in key-on/engine-off. Reset only on reprogramming event. Not cleared by scan tool. If unavailable, reports last valid value.",
+      "description_zh": "车辆里程表读数，0.1 km/位，0~429,496,729.5 km。由单个ECU使用操作员可见里程表报告。最低1秒更新。钥匙开/发动机关时继续报告。仅在重新编程事件时清零。扫描工具不会清除。不可用时报告最后有效值。",
+      "data_bytes": 4,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "ODO",
+          "name": "Vehicle Odometer Reading",
+          "name_zh": "车辆里程表读数",
+          "bytes": "A,B,C,D",
+          "formula": "(A * 16777216 + B * 65536 + C * 256 + D) * 0.1",
+          "unit": "km",
+          "min": 0.0,
+          "max": 429496729.5,
+          "display": "ODO: xxxxxxxxx.x km (xxxxxxxxx.x miles)",
+          "unit_alt": "miles",
+          "alt_factor": 0.6214,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [],
+      "numeric_fields": [],
+      "note": "Not reset by Service $04 or any scan tool command. Only reset on reprogramming event."
+    },
+    {
+      "pid": 167,
+      "iso_pid": 62631,
+      "name": "NOx Sensor (Sensors 3/4)",
+      "name_zh": "NOx传感器（传感器3/4）",
+      "description": "Raw, uncorrected NOx sensor signal for B1S3/S4, B2S3/S4. 1 ppm/bit, 0~65535 ppm. Corrected signal available via PID $A8. Bits 4-7 of A indicate data availability.",
+      "description_zh": "气缸组1传感器3/4、组2传感器3/4的原始未校正NOx传感器信号。1 ppm/位，0~65535 ppm。校正信号通过PID $A8获取。A字节位4-7指示数据可用性。",
+      "data_bytes": 9,
+      "type": "bitmap",
+      "items": [
+        { "label": "NOX34_SUP", "name": "Support of NOx Sensor Data (Sensors 3/4)", "name_zh": "NOx传感器数据支持（传感器3/4）", "bytes": "A", "formula": "Bit Mapped", "unit": "", "min": 0.0, "max": 0.0, "display": "" },
+        { "label": "NOX13", "name": "NOx Sensor Concentration B1S3", "name_zh": "NOx传感器浓度 组1传感器3", "bytes": "B,C", "formula": "(B * 256 + C)", "unit": "ppm", "min": 0.0, "max": 65535.0, "display": "NOX13: xxxxx ppm" },
+        { "label": "NOX14", "name": "NOx Sensor Concentration B1S4", "name_zh": "NOx传感器浓度 组1传感器4", "bytes": "D,E", "formula": "(D * 256 + E)", "unit": "ppm", "min": 0.0, "max": 65535.0, "display": "NOX14: xxxxx ppm" },
+        { "label": "NOX23", "name": "NOx Sensor Concentration B2S3", "name_zh": "NOx传感器浓度 组2传感器3", "bytes": "F,G", "formula": "(F * 256 + G)", "unit": "ppm", "min": 0.0, "max": 65535.0, "display": "NOX23: xxxxx ppm" },
+        { "label": "NOX24", "name": "NOx Sensor Concentration B2S4", "name_zh": "NOx传感器浓度 组2传感器4", "bytes": "H,I", "formula": "(H * 256 + I)", "unit": "ppm", "min": 0.0, "max": 65535.0, "display": "NOX24: xxxxx ppm" }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "NOx B1S3 supported", "name_zh": "NOx组1传感器3支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "NOx B1S4 supported", "name_zh": "NOx组1传感器4支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "NOx B2S3 supported", "name_zh": "NOx组2传感器3支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "NOx B2S4 supported", "name_zh": "NOx组2传感器4支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 4, "name": "NOx B1S3 data availability", "name_zh": "NOx组1传感器3数据可用性", "v0": "Data available", "v1": "No fault, no results ($FFFF)" },
+        { "byte": "A", "bit": 5, "name": "NOx B1S4 data availability", "name_zh": "NOx组1传感器4数据可用性", "v0": "Data available", "v1": "No fault, no results ($FFFF)" },
+        { "byte": "A", "bit": 6, "name": "NOx B2S3 data availability", "name_zh": "NOx组2传感器3数据可用性", "v0": "Data available", "v1": "No fault, no results ($FFFF)" },
+        { "byte": "A", "bit": 7, "name": "NOx B2S4 data availability", "name_zh": "NOx组2传感器4数据可用性", "v0": "Data available", "v1": "No fault, no results ($FFFF)" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 168,
+      "iso_pid": 62632,
+      "name": "NOx Sensor Corrected (Sensors 3/4)",
+      "name_zh": "NOx传感器校正值（传感器3/4）",
+      "description": "Corrected NOx sensor signal for B1S3/S4, B2S3/S4. Includes all learned adaptions and offsets. 1 ppm/bit, 0~65535 ppm. Raw signal via PID $A7. Bits 4-7 of A indicate data availability.",
+      "description_zh": "气缸组1传感器3/4、组2传感器3/4的校正后NOx传感器信号。包含所有学习自适应和偏移量。1 ppm/位，0~65535 ppm。原始信号通过PID $A7获取。A字节位4-7指示数据可用性。",
+      "data_bytes": 9,
+      "type": "bitmap",
+      "items": [
+        { "label": "NOXC34_SUP", "name": "Support of NOx Sensor Corrected Data (Sensors 3/4)", "name_zh": "NOx传感器校正数据支持（传感器3/4）", "bytes": "A", "formula": "Bit Mapped", "unit": "", "min": 0.0, "max": 0.0, "display": "" },
+        { "label": "NOXC13", "name": "NOx Sensor Corrected Concentration B1S3", "name_zh": "NOx传感器校正浓度 组1传感器3", "bytes": "B,C", "formula": "(B * 256 + C)", "unit": "ppm", "min": 0.0, "max": 65535.0, "display": "NOXC13: xxxxx ppm" },
+        { "label": "NOXC14", "name": "NOx Sensor Corrected Concentration B1S4", "name_zh": "NOx传感器校正浓度 组1传感器4", "bytes": "D,E", "formula": "(D * 256 + E)", "unit": "ppm", "min": 0.0, "max": 65535.0, "display": "NOXC14: xxxxx ppm" },
+        { "label": "NOXC23", "name": "NOx Sensor Corrected Concentration B2S3", "name_zh": "NOx传感器校正浓度 组2传感器3", "bytes": "F,G", "formula": "(F * 256 + G)", "unit": "ppm", "min": 0.0, "max": 65535.0, "display": "NOXC23: xxxxx ppm" },
+        { "label": "NOXC24", "name": "NOx Sensor Corrected Concentration B2S4", "name_zh": "NOx传感器校正浓度 组2传感器4", "bytes": "H,I", "formula": "(H * 256 + I)", "unit": "ppm", "min": 0.0, "max": 65535.0, "display": "NOXC24: xxxxx ppm" }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "NOxC B1S3 supported", "name_zh": "NOx校正组1传感器3支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "NOxC B1S4 supported", "name_zh": "NOx校正组1传感器4支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "NOxC B2S3 supported", "name_zh": "NOx校正组2传感器3支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "NOxC B2S4 supported", "name_zh": "NOx校正组2传感器4支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 4, "name": "NOxC B1S3 data availability", "name_zh": "NOx校正组1传感器3数据可用性", "v0": "Data available", "v1": "No fault, no results ($FFFF)" },
+        { "byte": "A", "bit": 5, "name": "NOxC B1S4 data availability", "name_zh": "NOx校正组1传感器4数据可用性", "v0": "Data available", "v1": "No fault, no results ($FFFF)" },
+        { "byte": "A", "bit": 6, "name": "NOxC B2S3 data availability", "name_zh": "NOx校正组2传感器3数据可用性", "v0": "Data available", "v1": "No fault, no results ($FFFF)" },
+        { "byte": "A", "bit": 7, "name": "NOxC B2S4 data availability", "name_zh": "NOx校正组2传感器4数据可用性", "v0": "Data available", "v1": "No fault, no results ($FFFF)" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 169,
+      "iso_pid": 62633,
+      "name": "Motorcycle Input/Output Status",
+      "name_zh": "摩托车输入/输出状态",
+      "description": "Byte A = support bits, Byte B = status. Currently only ABS Disable Switch defined.",
+      "description_zh": "字节A=支持位，字节B=状态。目前仅定义ABS禁用开关。",
+      "data_bytes": 2,
+      "type": "bitmap",
+      "items": [
+        { "label": "MC_IO_SUP", "name": "Motorcycle I/O Support", "name_zh": "摩托车I/O支持", "bytes": "A", "formula": "Bit Mapped", "unit": "", "min": 0.0, "max": 0.0, "display": "" },
+        { "label": "MC_IO_STAT", "name": "Motorcycle I/O Status", "name_zh": "摩托车I/O状态", "bytes": "B", "formula": "Bit Mapped", "unit": "", "min": 0.0, "max": 0.0, "display": "" }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "ABS Disable Switch supported", "name_zh": "ABS禁用开关支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "B", "bit": 0, "name": "ABS Disable Switch State", "name_zh": "ABS禁用开关状态", "v0": "ABS not disabled (NO)", "v1": "ABS disabled (YES)", "display": "ABS_DISABLED" }
+      ],
+      "numeric_fields": [],
+      "note": "PTO input status is defined in PID $1E."
+    }
+  ]
+}

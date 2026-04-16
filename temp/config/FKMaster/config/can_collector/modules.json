@@ -1,0 +1,77 @@
+{
+    "modules": [
+        {
+            "frequency": 100,
+            "id": 12289,
+            "messages": [
+                {
+                    "id": 769,
+                    "original_name": "CurrentFD_1",
+                    "signals": [
+                        {
+                            "channel": 0,
+                            "measure_range": 0,
+                            "new_name": "CurrentFD01",
+                            "original_name": "CurrentFD01",
+                            "out_voltage": 0
+                        },
+                        {
+                            "channel": 1,
+                            "measure_range": 0,
+                            "new_name": "CurrentFD02",
+                            "original_name": "CurrentFD02",
+                            "out_voltage": 0
+                        },
+                        {
+                            "channel": 2,
+                            "measure_range": 0,
+                            "new_name": "CurrentFD03",
+                            "original_name": "CurrentFD03",
+                            "out_voltage": 0
+                        },
+                        {
+                            "channel": 3,
+                            "measure_range": 0,
+                            "new_name": "CurrentFD04",
+                            "original_name": "CurrentFD04",
+                            "out_voltage": 0
+                        },
+                        {
+                            "channel": 4,
+                            "measure_range": 0,
+                            "new_name": "CurrentFD05",
+                            "original_name": "CurrentFD05",
+                            "out_voltage": 0
+                        },
+                        {
+                            "channel": 5,
+                            "measure_range": 0,
+                            "new_name": "CurrentFD06",
+                            "original_name": "CurrentFD06",
+                            "out_voltage": 0
+                        },
+                        {
+                            "channel": 6,
+                            "measure_range": 0,
+                            "new_name": "CurrentFD07",
+                            "original_name": "CurrentFD07",
+                            "out_voltage": 0
+                        },
+                        {
+                            "channel": 7,
+                            "measure_range": 0,
+                            "new_name": "CurrentFD08",
+                            "original_name": "CurrentFD08",
+                            "out_voltage": 0
+                        }
+                    ]
+                }
+            ],
+            "name": "Current_1",
+            "type": 3
+        }
+    ],
+    "used_module_types": [
+        3
+    ]
+}

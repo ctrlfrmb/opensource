@@ -1,0 +1,2347 @@
+{
+  "language": "en",
+  "pids": [
+    {
+      "pid": 96,
+      "iso_pid": 62560,
+      "name": "Supported PIDs [$61-$80]",
+      "name_zh": "支持的PID [$61-$80]",
+      "type": "supported",
+      "data_bytes": 4
+    },
+    {
+      "pid": 97,
+      "iso_pid": 62561,
+      "name": "Driver's Demand Engine - Percent Torque",
+      "name_zh": "驾驶员需求发动机百分比扭矩",
+      "description": "TQ_DD displays the requested torque from the propulsion system engine by the driver, inclusive of all torque contributors. Transmitted as indicated torque as a percent of reference engine torque (PID $63). TQ_DD will be approximately zero at idle with zero vehicle speed.",
+      "description_zh": "TQ_DD显示驾驶员对驱动系统发动机的需求扭矩，包含所有扭矩贡献者。以参考发动机扭矩(PID $63)的百分比传输指示扭矩。怠速且车速为零时TQ_DD约为零。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "TQ_DD",
+          "name": "Driver's Demand Engine - Percent Torque",
+          "name_zh": "驾驶员需求发动机百分比扭矩",
+          "bytes": "A",
+          "formula": "A - 125",
+          "unit": "%",
+          "min": -125.0,
+          "max": 130.0,
+          "display": "TQ_DD: xxx.x %"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 98,
+      "iso_pid": 62562,
+      "name": "Actual Engine - Percent Torque",
+      "name_zh": "实际发动机百分比扭矩",
+      "description": "TQ_ACT displays calculated output torque of the engine (indicated torque = net brake torque + friction torque). Transmitted as a percent of engine reference torque (PID $63). Will not be less than zero.",
+      "description_zh": "TQ_ACT显示发动机计算输出扭矩（指示扭矩=净制动扭矩+摩擦扭矩）。以参考发动机扭矩(PID $63)的百分比传输。不会小于零。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "TQ_ACT",
+          "name": "Actual Engine - Percent Torque",
+          "name_zh": "实际发动机百分比扭矩",
+          "bytes": "A",
+          "formula": "A - 125",
+          "unit": "%",
+          "min": -125.0,
+          "max": 130.0,
+          "display": "TQ_ACT: xxx.x %"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 99,
+      "iso_pid": 62563,
+      "name": "Engine Reference Torque",
+      "name_zh": "发动机参考扭矩",
+      "description": "TQ_REF is the 100% reference value for all defined indicated engine torque parameters. Defined once; does not change if a different engine torque map becomes valid.",
+      "description_zh": "TQ_REF是所有已定义指示发动机扭矩参数的100%参考值。仅定义一次；更换发动机扭矩映射时不变。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "TQ_REF",
+          "name": "Engine Reference Torque",
+          "name_zh": "发动机参考扭矩",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B)",
+          "unit": "Nm",
+          "min": 0.0,
+          "max": 65535.0,
+          "display": "TQ_REF: xxxxx Nm (xxxxx ft·lb)",
+          "unit_alt": "ft·lb",
+          "alt_factor": 0.7376,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 100,
+      "iso_pid": 62564,
+      "name": "Engine Percent Torque Data",
+      "name_zh": "发动机百分比扭矩数据",
+      "description": "5-point torque map describing stationary engine behavior. Reflects barometric pressure, engine temperature, and other stationary changes >10%. Only valid for max boost pressure. One of points 3/4/5 must indicate peak torque. Points 3-5 lie between idle (point 1) and point 2.",
+      "description_zh": "描述发动机稳态特性的5点扭矩映射。反映气压、发动机温度及其他>10%的稳态变化。仅在最大增压压力下有效。点3/4/5中必须有一点表示峰值扭矩。点3-5位于怠速(点1)和点2之间。",
+      "data_bytes": 5,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "TQ_MAX1",
+          "name": "Engine Percent Torque At Idle, Point 1",
+          "name_zh": "怠速时发动机百分比扭矩，点1",
+          "bytes": "A",
+          "formula": "A - 125",
+          "unit": "%",
+          "min": -125.0,
+          "max": 130.0,
+          "display": "TQ_MAX1: xxx.x %"
+        },
+        {
+          "label": "TQ_MAX2",
+          "name": "Engine Percent Torque At Point 2",
+          "name_zh": "发动机百分比扭矩点2",
+          "bytes": "B",
+          "formula": "B - 125",
+          "unit": "%",
+          "min": -125.0,
+          "max": 130.0,
+          "display": "TQ_MAX2: xxx.x %"
+        },
+        {
+          "label": "TQ_MAX3",
+          "name": "Engine Percent Torque At Point 3",
+          "name_zh": "发动机百分比扭矩点3",
+          "bytes": "C",
+          "formula": "C - 125",
+          "unit": "%",
+          "min": -125.0,
+          "max": 130.0,
+          "display": "TQ_MAX3: xxx.x %"
+        },
+        {
+          "label": "TQ_MAX4",
+          "name": "Engine Percent Torque At Point 4",
+          "name_zh": "发动机百分比扭矩点4",
+          "bytes": "D",
+          "formula": "D - 125",
+          "unit": "%",
+          "min": -125.0,
+          "max": 130.0,
+          "display": "TQ_MAX4: xxx.x %"
+        },
+        {
+          "label": "TQ_MAX5",
+          "name": "Engine Percent Torque At Point 5",
+          "name_zh": "发动机百分比扭矩点5",
+          "bytes": "E",
+          "formula": "E - 125",
+          "unit": "%",
+          "min": -125.0,
+          "max": 130.0,
+          "display": "TQ_MAX5: xxx.x %"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 101,
+      "iso_pid": 62565,
+      "name": "Auxiliary Inputs/Output Status",
+      "name_zh": "辅助输入/输出状态",
+      "description": "Byte A reports support status of PTO, Auto/Manual trans, glow plug lamp, and recommended gear. Byte B reports actual status and recommended gear value (bits 4-7).",
+      "description_zh": "字节A报告PTO、自动/手动变速器、预热指示灯和推荐挡位的支持状态。字节B报告实际状态和推荐挡位值（位4-7）。",
+      "data_bytes": 2,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "AUX_SUP",
+          "name": "Auxiliary Support Status",
+          "name_zh": "辅助支持状态",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "AUX_STAT",
+          "name": "Auxiliary Input/Output Status",
+          "name_zh": "辅助输入/输出状态",
+          "bytes": "B",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        }
+      ],
+      "bits": [
+        {
+          "byte": "A", "bit": 0,
+          "name": "Power Take Off (PTO) Output Status Supported",
+          "name_zh": "动力输出(PTO)输出状态支持",
+          "v0": "Not supported", "v1": "Supported"
+        },
+        {
+          "byte": "A", "bit": 1,
+          "name": "Auto Trans Neutral/Drive Status Supported",
+          "name_zh": "自动变速器空挡/行驶状态支持",
+          "v0": "Not supported", "v1": "Supported"
+        },
+        {
+          "byte": "A", "bit": 2,
+          "name": "Manual Trans Neutral/Gear Status Supported",
+          "name_zh": "手动变速器空挡/挡位状态支持",
+          "v0": "Not supported", "v1": "Supported"
+        },
+        {
+          "byte": "A", "bit": 3,
+          "name": "Glow Plug Lamp Status Supported",
+          "name_zh": "预热指示灯状态支持",
+          "v0": "Not supported", "v1": "Supported"
+        },
+        {
+          "byte": "A", "bit": 4,
+          "name": "Recommended Gear Supported",
+          "name_zh": "推荐挡位支持",
+          "v0": "Not supported", "v1": "Supported"
+        },
+        {
+          "byte": "B", "bit": 0,
+          "name": "Power Take Off (PTO) Output Status",
+          "name_zh": "PTO输出状态",
+          "v0": "OFF", "v1": "ON",
+          "display": "PTO_STAT"
+        },
+        {
+          "byte": "B", "bit": 1,
+          "name": "Auto Trans Neutral/Drive Status",
+          "name_zh": "自动变速器空挡/行驶状态",
+          "v0": "Park/Neutral", "v1": "In Drive",
+          "v0_zh": "驻车/空挡", "v1_zh": "行驶挡",
+          "display": "N/D_STAT"
+        },
+        {
+          "byte": "B", "bit": 2,
+          "name": "Manual Trans Neutral/Gear Status",
+          "name_zh": "手动变速器空挡/挡位状态",
+          "v0": "Neutral", "v1": "In Gear",
+          "v0_zh": "空挡", "v1_zh": "挂挡",
+          "display": "N/G_STAT"
+        },
+        {
+          "byte": "B", "bit": 3,
+          "name": "Glow Plug Lamp Output Status",
+          "name_zh": "预热指示灯输出状态",
+          "v0": "OFF", "v1": "ON",
+          "display": "GPL_STAT"
+        }
+      ],
+      "numeric_fields": [
+        {
+          "label": "GEAR_RCMD",
+          "name": "Recommended Gear",
+          "name_zh": "推荐挡位",
+          "byte": "B",
+          "bits": "4-7",
+          "formula": "(B >> 4) & 0x0F",
+          "unit": "",
+          "min": 0,
+          "max": 15,
+          "display": "GEAR_RCMD: xx",
+          "note": "0=neutral/reserved, 1-15=Gear 1-15"
+        }
+      ]
+    },
+	{
+      "pid": 102,
+      "iso_pid": 62566,
+      "name": "Mass Air Flow Sensor",
+      "name_zh": "空气流量传感器",
+      "description": "MAF A/B display airflow rate from MAF sensor or equivalent. If engine off and ignition on, report actual sensor reading; if unavailable, report 0.00 g/s. Vehicles with two MAF sensors use MAF A and MAF B.",
+      "description_zh": "MAF A/B显示MAF传感器或等效来源的空气流量。发动机关闭且点火开启时报告实际传感器读数；无法获取时报告0.00 g/s。双MAF传感器车辆使用MAF A和MAF B。",
+      "data_bytes": 5,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "MAF_SUP",
+          "name": "Support of Mass Air Flow Sensor Data",
+          "name_zh": "空气流量传感器数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "MAFA",
+          "name": "Mass Air Flow Sensor A",
+          "name_zh": "空气流量传感器A",
+          "bytes": "B,C",
+          "formula": "(B * 256 + C) * 0.03125",
+          "unit": "g/s",
+          "min": 0.0,
+          "max": 2047.97,
+          "display": "MAFA: xxxx.xx g/s (xxxx.x lb/min)",
+          "unit_alt": "lb/min",
+          "alt_factor": 0.13228,
+          "alt_offset": 0
+        },
+        {
+          "label": "MAFB",
+          "name": "Mass Air Flow Sensor B",
+          "name_zh": "空气流量传感器B",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 0.03125",
+          "unit": "g/s",
+          "min": 0.0,
+          "max": 2047.97,
+          "display": "MAFB: xxxx.xx g/s (xxxx.x lb/min)",
+          "unit_alt": "lb/min",
+          "alt_factor": 0.13228,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [
+        {
+          "byte": "A", "bit": 0,
+          "name": "MAF Sensor A supported",
+          "name_zh": "MAF传感器A支持",
+          "v0": "Not supported", "v1": "Supported"
+        },
+        {
+          "byte": "A", "bit": 1,
+          "name": "MAF Sensor B supported",
+          "name_zh": "MAF传感器B支持",
+          "v0": "Not supported", "v1": "Supported"
+        }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 103,
+      "iso_pid": 62567,
+      "name": "Engine Coolant Temperature",
+      "name_zh": "发动机冷却液温度",
+      "description": "ECT 1/2 display engine coolant temperature derived from an engine coolant temperature sensor or a cylinder head temperature sensor.",
+      "description_zh": "ECT 1/2显示由发动机冷却液温度传感器或气缸盖温度传感器获取的发动机冷却液温度。",
+      "data_bytes": 3,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "ECT_SUP",
+          "name": "Support of Engine Coolant Temperature Sensor Data",
+          "name_zh": "发动机冷却液温度传感器数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "ECT1",
+          "name": "Engine Coolant Temperature 1",
+          "name_zh": "发动机冷却液温度1",
+          "bytes": "B",
+          "formula": "B - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "ECT 1: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "ECT2",
+          "name": "Engine Coolant Temperature 2",
+          "name_zh": "发动机冷却液温度2",
+          "bytes": "C",
+          "formula": "C - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "ECT 2: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [
+        {
+          "byte": "A", "bit": 0,
+          "name": "ECT Sensor 1 supported",
+          "name_zh": "ECT传感器1支持",
+          "v0": "Not supported", "v1": "Supported"
+        },
+        {
+          "byte": "A", "bit": 1,
+          "name": "ECT Sensor 2 supported",
+          "name_zh": "ECT传感器2支持",
+          "v0": "Not supported", "v1": "Supported"
+        }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 104,
+      "iso_pid": 62568,
+      "name": "Intake Air Temperature",
+      "name_zh": "进气温度",
+      "description": "IAT Bank 1/2, Sensor 1/2/3 display intake manifold air temperature. May be from sensor or inferred by control strategy.",
+      "description_zh": "IAT气缸组1/2传感器1/2/3显示进气歧管空气温度。可来自传感器或由控制策略推算。",
+      "data_bytes": 7,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "IAT_SUP",
+          "name": "Support of Intake Air Temperature Sensor Data",
+          "name_zh": "进气温度传感器数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "IAT11",
+          "name": "Intake Air Temperature Bank 1, Sensor 1",
+          "name_zh": "进气温度 气缸组1，传感器1",
+          "bytes": "B",
+          "formula": "B - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "IAT 11: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "IAT12",
+          "name": "Intake Air Temperature Bank 1, Sensor 2",
+          "name_zh": "进气温度 气缸组1，传感器2",
+          "bytes": "C",
+          "formula": "C - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "IAT 12: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "IAT13",
+          "name": "Intake Air Temperature Bank 1, Sensor 3",
+          "name_zh": "进气温度 气缸组1，传感器3",
+          "bytes": "D",
+          "formula": "D - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "IAT 13: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "IAT21",
+          "name": "Intake Air Temperature Bank 2, Sensor 1",
+          "name_zh": "进气温度 气缸组2，传感器1",
+          "bytes": "E",
+          "formula": "E - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "IAT 21: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "IAT22",
+          "name": "Intake Air Temperature Bank 2, Sensor 2",
+          "name_zh": "进气温度 气缸组2，传感器2",
+          "bytes": "F",
+          "formula": "F - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "IAT 22: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "IAT23",
+          "name": "Intake Air Temperature Bank 2, Sensor 3",
+          "name_zh": "进气温度 气缸组2，传感器3",
+          "bytes": "G",
+          "formula": "G - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "IAT 23: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "IAT Bank 1, Sensor 1 supported", "name_zh": "IAT气缸组1传感器1支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "IAT Bank 1, Sensor 2 supported", "name_zh": "IAT气缸组1传感器2支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "IAT Bank 1, Sensor 3 supported", "name_zh": "IAT气缸组1传感器3支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "IAT Bank 2, Sensor 1 supported", "name_zh": "IAT气缸组2传感器1支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 4, "name": "IAT Bank 2, Sensor 2 supported", "name_zh": "IAT气缸组2传感器2支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 5, "name": "IAT Bank 2, Sensor 3 supported", "name_zh": "IAT气缸组2传感器3支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 105,
+      "iso_pid": 62569,
+      "name": "Commanded EGR and EGR Error",
+      "name_zh": "指令EGR与EGR误差",
+      "description": "EGR A/B commanded duty cycle/position (0%=no flow, 100%=max flow), actual duty cycle/position, and error ((actual-commanded)/commanded × 100%). If closed loop not used, actual and error shall not be supported.",
+      "description_zh": "EGR A/B指令占空比/位置（0%=无流量，100%=最大流量）、实际占空比/位置和误差（(实际-指令)/指令 × 100%）。未使用闭环控制时，实际值和误差不应支持。",
+      "data_bytes": 7,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "EGR_SUP",
+          "name": "Support of EGR System Data",
+          "name_zh": "EGR系统数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "EGR_A_CMD",
+          "name": "Commanded EGR A Duty Cycle/Position",
+          "name_zh": "指令EGR A占空比/位置",
+          "bytes": "B",
+          "formula": "B * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "EGR_A_CMD: xxx.x%"
+        },
+        {
+          "label": "EGR_A_ACT",
+          "name": "Actual EGR A Duty Cycle/Position",
+          "name_zh": "实际EGR A占空比/位置",
+          "bytes": "C",
+          "formula": "C * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "EGR_A_ACT: xxx.x%"
+        },
+        {
+          "label": "EGR_A_ERR",
+          "name": "EGR A Error",
+          "name_zh": "EGR A误差",
+          "bytes": "D",
+          "formula": "D * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "EGR_A_ERR: xxx.x%"
+        },
+        {
+          "label": "EGR_B_CMD",
+          "name": "Commanded EGR B Duty Cycle/Position",
+          "name_zh": "指令EGR B占空比/位置",
+          "bytes": "E",
+          "formula": "E * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "EGR_B_CMD: xxx.x%"
+        },
+        {
+          "label": "EGR_B_ACT",
+          "name": "Actual EGR B Duty Cycle/Position",
+          "name_zh": "实际EGR B占空比/位置",
+          "bytes": "F",
+          "formula": "F * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "EGR_B_ACT: xxx.x%"
+        },
+        {
+          "label": "EGR_B_ERR",
+          "name": "EGR B Error",
+          "name_zh": "EGR B误差",
+          "bytes": "G",
+          "formula": "G * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "EGR_B_ERR: xxx.x%"
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Commanded EGR A Duty Cycle/Position Supported", "name_zh": "指令EGR A占空比/位置支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Actual EGR A Duty Cycle/Position Supported", "name_zh": "实际EGR A占空比/位置支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "EGR A Error Supported", "name_zh": "EGR A误差支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "Commanded EGR B Duty Cycle/Position Supported", "name_zh": "指令EGR B占空比/位置支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 4, "name": "Actual EGR B Duty Cycle/Position Supported", "name_zh": "实际EGR B占空比/位置支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 5, "name": "EGR B Error Supported", "name_zh": "EGR B误差支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 106,
+      "iso_pid": 62570,
+      "name": "Commanded Diesel Intake Air Flow Control and Relative Intake Air Flow Position",
+      "name_zh": "指令柴油进气流量控制与相对进气流量位置",
+      "description": "Intake Air Flow (also known as EGR Throttle on CI). IAF_A/B_CMD = commanded position (0%=closed, 100%=open). IAF_A/B_REL = relative (learned) position (0%=learned closed, 100%=full open).",
+      "description_zh": "进气流量（在压燃式发动机上也称为EGR节气门）。IAF_A/B_CMD=指令位置（0%=关，100%=开）。IAF_A/B_REL=相对（学习）位置（0%=学习关闭位置，100%=全开）。",
+      "data_bytes": 5,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "IAF_SUP",
+          "name": "Support of Intake Air Flow Control System Data",
+          "name_zh": "进气流量控制系统数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "IAF_A_CMD",
+          "name": "Commanded Intake Air Flow A Control",
+          "name_zh": "指令进气流量A控制",
+          "bytes": "B",
+          "formula": "B * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "IAF_A_CMD: xxx.x%"
+        },
+        {
+          "label": "IAF_A_REL",
+          "name": "Relative Intake Air Flow A Position",
+          "name_zh": "相对进气流量A位置",
+          "bytes": "C",
+          "formula": "C * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "IAF_A_REL: xxx.x %"
+        },
+        {
+          "label": "IAF_B_CMD",
+          "name": "Commanded Intake Air Flow B Control",
+          "name_zh": "指令进气流量B控制",
+          "bytes": "D",
+          "formula": "D * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "IAF_B_CMD: xxx.x%"
+        },
+        {
+          "label": "IAF_B_REL",
+          "name": "Relative Intake Air Flow B Position",
+          "name_zh": "相对进气流量B位置",
+          "bytes": "E",
+          "formula": "E * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "IAF_B_REL: xxx.x %"
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Commanded Intake Air Flow A Control supported", "name_zh": "指令进气流量A控制支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Relative Intake Air Flow A Position supported", "name_zh": "相对进气流量A位置支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "Commanded Intake Air Flow B Control supported", "name_zh": "指令进气流量B控制支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "Relative Intake Air Flow B Position supported", "name_zh": "相对进气流量B位置支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 107,
+      "iso_pid": 62571,
+      "name": "Exhaust Gas Recirculation Temperature",
+      "name_zh": "排气再循环温度",
+      "description": "EGR temperature for sensors A(B1S1), C(B1S2), B(B2S1), D(B2S2). Scaling depends on support bits: bits 0-3 = 1°C/bit with -40°C offset (range -40~215°C); bits 4-7 = 4°C/bit with -40°C offset (range -40~980°C). Only one scaling per sensor shall be active.",
+      "description_zh": "EGR温度传感器A(组1传感器1)、C(组1传感器2)、B(组2传感器1)、D(组2传感器2)。缩放取决于支持位：位0-3=1°C/位带-40°C偏移（范围-40~215°C）；位4-7=4°C/位带-40°C偏移（范围-40~980°C）。每个传感器仅一种缩放有效。",
+      "data_bytes": 5,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "EGRT_SUP",
+          "name": "Support of EGR Temperature Sensor Data",
+          "name_zh": "EGR温度传感器数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "EGRTA",
+          "name": "EGR Temp Sensor A (Bank 1, Sensor 1)",
+          "name_zh": "EGR温度传感器A（气缸组1，传感器1）",
+          "bytes": "B",
+          "formula": "B - 40",
+          "formula_wide": "B * 4 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "max_wide": 980.0,
+          "display": "EGRTA: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32,
+          "note": "Standard: A.0=1, 1°C/bit (-40~215°C). Wide: A.4=1, 4°C/bit (-40~980°C)"
+        },
+        {
+          "label": "EGRTC",
+          "name": "EGR Temp Sensor C (Bank 1, Sensor 2)",
+          "name_zh": "EGR温度传感器C（气缸组1，传感器2）",
+          "bytes": "C",
+          "formula": "C - 40",
+          "formula_wide": "C * 4 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "max_wide": 980.0,
+          "display": "EGRTC: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32,
+          "note": "Standard: A.1=1, 1°C/bit. Wide: A.5=1, 4°C/bit"
+        },
+        {
+          "label": "EGRTB",
+          "name": "EGR Temp Sensor B (Bank 2, Sensor 1)",
+          "name_zh": "EGR温度传感器B（气缸组2，传感器1）",
+          "bytes": "D",
+          "formula": "D - 40",
+          "formula_wide": "D * 4 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "max_wide": 980.0,
+          "display": "EGRTB: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32,
+          "note": "Standard: A.2=1, 1°C/bit. Wide: A.6=1, 4°C/bit"
+        },
+        {
+          "label": "EGRTD",
+          "name": "EGR Temp Sensor D (Bank 2, Sensor 2)",
+          "name_zh": "EGR温度传感器D（气缸组2，传感器2）",
+          "bytes": "E",
+          "formula": "E - 40",
+          "formula_wide": "E * 4 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "max_wide": 980.0,
+          "display": "EGRTD: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32,
+          "note": "Standard: A.3=1, 1°C/bit. Wide: A.7=1, 4°C/bit"
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "EGR Temp Sensor A (B1S1) supported – 1°C/bit", "name_zh": "EGR温度传感器A(组1传感器1)支持 – 1°C/位", "v0": "Not supported", "v1": "Supported (1°C/bit)" },
+        { "byte": "A", "bit": 1, "name": "EGR Temp Sensor C (B1S2) supported – 1°C/bit", "name_zh": "EGR温度传感器C(组1传感器2)支持 – 1°C/位", "v0": "Not supported", "v1": "Supported (1°C/bit)" },
+        { "byte": "A", "bit": 2, "name": "EGR Temp Sensor B (B2S1) supported – 1°C/bit", "name_zh": "EGR温度传感器B(组2传感器1)支持 – 1°C/位", "v0": "Not supported", "v1": "Supported (1°C/bit)" },
+        { "byte": "A", "bit": 3, "name": "EGR Temp Sensor D (B2S2) supported – 1°C/bit", "name_zh": "EGR温度传感器D(组2传感器2)支持 – 1°C/位", "v0": "Not supported", "v1": "Supported (1°C/bit)" },
+        { "byte": "A", "bit": 4, "name": "EGR Temp Sensor A (B1S1) Wide Range – 4°C/bit", "name_zh": "EGR温度传感器A(组1传感器1)宽域 – 4°C/位", "v0": "Not supported", "v1": "Supported (4°C/bit)" },
+        { "byte": "A", "bit": 5, "name": "EGR Temp Sensor C (B1S2) Wide Range – 4°C/bit", "name_zh": "EGR温度传感器C(组1传感器2)宽域 – 4°C/位", "v0": "Not supported", "v1": "Supported (4°C/bit)" },
+        { "byte": "A", "bit": 6, "name": "EGR Temp Sensor B (B2S1) Wide Range – 4°C/bit", "name_zh": "EGR温度传感器B(组2传感器1)宽域 – 4°C/位", "v0": "Not supported", "v1": "Supported (4°C/bit)" },
+        { "byte": "A", "bit": 7, "name": "EGR Temp Sensor D (B2S2) Wide Range – 4°C/bit", "name_zh": "EGR温度传感器D(组2传感器2)宽域 – 4°C/位", "v0": "Not supported", "v1": "Supported (4°C/bit)" }
+      ],
+      "numeric_fields": [],
+      "note": "Decoder must check byte A support bits to determine scaling: bits 0-3 → formula X-40, bits 4-7 → formula X*4-40. Only one scaling per sensor shall be active."
+    },
+    {
+      "pid": 108,
+      "iso_pid": 62572,
+      "name": "Commanded Throttle Actuator Control and Relative Throttle Position",
+      "name_zh": "指令节气门执行器控制与相对节气门位置",
+      "description": "TAC_A/B_CMD = commanded throttle position (0%=closed, 100%=open). TP_A/B_REL = relative (learned) throttle position (0%=learned closed, WOT usually <100%).",
+      "description_zh": "TAC_A/B_CMD=指令节气门位置（0%=关，100%=开）。TP_A/B_REL=相对（学习）节气门位置（0%=学习关闭位置，全开通常<100%）。",
+      "data_bytes": 5,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "TAC_SUP",
+          "name": "Support of Throttle Actuator Control System Data",
+          "name_zh": "节气门执行器控制系统数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "TAC_A_CMD",
+          "name": "Commanded Throttle Actuator A Control",
+          "name_zh": "指令节气门执行器A控制",
+          "bytes": "B",
+          "formula": "B * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "TAC_A_CMD: xxx.x%"
+        },
+        {
+          "label": "TP_A_REL",
+          "name": "Relative Throttle A Position",
+          "name_zh": "相对节气门A位置",
+          "bytes": "C",
+          "formula": "C * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "TP_A_REL: xxx.x %"
+        },
+        {
+          "label": "TAC_B_CMD",
+          "name": "Commanded Throttle Actuator B Control",
+          "name_zh": "指令节气门执行器B控制",
+          "bytes": "D",
+          "formula": "D * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "TAC_B_CMD: xxx.x%"
+        },
+        {
+          "label": "TP_B_REL",
+          "name": "Relative Throttle B Position",
+          "name_zh": "相对节气门B位置",
+          "bytes": "E",
+          "formula": "E * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "TP_B_REL: xxx.x %"
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Commanded Throttle Actuator A Control supported", "name_zh": "指令节气门执行器A控制支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Relative Throttle A Position supported", "name_zh": "相对节气门A位置支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "Commanded Throttle Actuator B Control supported", "name_zh": "指令节气门执行器B控制支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "Relative Throttle B Position supported", "name_zh": "相对节气门B位置支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+	{
+      "pid": 109,
+      "iso_pid": 62573,
+      "name": "Fuel Pressure Control System",
+      "name_zh": "燃油压力控制系统",
+      "description": "Commanded and actual fuel rail pressure A/B (gage, referenced to atmosphere), and fuel rail temperature A/B. Pressure: 10 kPa/bit unsigned. Temperature: 1°C with -40°C offset.",
+      "description_zh": "指令和实际燃油轨压力A/B（表压，以大气为基准），以及燃油轨温度A/B。压力：10 kPa/位无符号。温度：1°C带-40°C偏移。",
+      "data_bytes": 11,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "FRP_SUP",
+          "name": "Support of Fuel Pressure Control System Data",
+          "name_zh": "燃油压力控制系统数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "FRP_A_CMD",
+          "name": "Commanded Fuel Rail Pressure A",
+          "name_zh": "指令燃油轨压力A",
+          "bytes": "B,C",
+          "formula": "(B * 256 + C) * 10",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655350.0,
+          "display": "FRP_A_CMD: xxxxxx kPa (xxxxx.x PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "FRP_A",
+          "name": "Fuel Rail Pressure A",
+          "name_zh": "燃油轨压力A",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 10",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655350.0,
+          "display": "FRP_A: xxxxxx kPa (xxxxx.x PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "FRT_A",
+          "name": "Fuel Rail Temperature A",
+          "name_zh": "燃油轨温度A",
+          "bytes": "F",
+          "formula": "F - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "FRT_A: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "FRP_B_CMD",
+          "name": "Commanded Fuel Rail Pressure B",
+          "name_zh": "指令燃油轨压力B",
+          "bytes": "G,H",
+          "formula": "(G * 256 + H) * 10",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655350.0,
+          "display": "FRP_B_CMD: xxxxxx kPa (xxxxx.x PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "FRP_B",
+          "name": "Fuel Rail Pressure B",
+          "name_zh": "燃油轨压力B",
+          "bytes": "I,J",
+          "formula": "(I * 256 + J) * 10",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655350.0,
+          "display": "FRP_B: xxxxxx kPa (xxxxx.x PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "FRT_B",
+          "name": "Fuel Rail Temperature B",
+          "name_zh": "燃油轨温度B",
+          "bytes": "K",
+          "formula": "K - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "FRT_B: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Commanded Fuel Rail Pressure A supported", "name_zh": "指令燃油轨压力A支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Fuel Rail Pressure A supported", "name_zh": "燃油轨压力A支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "Fuel Temperature A supported", "name_zh": "燃油温度A支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "Commanded Fuel Rail Pressure B supported", "name_zh": "指令燃油轨压力B支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 4, "name": "Fuel Rail Pressure B supported", "name_zh": "燃油轨压力B支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 5, "name": "Fuel Temperature B supported", "name_zh": "燃油温度B支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 110,
+      "iso_pid": 62574,
+      "name": "Injection Pressure Control System",
+      "name_zh": "喷射压力控制系统",
+      "description": "Commanded and actual injection control pressure A/B. 10 kPa/bit unsigned.",
+      "description_zh": "指令和实际喷射控制压力A/B。10 kPa/位无符号。",
+      "data_bytes": 9,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "ICP_SUP",
+          "name": "Support of Injection Pressure Control System Data",
+          "name_zh": "喷射压力控制系统数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "ICP_A_CMD",
+          "name": "Commanded Injection Control Pressure A",
+          "name_zh": "指令喷射控制压力A",
+          "bytes": "B,C",
+          "formula": "(B * 256 + C) * 10",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655350.0,
+          "display": "ICP_A_CMD: xxxxxx kPa (xxxxx.x PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "ICP_A",
+          "name": "Injection Control Pressure A",
+          "name_zh": "喷射控制压力A",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 10",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655350.0,
+          "display": "ICP_A: xxxxxx kPa (xxxxx.x PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "ICP_B_CMD",
+          "name": "Commanded Injection Control Pressure B",
+          "name_zh": "指令喷射控制压力B",
+          "bytes": "F,G",
+          "formula": "(F * 256 + G) * 10",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655350.0,
+          "display": "ICP_B_CMD: xxxxxx kPa (xxxxx.x PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "ICP_B",
+          "name": "Injection Control Pressure B",
+          "name_zh": "喷射控制压力B",
+          "bytes": "H,I",
+          "formula": "(H * 256 + I) * 10",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655350.0,
+          "display": "ICP_B: xxxxxx kPa (xxxxx.x PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Commanded Injection Control Pressure A supported", "name_zh": "指令喷射控制压力A支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Injection Control Pressure A supported", "name_zh": "喷射控制压力A支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "Commanded Injection Control Pressure B supported", "name_zh": "指令喷射控制压力B支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "Injection Control Pressure B supported", "name_zh": "喷射控制压力B支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 111,
+      "iso_pid": 62575,
+      "name": "Turbocharger Compressor Inlet Pressure",
+      "name_zh": "增压器压缩机入口压力",
+      "description": "Turbocharger A/B compressor inlet pressure. Scaling depends on support bits: bits 0-1 = 1 kPa/bit (0~255 kPa); bits 2-3 = 8 kPa/bit (0~2040 kPa). Only one scaling per sensor shall be active.",
+      "description_zh": "增压器A/B压缩机入口压力。缩放取决于支持位：位0-1=1 kPa/位（0~255 kPa）；位2-3=8 kPa/位（0~2040 kPa）。每个传感器仅一种缩放有效。",
+      "data_bytes": 3,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "TCINP_SUP",
+          "name": "Support of Turbocharger Compressor Inlet Pressure Sensor Data",
+          "name_zh": "增压器压缩机入口压力传感器数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "TCA_CINP",
+          "name": "Turbocharger Compressor Inlet Pressure Sensor A",
+          "name_zh": "增压器A压缩机入口压力传感器",
+          "bytes": "B",
+          "formula": "B",
+          "formula_wide": "B * 8",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 255.0,
+          "max_wide": 2040.0,
+          "display": "TCA_CINP: xxx kPa (xx.x inHg)",
+          "unit_alt": "inHg",
+          "alt_factor": 0.2953,
+          "alt_offset": 0,
+          "note": "Standard: A.0=1, 1 kPa/bit (0~255). Wide: A.2=1, 8 kPa/bit (0~2040)"
+        },
+        {
+          "label": "TCB_CINP",
+          "name": "Turbocharger Compressor Inlet Pressure Sensor B",
+          "name_zh": "增压器B压缩机入口压力传感器",
+          "bytes": "C",
+          "formula": "C",
+          "formula_wide": "C * 8",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 255.0,
+          "max_wide": 2040.0,
+          "display": "TCB_CINP: xxx kPa (xx.x inHg)",
+          "unit_alt": "inHg",
+          "alt_factor": 0.2953,
+          "alt_offset": 0,
+          "note": "Standard: A.1=1, 1 kPa/bit (0~255). Wide: A.3=1, 8 kPa/bit (0~2040)"
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "TC Compressor Inlet Pressure Sensor A – 1 kPa/bit", "name_zh": "增压器入口压力传感器A – 1 kPa/位", "v0": "Not supported", "v1": "Supported (1 kPa/bit)" },
+        { "byte": "A", "bit": 1, "name": "TC Compressor Inlet Pressure Sensor B – 1 kPa/bit", "name_zh": "增压器入口压力传感器B – 1 kPa/位", "v0": "Not supported", "v1": "Supported (1 kPa/bit)" },
+        { "byte": "A", "bit": 2, "name": "TC Compressor Inlet Pressure Sensor A Wide Range – 8 kPa/bit", "name_zh": "增压器入口压力传感器A宽域 – 8 kPa/位", "v0": "Not supported", "v1": "Supported (8 kPa/bit)" },
+        { "byte": "A", "bit": 3, "name": "TC Compressor Inlet Pressure Sensor B Wide Range – 8 kPa/bit", "name_zh": "增压器入口压力传感器B宽域 – 8 kPa/位", "v0": "Not supported", "v1": "Supported (8 kPa/bit)" }
+      ],
+      "numeric_fields": [],
+      "note": "Decoder must check byte A support bits to determine scaling per sensor."
+    },
+    {
+      "pid": 112,
+      "iso_pid": 62576,
+      "name": "Boost Pressure Control",
+      "name_zh": "增压压力控制",
+      "description": "Commanded and actual boost pressure A/B (0.03125 kPa/bit, 0~2047.97 kPa). Byte J contains control status for A (bits 0-1) and B (bits 2-3): 00=reserved, 01=open loop, 10=closed loop, 11=fault.",
+      "description_zh": "指令和实际增压压力A/B（0.03125 kPa/位，0~2047.97 kPa）。字节J包含A（位0-1）和B（位2-3）的控制状态：00=保留，01=开环，10=闭环，11=故障。",
+      "data_bytes": 10,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "BP_SUP",
+          "name": "Support of Boost Pressure Control Data",
+          "name_zh": "增压压力控制数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "BP_A_CMD",
+          "name": "Commanded Boost Pressure A",
+          "name_zh": "指令增压压力A",
+          "bytes": "B,C",
+          "formula": "(B * 256 + C) * 0.03125",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 2047.97,
+          "display": "BP_A_CMD: xxxx.xx kPa (xx.xx PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "BP_A_ACT",
+          "name": "Boost Pressure Sensor A",
+          "name_zh": "增压压力传感器A",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 0.03125",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 2047.97,
+          "display": "BP_A_ACT: xxxx.xx kPa (xx.xx PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "BP_B_CMD",
+          "name": "Commanded Boost Pressure B",
+          "name_zh": "指令增压压力B",
+          "bytes": "F,G",
+          "formula": "(F * 256 + G) * 0.03125",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 2047.97,
+          "display": "BP_B_CMD: xxxx.xx kPa (xx.xx PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "BP_B_ACT",
+          "name": "Boost Pressure Sensor B",
+          "name_zh": "增压压力传感器B",
+          "bytes": "H,I",
+          "formula": "(H * 256 + I) * 0.03125",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 2047.97,
+          "display": "BP_B_ACT: xxxx.xx kPa (xx.xx PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "BP_CTRL_STAT",
+          "name": "Boost Pressure A/B Control Status",
+          "name_zh": "增压压力A/B控制状态",
+          "bytes": "J",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Commanded Boost Pressure A supported", "name_zh": "指令增压压力A支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Boost Pressure Sensor A supported", "name_zh": "增压压力传感器A支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "Boost Pressure A Control Status supported", "name_zh": "增压压力A控制状态支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "Commanded Boost Pressure B supported", "name_zh": "指令增压压力B支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 4, "name": "Boost Pressure Sensor B supported", "name_zh": "增压压力传感器B支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 5, "name": "Boost Pressure B Control Status supported", "name_zh": "增压压力B控制状态支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": [
+        {
+          "label": "BP_A_CTRL",
+          "name": "Boost Pressure A Control Status",
+          "name_zh": "增压压力A控制状态",
+          "byte": "J",
+          "bits": "0-1",
+          "formula": "J & 0x03",
+          "unit": "",
+          "enums": [
+            { "code": 0, "name": "Reserved", "name_zh": "保留" },
+            { "code": 1, "name": "Open Loop (no fault)", "name_zh": "开环（无故障）", "display": "BP_A_OL" },
+            { "code": 2, "name": "Closed Loop (no fault)", "name_zh": "闭环（无故障）", "display": "BP_A_CL" },
+            { "code": 3, "name": "Fault (data unreliable)", "name_zh": "故障（数据不可靠）", "display": "BP_A_FAULT" }
+          ]
+        },
+        {
+          "label": "BP_B_CTRL",
+          "name": "Boost Pressure B Control Status",
+          "name_zh": "增压压力B控制状态",
+          "byte": "J",
+          "bits": "2-3",
+          "formula": "(J >> 2) & 0x03",
+          "unit": "",
+          "enums": [
+            { "code": 0, "name": "Reserved", "name_zh": "保留" },
+            { "code": 1, "name": "Open Loop (no fault)", "name_zh": "开环（无故障）", "display": "BP_B_OL" },
+            { "code": 2, "name": "Closed Loop (no fault)", "name_zh": "闭环（无故障）", "display": "BP_B_CL" },
+            { "code": 3, "name": "Fault (data unreliable)", "name_zh": "故障（数据不可靠）", "display": "BP_B_FAULT" }
+          ]
+        }
+      ]
+    },
+    {
+      "pid": 113,
+      "iso_pid": 62577,
+      "name": "Variable Geometry Turbo Control",
+      "name_zh": "可变几何增压器控制",
+      "description": "Commanded and actual VGT A/B vane position (0%=bypassed, 100%=utilized). Byte F contains control status for A (bits 0-1) and B (bits 2-3): 00=reserved, 01=open loop, 10=closed loop, 11=fault.",
+      "description_zh": "指令和实际VGT A/B叶片位置（0%=旁通，100%=工作）。字节F包含A（位0-1）和B（位2-3）的控制状态：00=保留，01=开环，10=闭环，11=故障。",
+      "data_bytes": 6,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "VGT_SUP",
+          "name": "Support of Variable Geometry Turbo Control Data",
+          "name_zh": "可变几何增压器控制数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "VGT_A_CMD",
+          "name": "Commanded Variable Geometry Turbo A Position",
+          "name_zh": "指令VGT A位置",
+          "bytes": "B",
+          "formula": "B * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "VGT_A_CMD: xxx.x%"
+        },
+        {
+          "label": "VGT_A_ACT",
+          "name": "Variable Geometry Turbo A Position",
+          "name_zh": "VGT A实际位置",
+          "bytes": "C",
+          "formula": "C * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "VGT_A_ACT: xxx.x%"
+        },
+        {
+          "label": "VGT_B_CMD",
+          "name": "Commanded Variable Geometry Turbo B Position",
+          "name_zh": "指令VGT B位置",
+          "bytes": "D",
+          "formula": "D * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "VGT_B_CMD: xxx.x%"
+        },
+        {
+          "label": "VGT_B_ACT",
+          "name": "Variable Geometry Turbo B Position",
+          "name_zh": "VGT B实际位置",
+          "bytes": "E",
+          "formula": "E * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "VGT_B_ACT: xxx.x%"
+        },
+        {
+          "label": "VGT_CTRL_STAT",
+          "name": "VGT A/B Control Status",
+          "name_zh": "VGT A/B控制状态",
+          "bytes": "F",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Commanded VGT A Position supported", "name_zh": "指令VGT A位置支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "VGT A Position supported", "name_zh": "VGT A位置支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "VGT A Control Status supported", "name_zh": "VGT A控制状态支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "Commanded VGT B Position supported", "name_zh": "指令VGT B位置支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 4, "name": "VGT B Position supported", "name_zh": "VGT B位置支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 5, "name": "VGT B Control Status supported", "name_zh": "VGT B控制状态支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": [
+        {
+          "label": "VGT_A_CTRL",
+          "name": "VGT A Control Status",
+          "name_zh": "VGT A控制状态",
+          "byte": "F",
+          "bits": "0-1",
+          "formula": "F & 0x03",
+          "unit": "",
+          "enums": [
+            { "code": 0, "name": "Reserved", "name_zh": "保留" },
+            { "code": 1, "name": "Open Loop (no fault)", "name_zh": "开环（无故障）", "display": "VGT_A_OL" },
+            { "code": 2, "name": "Closed Loop (no fault)", "name_zh": "闭环（无故障）", "display": "VGT_A_CL" },
+            { "code": 3, "name": "Fault (data unreliable)", "name_zh": "故障（数据不可靠）", "display": "VGT_A_FAULT" }
+          ]
+        },
+        {
+          "label": "VGT_B_CTRL",
+          "name": "VGT B Control Status",
+          "name_zh": "VGT B控制状态",
+          "byte": "F",
+          "bits": "2-3",
+          "formula": "(F >> 2) & 0x03",
+          "unit": "",
+          "enums": [
+            { "code": 0, "name": "Reserved", "name_zh": "保留" },
+            { "code": 1, "name": "Open Loop (no fault)", "name_zh": "开环（无故障）", "display": "VGT_B_OL" },
+            { "code": 2, "name": "Closed Loop (no fault)", "name_zh": "闭环（无故障）", "display": "VGT_B_CL" },
+            { "code": 3, "name": "Fault (data unreliable)", "name_zh": "故障（数据不可靠）", "display": "VGT_B_FAULT" }
+          ]
+        }
+      ]
+    },
+    {
+      "pid": 114,
+      "iso_pid": 62578,
+      "name": "Wastegate Control",
+      "name_zh": "废气旁通阀控制",
+      "description": "Commanded and actual wastegate A/B position (0%=closed/full boost, 100%=open/dump boost).",
+      "description_zh": "指令和实际废气旁通阀A/B位置（0%=关闭/全增压，100%=打开/泄压）。",
+      "data_bytes": 5,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "WG_SUP",
+          "name": "Support of Wastegate Control Data",
+          "name_zh": "废气旁通阀控制数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "WG_A_CMD",
+          "name": "Commanded Wastegate A Position",
+          "name_zh": "指令废气旁通阀A位置",
+          "bytes": "B",
+          "formula": "B * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "WG_A_CMD: xxx.x%"
+        },
+        {
+          "label": "WG_A_ACT",
+          "name": "Wastegate A Position",
+          "name_zh": "废气旁通阀A位置",
+          "bytes": "C",
+          "formula": "C * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "WG_A_ACT: xxx.x%"
+        },
+        {
+          "label": "WG_B_CMD",
+          "name": "Commanded Wastegate B Position",
+          "name_zh": "指令废气旁通阀B位置",
+          "bytes": "D",
+          "formula": "D * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "WG_B_CMD: xxx.x%"
+        },
+        {
+          "label": "WG_B_ACT",
+          "name": "Wastegate B Position",
+          "name_zh": "废气旁通阀B位置",
+          "bytes": "E",
+          "formula": "E * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "WG_B_ACT: xxx.x%"
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Commanded Wastegate A Position supported", "name_zh": "指令废气旁通阀A位置支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Wastegate A Position supported", "name_zh": "废气旁通阀A位置支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "Commanded Wastegate B Position supported", "name_zh": "指令废气旁通阀B位置支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "Wastegate B Position supported", "name_zh": "废气旁通阀B位置支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 115,
+      "iso_pid": 62579,
+      "name": "Exhaust Pressure",
+      "name_zh": "排气压力",
+      "description": "Exhaust pressure sensor Bank 1/2. 0.01 kPa/bit unsigned.",
+      "description_zh": "排气压力传感器 气缸组1/2。0.01 kPa/位无符号。",
+      "data_bytes": 5,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "EP_SUP",
+          "name": "Support of Exhaust Pressure Sensor Data",
+          "name_zh": "排气压力传感器数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "EP_1",
+          "name": "Exhaust Pressure Sensor Bank 1",
+          "name_zh": "排气压力传感器 气缸组1",
+          "bytes": "B,C",
+          "formula": "(B * 256 + C) * 0.01",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655.35,
+          "display": "EP_1: xxxx.xx kPa (xx.xxx PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "EP_2",
+          "name": "Exhaust Pressure Sensor Bank 2",
+          "name_zh": "排气压力传感器 气缸组2",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 0.01",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655.35,
+          "display": "EP_2: xxxx.xx kPa (xx.xxx PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Exhaust Pressure Sensor Bank 1 supported", "name_zh": "排气压力传感器气缸组1支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Exhaust Pressure Sensor Bank 2 supported", "name_zh": "排气压力传感器气缸组2支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 116,
+      "iso_pid": 62580,
+      "name": "Turbocharger RPM",
+      "name_zh": "增压器转速",
+      "description": "Turbocharger A/B RPM. 10 rpm/bit unsigned.",
+      "description_zh": "增压器A/B转速。10 rpm/位无符号。",
+      "data_bytes": 5,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "TCRPM_SUP",
+          "name": "Support of Turbocharger RPM Data",
+          "name_zh": "增压器转速数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "TCA_RPM",
+          "name": "Turbocharger A RPM",
+          "name_zh": "增压器A转速",
+          "bytes": "B,C",
+          "formula": "(B * 256 + C) * 10",
+          "unit": "rpm",
+          "min": 0.0,
+          "max": 655350.0,
+          "display": "TCA_RPM: xxxxxx rpm"
+        },
+        {
+          "label": "TCB_RPM",
+          "name": "Turbocharger B RPM",
+          "name_zh": "增压器B转速",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 10",
+          "unit": "rpm",
+          "min": 0.0,
+          "max": 655350.0,
+          "display": "TCB_RPM: xxxxxx rpm"
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Turbo A RPM supported", "name_zh": "增压器A转速支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Turbo B RPM supported", "name_zh": "增压器B转速支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+	{
+      "pid": 117,
+      "iso_pid": 62581,
+      "name": "Turbocharger A Temperature",
+      "name_zh": "增压器A温度",
+      "description": "Turbocharger A compressor inlet/outlet temperature (1°C/bit, -40~215°C) and turbine inlet/outlet temperature (0.1°C/bit, -40~6513.5°C).",
+      "description_zh": "增压器A压缩机入口/出口温度（1°C/位，-40~215°C）和涡轮入口/出口温度（0.1°C/位，-40~6513.5°C）。",
+      "data_bytes": 7,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "TCA_T_SUP",
+          "name": "Support of Turbocharger A Temperature Data",
+          "name_zh": "增压器A温度数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "TCA_CINT",
+          "name": "Turbocharger A Compressor Inlet Temperature",
+          "name_zh": "增压器A压缩机入口温度",
+          "bytes": "B",
+          "formula": "B - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "TCA_CINT: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "TCA_COUTT",
+          "name": "Turbocharger A Compressor Outlet Temperature",
+          "name_zh": "增压器A压缩机出口温度",
+          "bytes": "C",
+          "formula": "C - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "TCA_COUTT: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "TCA_TINT",
+          "name": "Turbocharger A Turbine Inlet Temperature",
+          "name_zh": "增压器A涡轮入口温度",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "TCA_TINT: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "TCA_TOUTT",
+          "name": "Turbocharger A Turbine Outlet Temperature",
+          "name_zh": "增压器A涡轮出口温度",
+          "bytes": "F,G",
+          "formula": "(F * 256 + G) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "TCA_TOUTT: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Turbo A Compressor Inlet Temperature supported", "name_zh": "增压器A压缩机入口温度支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Turbo A Compressor Outlet Temperature supported", "name_zh": "增压器A压缩机出口温度支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "Turbo A Turbine Inlet Temperature supported", "name_zh": "增压器A涡轮入口温度支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "Turbo A Turbine Outlet Temperature supported", "name_zh": "增压器A涡轮出口温度支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 118,
+      "iso_pid": 62582,
+      "name": "Turbocharger B Temperature",
+      "name_zh": "增压器B温度",
+      "description": "Turbocharger B compressor inlet/outlet temperature (1°C/bit, -40~215°C) and turbine inlet/outlet temperature (0.1°C/bit, -40~6513.5°C).",
+      "description_zh": "增压器B压缩机入口/出口温度（1°C/位，-40~215°C）和涡轮入口/出口温度（0.1°C/位，-40~6513.5°C）。",
+      "data_bytes": 7,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "TCB_T_SUP",
+          "name": "Support of Turbocharger B Temperature Data",
+          "name_zh": "增压器B温度数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "TCB_CINT",
+          "name": "Turbocharger B Compressor Inlet Temperature",
+          "name_zh": "增压器B压缩机入口温度",
+          "bytes": "B",
+          "formula": "B - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "TCB_CINT: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "TCB_COUTT",
+          "name": "Turbocharger B Compressor Outlet Temperature",
+          "name_zh": "增压器B压缩机出口温度",
+          "bytes": "C",
+          "formula": "C - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "TCB_COUTT: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "TCB_TINT",
+          "name": "Turbocharger B Turbine Inlet Temperature",
+          "name_zh": "增压器B涡轮入口温度",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "TCB_TINT: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "TCB_TOUTT",
+          "name": "Turbocharger B Turbine Outlet Temperature",
+          "name_zh": "增压器B涡轮出口温度",
+          "bytes": "F,G",
+          "formula": "(F * 256 + G) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "TCB_TOUTT: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Turbo B Compressor Inlet Temperature supported", "name_zh": "增压器B压缩机入口温度支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Turbo B Compressor Outlet Temperature supported", "name_zh": "增压器B压缩机出口温度支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "Turbo B Turbine Inlet Temperature supported", "name_zh": "增压器B涡轮入口温度支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "Turbo B Turbine Outlet Temperature supported", "name_zh": "增压器B涡轮出口温度支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 119,
+      "iso_pid": 62583,
+      "name": "Charge Air Cooler Temperature",
+      "name_zh": "中冷器温度",
+      "description": "Charge air cooler temperature Bank 1/2, Sensor 1/2. 1°C/bit with -40°C offset.",
+      "description_zh": "中冷器温度 气缸组1/2，传感器1/2。1°C/位带-40°C偏移。",
+      "data_bytes": 5,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "CACT_SUP",
+          "name": "Support of Charge Air Cooler Temperature Data",
+          "name_zh": "中冷器温度数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "CACT11",
+          "name": "Charge Air Cooler Temperature Bank 1, Sensor 1",
+          "name_zh": "中冷器温度 气缸组1，传感器1",
+          "bytes": "B",
+          "formula": "B - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "CACT 11: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "CACT12",
+          "name": "Charge Air Cooler Temperature Bank 1, Sensor 2",
+          "name_zh": "中冷器温度 气缸组1，传感器2",
+          "bytes": "C",
+          "formula": "C - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "CACT 12: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "CACT21",
+          "name": "Charge Air Cooler Temperature Bank 2, Sensor 1",
+          "name_zh": "中冷器温度 气缸组2，传感器1",
+          "bytes": "D",
+          "formula": "D - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "CACT 21: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "CACT22",
+          "name": "Charge Air Cooler Temperature Bank 2, Sensor 2",
+          "name_zh": "中冷器温度 气缸组2，传感器2",
+          "bytes": "E",
+          "formula": "E - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "CACT 22: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "CACT Bank 1, Sensor 1 supported", "name_zh": "CACT气缸组1传感器1支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "CACT Bank 1, Sensor 2 supported", "name_zh": "CACT气缸组1传感器2支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "CACT Bank 2, Sensor 1 supported", "name_zh": "CACT气缸组2传感器1支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "CACT Bank 2, Sensor 2 supported", "name_zh": "CACT气缸组2传感器2支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 120,
+      "iso_pid": 62584,
+      "name": "Exhaust Gas Temperature Bank 1",
+      "name_zh": "排气温度 气缸组1",
+      "description": "Exhaust gas temperature Bank 1, Sensors 1-4. 0.1°C/bit with -40°C offset. May be from sensor or inferred.",
+      "description_zh": "排气温度 气缸组1，传感器1-4。0.1°C/位带-40°C偏移。可来自传感器或推算。",
+      "data_bytes": 9,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "EGT1_SUP",
+          "name": "Support of Exhaust Gas Temperature Sensor Data",
+          "name_zh": "排气温度传感器数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "EGT11",
+          "name": "Exhaust Gas Temperature Bank 1, Sensor 1",
+          "name_zh": "排气温度 气缸组1，传感器1",
+          "bytes": "B,C",
+          "formula": "(B * 256 + C) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "EGT11: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "EGT12",
+          "name": "Exhaust Gas Temperature Bank 1, Sensor 2",
+          "name_zh": "排气温度 气缸组1，传感器2",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "EGT12: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "EGT13",
+          "name": "Exhaust Gas Temperature Bank 1, Sensor 3",
+          "name_zh": "排气温度 气缸组1，传感器3",
+          "bytes": "F,G",
+          "formula": "(F * 256 + G) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "EGT13: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "EGT14",
+          "name": "Exhaust Gas Temperature Bank 1, Sensor 4",
+          "name_zh": "排气温度 气缸组1，传感器4",
+          "bytes": "H,I",
+          "formula": "(H * 256 + I) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "EGT14: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "EGT Bank 1, Sensor 1 supported", "name_zh": "EGT气缸组1传感器1支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "EGT Bank 1, Sensor 2 supported", "name_zh": "EGT气缸组1传感器2支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "EGT Bank 1, Sensor 3 supported", "name_zh": "EGT气缸组1传感器3支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "EGT Bank 1, Sensor 4 supported", "name_zh": "EGT气缸组1传感器4支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 121,
+      "iso_pid": 62585,
+      "name": "Exhaust Gas Temperature Bank 2",
+      "name_zh": "排气温度 气缸组2",
+      "description": "Exhaust gas temperature Bank 2, Sensors 1-4. 0.1°C/bit with -40°C offset.",
+      "description_zh": "排气温度 气缸组2，传感器1-4。0.1°C/位带-40°C偏移。",
+      "data_bytes": 9,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "EGT2_SUP",
+          "name": "Support of Exhaust Gas Temperature Sensor Data",
+          "name_zh": "排气温度传感器数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "EGT21",
+          "name": "Exhaust Gas Temperature Bank 2, Sensor 1",
+          "name_zh": "排气温度 气缸组2，传感器1",
+          "bytes": "B,C",
+          "formula": "(B * 256 + C) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "EGT21: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "EGT22",
+          "name": "Exhaust Gas Temperature Bank 2, Sensor 2",
+          "name_zh": "排气温度 气缸组2，传感器2",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "EGT22: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "EGT23",
+          "name": "Exhaust Gas Temperature Bank 2, Sensor 3",
+          "name_zh": "排气温度 气缸组2，传感器3",
+          "bytes": "F,G",
+          "formula": "(F * 256 + G) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "EGT23: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "EGT24",
+          "name": "Exhaust Gas Temperature Bank 2, Sensor 4",
+          "name_zh": "排气温度 气缸组2，传感器4",
+          "bytes": "H,I",
+          "formula": "(H * 256 + I) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "EGT24: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "EGT Bank 2, Sensor 1 supported", "name_zh": "EGT气缸组2传感器1支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "EGT Bank 2, Sensor 2 supported", "name_zh": "EGT气缸组2传感器2支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "EGT Bank 2, Sensor 3 supported", "name_zh": "EGT气缸组2传感器3支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "EGT Bank 2, Sensor 4 supported", "name_zh": "EGT气缸组2传感器4支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 122,
+      "iso_pid": 62586,
+      "name": "Diesel Particulate Filter Bank 1",
+      "name_zh": "柴油颗粒过滤器 气缸组1",
+      "description": "DPF Bank 1 delta pressure (signed, 0.01 kPa/bit, -327.68~327.67 kPa), inlet pressure and outlet pressure (unsigned, 0.01 kPa/bit, 0~655.35 kPa).",
+      "description_zh": "DPF气缸组1差压（有符号，0.01 kPa/位，-327.68~327.67 kPa），入口压力和出口压力（无符号，0.01 kPa/位，0~655.35 kPa）。",
+      "data_bytes": 7,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "DPF1_SUP",
+          "name": "Support of DPF Bank 1 Data",
+          "name_zh": "DPF气缸组1数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "DPF1_DP",
+          "name": "Diesel Particulate Filter Bank 1 Delta Pressure",
+          "name_zh": "DPF气缸组1差压",
+          "bytes": "B,C",
+          "formula": "(B * 256 + C) * 0.01",
+          "unit": "kPa",
+          "min": -327.68,
+          "max": 327.67,
+          "signed": true,
+          "display": "DPF1_DP: xxxx.xx kPa (xx.xxx PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "DPF1_INP",
+          "name": "Diesel Particulate Filter Bank 1 Inlet Pressure",
+          "name_zh": "DPF气缸组1入口压力",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 0.01",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655.35,
+          "display": "DPF1_INP: xxxx.xx kPa (xx.xxx PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "DPF1_OUTP",
+          "name": "Diesel Particulate Filter Bank 1 Outlet Pressure",
+          "name_zh": "DPF气缸组1出口压力",
+          "bytes": "F,G",
+          "formula": "(F * 256 + G) * 0.01",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655.35,
+          "display": "DPF1_OUTP: xxxx.xx kPa (xx.xxx PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "DPF Bank 1 Delta Pressure supported", "name_zh": "DPF气缸组1差压支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "DPF Bank 1 Inlet Pressure supported", "name_zh": "DPF气缸组1入口压力支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "DPF Bank 1 Outlet Pressure supported", "name_zh": "DPF气缸组1出口压力支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 123,
+      "iso_pid": 62587,
+      "name": "Diesel Particulate Filter Bank 2",
+      "name_zh": "柴油颗粒过滤器 气缸组2",
+      "description": "DPF Bank 2 delta pressure (signed, 0.01 kPa/bit, -327.68~327.67 kPa), inlet pressure and outlet pressure (unsigned, 0.01 kPa/bit, 0~655.35 kPa).",
+      "description_zh": "DPF气缸组2差压（有符号，0.01 kPa/位，-327.68~327.67 kPa），入口压力和出口压力（无符号，0.01 kPa/位，0~655.35 kPa）。",
+      "data_bytes": 7,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "DPF2_SUP",
+          "name": "Support of DPF Bank 2 Data",
+          "name_zh": "DPF气缸组2数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "DPF2_DP",
+          "name": "Diesel Particulate Filter Bank 2 Delta Pressure",
+          "name_zh": "DPF气缸组2差压",
+          "bytes": "B,C",
+          "formula": "(B * 256 + C) * 0.01",
+          "unit": "kPa",
+          "min": -327.68,
+          "max": 327.67,
+          "signed": true,
+          "display": "DPF2_DP: xxxx.xx kPa (xx.xxx PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "DPF2_INP",
+          "name": "Diesel Particulate Filter Bank 2 Inlet Pressure",
+          "name_zh": "DPF气缸组2入口压力",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 0.01",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655.35,
+          "display": "DPF2_INP: xxxx.xx kPa (xx.xxx PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        },
+        {
+          "label": "DPF2_OUTP",
+          "name": "Diesel Particulate Filter Bank 2 Outlet Pressure",
+          "name_zh": "DPF气缸组2出口压力",
+          "bytes": "F,G",
+          "formula": "(F * 256 + G) * 0.01",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 655.35,
+          "display": "DPF2_OUTP: xxxx.xx kPa (xx.xxx PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "DPF Bank 2 Delta Pressure supported", "name_zh": "DPF气缸组2差压支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "DPF Bank 2 Inlet Pressure supported", "name_zh": "DPF气缸组2入口压力支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "DPF Bank 2 Outlet Pressure supported", "name_zh": "DPF气缸组2出口压力支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 124,
+      "iso_pid": 62588,
+      "name": "Diesel Particulate Filter Temperature",
+      "name_zh": "柴油颗粒过滤器温度",
+      "description": "DPF Bank 1/2 inlet/outlet temperature. 0.1°C/bit with -40°C offset (-40~6513.5°C). Preferable to use EGT PIDs $78/$79/$98/$99 to preserve standard exhaust gas sensor numbering.",
+      "description_zh": "DPF气缸组1/2入口/出口温度。0.1°C/位带-40°C偏移（-40~6513.5°C）。建议优先使用EGT PID $78/$79/$98/$99以保持标准排气传感器编号。",
+      "data_bytes": 9,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "DPFT_SUP",
+          "name": "Support of DPF Temperature Data",
+          "name_zh": "DPF温度数据支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "DPF1_INT",
+          "name": "DPF Bank 1 Inlet Temperature Sensor",
+          "name_zh": "DPF气缸组1入口温度传感器",
+          "bytes": "B,C",
+          "formula": "(B * 256 + C) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "DPF1_INT: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "DPF1_OUTT",
+          "name": "DPF Bank 1 Outlet Temperature Sensor",
+          "name_zh": "DPF气缸组1出口温度传感器",
+          "bytes": "D,E",
+          "formula": "(D * 256 + E) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "DPF1_OUTT: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "DPF2_INT",
+          "name": "DPF Bank 2 Inlet Temperature Sensor",
+          "name_zh": "DPF气缸组2入口温度传感器",
+          "bytes": "F,G",
+          "formula": "(F * 256 + G) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "DPF2_INT: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        },
+        {
+          "label": "DPF2_OUTT",
+          "name": "DPF Bank 2 Outlet Temperature Sensor",
+          "name_zh": "DPF气缸组2出口温度传感器",
+          "bytes": "H,I",
+          "formula": "(H * 256 + I) * 0.1 - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 6513.5,
+          "display": "DPF2_OUTT: xxxx.x °C (xxxx.x °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "DPF Bank 1 Inlet Temperature supported", "name_zh": "DPF气缸组1入口温度支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "DPF Bank 1 Outlet Temperature supported", "name_zh": "DPF气缸组1出口温度支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "DPF Bank 2 Inlet Temperature supported", "name_zh": "DPF气缸组2入口温度支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 3, "name": "DPF Bank 2 Outlet Temperature supported", "name_zh": "DPF气缸组2出口温度支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 125,
+      "iso_pid": 62589,
+      "name": "NOx NTE Control Area Status",
+      "name_zh": "NOx NTE控制区域状态",
+      "description": "Reports whether engine is operating inside/outside the NOx NTE control area, manufacturer-specific carve-out area, or NTE deficiency active area. Not applicable to spark-ignition engines.",
+      "description_zh": "报告发动机是否在NOx NTE控制区域内/外、制造商特定豁免区域内或NTE缺陷活动区域内运行。不适用于点火式发动机。",
+      "data_bytes": 1,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "NOX_NTE",
+          "name": "NOx NTE Control Area Status",
+          "name_zh": "NOx NTE控制区域状态",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Inside NOx control area", "name_zh": "在NOx控制区域内", "v0": "No", "v1": "Yes", "display": "NNTE: IN" },
+        { "byte": "A", "bit": 1, "name": "Outside NOx control area", "name_zh": "在NOx控制区域外", "v0": "No", "v1": "Yes", "display": "NNTE: OUT" },
+        { "byte": "A", "bit": 2, "name": "Inside manufacturer-specific NOx NTE carve-out area", "name_zh": "在制造商特定NOx NTE豁免区域内", "v0": "No", "v1": "Yes", "display": "NNTE: CAA" },
+        { "byte": "A", "bit": 3, "name": "NTE deficiency for NOx active area", "name_zh": "NOx活动区域NTE缺陷", "v0": "No", "v1": "Yes", "display": "NNTE: DEF" }
+      ],
+      "numeric_fields": [],
+      "note": "PID $7D is not applicable to spark-ignition engines."
+    },
+    {
+      "pid": 126,
+      "iso_pid": 62590,
+      "name": "PM NTE Control Area Status",
+      "name_zh": "PM NTE控制区域状态",
+      "description": "Reports whether engine is operating inside/outside the PM NTE control area, manufacturer-specific carve-out area, or NTE deficiency active area.",
+      "description_zh": "报告发动机是否在PM NTE控制区域内/外、制造商特定豁免区域内或NTE缺陷活动区域内运行。",
+      "data_bytes": 1,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "PM_NTE",
+          "name": "PM NTE Control Area Status",
+          "name_zh": "PM NTE控制区域状态",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Inside PM control area", "name_zh": "在PM控制区域内", "v0": "No", "v1": "Yes", "display": "PNTE: IN" },
+        { "byte": "A", "bit": 1, "name": "Outside PM control area", "name_zh": "在PM控制区域外", "v0": "No", "v1": "Yes", "display": "PNTE: OUT" },
+        { "byte": "A", "bit": 2, "name": "Inside manufacturer-specific PM NTE carve-out area", "name_zh": "在制造商特定PM NTE豁免区域内", "v0": "No", "v1": "Yes", "display": "PNTE: CAA" },
+        { "byte": "A", "bit": 3, "name": "NTE deficiency for PM active area", "name_zh": "PM活动区域NTE缺陷", "v0": "No", "v1": "Yes", "display": "PNTE: DEF" }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 127,
+      "iso_pid": 62591,
+      "name": "Engine Run Time",
+      "name_zh": "发动机运行时间",
+      "description": "Total engine run time, total idle run time, and total run time with PTO active. 1 sec/bit, 4-byte counters (0~4,294,967,295 sec). If any counter reaches max, all counters shall be divided by two before incrementing. Reset only on non-volatile memory reset (e.g. reprogramming); not reset by scan tool clear codes.",
+      "description_zh": "总发动机运行时间、总怠速运行时间和PTO激活总运行时间。1秒/位，4字节计数器（0~4,294,967,295秒）。任一计数器达到最大值时，所有计数器除以2后再递增。仅在非易失性存储器重置（如重新编程）时清零；扫描工具清除故障码不会清零。",
+      "data_bytes": 13,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "RUN_SUP",
+          "name": "Support of Engine Run Time",
+          "name_zh": "发动机运行时间支持",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "RUN_TIME",
+          "name": "Total Engine Run Time",
+          "name_zh": "总发动机运行时间",
+          "bytes": "B,C,D,E",
+          "formula": "(B * 16777216 + C * 65536 + D * 256 + E)",
+          "unit": "sec",
+          "min": 0.0,
+          "max": 4294967295.0,
+          "display": "RUN_TIME: xxxxxxx hrs, xx min"
+        },
+        {
+          "label": "IDLE_TIME",
+          "name": "Total Idle Run Time",
+          "name_zh": "总怠速运行时间",
+          "bytes": "F,G,H,I",
+          "formula": "(F * 16777216 + G * 65536 + H * 256 + I)",
+          "unit": "sec",
+          "min": 0.0,
+          "max": 4294967295.0,
+          "display": "IDLE_TIME: xxxxxxx hrs, xx min"
+        },
+        {
+          "label": "PTO_TIME",
+          "name": "Total Run Time With PTO Active",
+          "name_zh": "PTO激活总运行时间",
+          "bytes": "J,K,L,M",
+          "formula": "(J * 16777216 + K * 65536 + L * 256 + M)",
+          "unit": "sec",
+          "min": 0.0,
+          "max": 4294967295.0,
+          "display": "PTO_TIME: xxxxxxx hrs, xx min"
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Total Engine Run Time supported", "name_zh": "总发动机运行时间支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 1, "name": "Total Idle Run Time supported", "name_zh": "总怠速运行时间支持", "v0": "Not supported", "v1": "Supported" },
+        { "byte": "A", "bit": 2, "name": "Total Run Time With PTO Active supported", "name_zh": "PTO激活总运行时间支持", "v0": "Not supported", "v1": "Supported" }
+      ],
+      "numeric_fields": [],
+      "note": "Counters are NOT reset by Service $04 or any scan tool command. Only reset on non-volatile memory reset (e.g. reprogramming event). If any counter reaches $FFFFFFFF, all three are divided by 2 before any is incremented again."
+    }
+  ]
+}

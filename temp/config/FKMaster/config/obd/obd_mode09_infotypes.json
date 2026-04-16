@@ -1,0 +1,432 @@
+{
+  "info_types": [
+    {
+      "id": 0, "iso_id": 63488,
+      "name": "Service 9 Supported InfoTypes [01-20]",
+      "name_zh": "服务9支持的信息类型 [01-20]",
+      "description": "Bit-encoded list of supported InfoTypes 01-20",
+      "description_zh": "支持的信息类型01-20的位编码列表",
+      "format": "supported",
+      "data_bytes": 4
+    },
+    {
+      "id": 1, "iso_id": 63489,
+      "name": "VIN Message Count",
+      "name_zh": "VIN消息计数",
+      "description": "Number of messages to report VIN. Always 05 for legacy protocols, not required for CAN.",
+      "description_zh": "报告VIN的消息数量。传统协议固定为05，CAN不需要。",
+      "format": "count",
+      "data_bytes": 1
+    },
+    {
+      "id": 2, "iso_id": 63490,
+      "name": "Vehicle Identification Number (VIN)",
+      "name_zh": "车辆识别号 (VIN)",
+      "description": "17-character VIN. Default $3F if not programmed or unavailable.",
+      "description_zh": "17位ASCII字符的VIN码。未编程或不可用时使用$3F默认值。",
+      "format": "ascii",
+      "data_bytes": 17
+    },
+    {
+      "id": 3, "iso_id": 63491,
+      "name": "Calibration ID Message Count",
+      "name_zh": "标定ID消息计数",
+      "description": "Number of messages to report Calibration IDs. Always a multiple of 4 for legacy protocols.",
+      "description_zh": "报告标定ID的消息数量。传统协议固定为4的倍数。",
+      "format": "count",
+      "data_bytes": 1
+    },
+    {
+      "id": 4, "iso_id": 63492,
+      "name": "Calibration ID (CALID)",
+      "name_zh": "标定ID (CALID)",
+      "description": "16-character ASCII calibration identification. Multiple CALIDs may be reported. Default $3F if unavailable.",
+      "description_zh": "16位ASCII字符标定标识。可报告多个CALID。不可用时使用$3F默认值。",
+      "format": "ascii",
+      "data_bytes": 16
+    },
+    {
+      "id": 5, "iso_id": 63493,
+      "name": "CVN Message Count",
+      "name_zh": "CVN消息计数",
+      "description": "Number of messages to report Calibration Verification Numbers.",
+      "description_zh": "报告标定验证号的消息数量。",
+      "format": "count",
+      "data_bytes": 1
+    },
+    {
+      "id": 6, "iso_id": 63494,
+      "name": "Calibration Verification Number (CVN)",
+      "name_zh": "标定验证号 (CVN)",
+      "description": "4-byte hex CVN used to verify software integrity. Default $00 if unavailable.",
+      "description_zh": "4字节十六进制CVN，用于验证软件完整性。不可用时默认$00。",
+      "format": "hex",
+      "data_bytes": 4
+    },
+    {
+      "id": 7, "iso_id": 63495,
+      "name": "IPT Message Count",
+      "name_zh": "在用性能跟踪消息计数",
+      "description": "Number of messages to report In-use Performance Tracking. $08 for 16 values, $09 for 18, $0A for 20.",
+      "description_zh": "报告在用性能跟踪数据的消息数量。16个值=$08，18个=$09，20个=$0A。",
+      "format": "count",
+      "data_bytes": 1
+    },
+    {
+      "id": 8, "iso_id": 63496,
+      "name": "In-use Performance Tracking (Spark Ignition)",
+      "name_zh": "在用性能跟踪 (点燃式发动机)",
+      "description": "IPT counters for SI engines: OBDCOND, IGNCNTR, CAT, O2S, EGR/VVT, AIR, EVAP, SO2S, AFRI, PF. Supported lengths: 32 bytes (16 values), 40 bytes (20 values), or 56 bytes (28 values). Unimplemented counters reported as $0000.",
+      "description_zh": "点燃式发动机的IPT计数器：OBD监测条件、点火计数、催化器、氧传感器、EGR/VVT、二次空气、蒸发系统、后氧传感器、空燃比不平衡、颗粒过滤器。支持32/40/56字节。未实现的计数器报告$0000。",
+      "format": "ipt_si",
+      "data_bytes": 56,
+      "_sub_fields": [
+        { "index": 0,  "label": "OBDCOND",    "name": "OBD Monitoring Conditions Encountered Counts",        "name_zh": "OBD监测条件满足计数(通用分母)" },
+        { "index": 1,  "label": "IGNCNTR",    "name": "Ignition Cycle Counter",                              "name_zh": "点火周期计数" },
+        { "index": 2,  "label": "CATCOMP1",   "name": "Catalyst Monitor Completion Counts Bank 1",           "name_zh": "催化器监测完成计数 B1(分子)" },
+        { "index": 3,  "label": "CATCOND1",   "name": "Catalyst Monitor Conditions Encountered Counts Bank 1","name_zh": "催化器监测条件满足计数 B1(分母)" },
+        { "index": 4,  "label": "CATCOMP2",   "name": "Catalyst Monitor Completion Counts Bank 2",           "name_zh": "催化器监测完成计数 B2(分子)" },
+        { "index": 5,  "label": "CATCOND2",   "name": "Catalyst Monitor Conditions Encountered Counts Bank 2","name_zh": "催化器监测条件满足计数 B2(分母)" },
+        { "index": 6,  "label": "O2SCOMP1",   "name": "O2 Sensor Monitor Completion Counts Bank 1",          "name_zh": "氧传感器监测完成计数 B1(分子)" },
+        { "index": 7,  "label": "O2SCOND1",   "name": "O2 Sensor Monitor Conditions Encountered Counts Bank 1","name_zh": "氧传感器监测条件满足计数 B1(分母)" },
+        { "index": 8,  "label": "O2SCOMP2",   "name": "O2 Sensor Monitor Completion Counts Bank 2",          "name_zh": "氧传感器监测完成计数 B2(分子)" },
+        { "index": 9,  "label": "O2SCOND2",   "name": "O2 Sensor Monitor Conditions Encountered Counts Bank 2","name_zh": "氧传感器监测条件满足计数 B2(分母)" },
+        { "index": 10, "label": "EGRCOMP",    "name": "EGR/VVT Monitor Completion Condition Counts",         "name_zh": "EGR/VVT监测完成计数(分子)" },
+        { "index": 11, "label": "EGRCOND",    "name": "EGR/VVT Monitor Conditions Encountered Counts",       "name_zh": "EGR/VVT监测条件满足计数(分母)" },
+        { "index": 12, "label": "AIRCOMP",    "name": "AIR Monitor Completion Condition Counts",              "name_zh": "二次空气监测完成计数(分子)" },
+        { "index": 13, "label": "AIRCOND",    "name": "AIR Monitor Conditions Encountered Counts",            "name_zh": "二次空气监测条件满足计数(分母)" },
+        { "index": 14, "label": "EVAPCOMP",   "name": "EVAP Monitor Completion Condition Counts",             "name_zh": "蒸发系统监测完成计数(分子)" },
+        { "index": 15, "label": "EVAPCOND",   "name": "EVAP Monitor Conditions Encountered Counts",           "name_zh": "蒸发系统监测条件满足计数(分母)" },
+        { "index": 16, "label": "SO2SCOMP1",  "name": "Secondary O2 Sensor Monitor Completion Counts Bank 1", "name_zh": "后氧传感器监测完成计数 B1(分子)" },
+        { "index": 17, "label": "SO2SCOND1",  "name": "Secondary O2 Sensor Monitor Conditions Encountered Counts Bank 1","name_zh": "后氧传感器监测条件满足计数 B1(分母)" },
+        { "index": 18, "label": "SO2SCOMP2",  "name": "Secondary O2 Sensor Monitor Completion Counts Bank 2", "name_zh": "后氧传感器监测完成计数 B2(分子)" },
+        { "index": 19, "label": "SO2SCOND2",  "name": "Secondary O2 Sensor Monitor Conditions Encountered Counts Bank 2","name_zh": "后氧传感器监测条件满足计数 B2(分母)" },
+        { "index": 20, "label": "AFRICOMP1",  "name": "A/F Ratio Imbalance Monitor Completion Counts Bank 1", "name_zh": "空燃比不平衡监测完成计数 B1(分子)" },
+        { "index": 21, "label": "AFRICOND1",  "name": "A/F Ratio Imbalance Monitor Conditions Encountered Counts Bank 1","name_zh": "空燃比不平衡监测条件满足计数 B1(分母)" },
+        { "index": 22, "label": "AFRICOMP2",  "name": "A/F Ratio Imbalance Monitor Completion Counts Bank 2", "name_zh": "空燃比不平衡监测完成计数 B2(分子)" },
+        { "index": 23, "label": "AFRICOND2",  "name": "A/F Ratio Imbalance Monitor Conditions Encountered Counts Bank 2","name_zh": "空燃比不平衡监测条件满足计数 B2(分母)" },
+        { "index": 24, "label": "PFCOMP1",    "name": "Particulate Filter Monitor Completion Counts Bank 1",  "name_zh": "颗粒过滤器监测完成计数 B1(分子)" },
+        { "index": 25, "label": "PFCOND1",    "name": "Particulate Filter Monitor Conditions Encountered Counts Bank 1","name_zh": "颗粒过滤器监测条件满足计数 B1(分母)" },
+        { "index": 26, "label": "PFCOMP2",    "name": "Particulate Filter Monitor Completion Counts Bank 2",  "name_zh": "颗粒过滤器监测完成计数 B2(分子)" },
+        { "index": 27, "label": "PFCOND2",    "name": "Particulate Filter Monitor Conditions Encountered Counts Bank 2","name_zh": "颗粒过滤器监测条件满足计数 B2(分母)" }
+      ]
+    },
+    {
+      "id": 9, "iso_id": 63497,
+      "name": "ECU Name Message Count",
+      "name_zh": "ECU名称消息计数",
+      "description": "Number of messages to report ECU name. Always 5 for legacy protocols.",
+      "description_zh": "报告ECU名称的消息数量。传统协议固定为5。",
+      "format": "count",
+      "data_bytes": 1
+    },
+    {
+      "id": 10, "iso_id": 63498,
+      "name": "ECU Name",
+      "name_zh": "ECU名称",
+      "description": "Max 20 ASCII chars: 4-char acronym + '-' delimiter + 15-char text name. Unused bytes $00.",
+      "description_zh": "最多20位ASCII字符：4位缩写 + '-'分隔符 + 15位文字名称。未使用字节填充$00。",
+      "format": "ascii",
+      "data_bytes": 20
+    },
+    {
+      "id": 11, "iso_id": 63499,
+      "name": "In-use Performance Tracking (Compression Ignition)",
+      "name_zh": "在用性能跟踪 (压燃式发动机)",
+      "description": "IPT counters for CI engines (2010 MY+): OBDCOND, IGNCNTR, NMHC CAT, NOx CAT, NOx Adsorber, PM Filter, EGS, EGR/VVT, Boost Pressure, Fuel System. 32 bytes (16 values) or 36 bytes (18 values). Unimplemented counters reported as $0000.",
+      "description_zh": "压燃式发动机(2010+)的IPT计数器：OBD监测条件、点火计数、NMHC催化器、NOx催化器、NOx吸附器、颗粒过滤器、排气传感器、EGR/VVT、增压控制、燃油系统。32或36字节。",
+      "format": "ipt_ci",
+      "data_bytes": 36,
+      "_sub_fields": [
+        { "index": 0,  "label": "OBDCOND",    "name": "OBD Monitoring Conditions Encountered Counts",            "name_zh": "OBD监测条件满足计数(通用分母)" },
+        { "index": 1,  "label": "IGNCNTR",    "name": "Ignition Cycle Counter",                                  "name_zh": "点火周期计数" },
+        { "index": 2,  "label": "HCCATCOMP",  "name": "NMHC Catalyst Monitor Completion Counts",                 "name_zh": "NMHC催化器监测完成计数(分子)" },
+        { "index": 3,  "label": "HCCATCOND",  "name": "NMHC Catalyst Monitor Conditions Encountered Counts",     "name_zh": "NMHC催化器监测条件满足计数(分母)" },
+        { "index": 4,  "label": "NCATCOMP",   "name": "NOx/SCR Catalyst Monitor Completion Condition Counts",    "name_zh": "NOx/SCR催化器监测完成计数(分子)" },
+        { "index": 5,  "label": "NCATCOND",   "name": "NOx/SCR Catalyst Monitor Conditions Encountered Counts",  "name_zh": "NOx/SCR催化器监测条件满足计数(分母)" },
+        { "index": 6,  "label": "NADSCOMP",   "name": "NOx Adsorber Monitor Completion Condition Counts",        "name_zh": "NOx吸附器监测完成计数(分子)" },
+        { "index": 7,  "label": "NADSCOND",   "name": "NOx Adsorber Monitor Conditions Encountered Counts",      "name_zh": "NOx吸附器监测条件满足计数(分母)" },
+        { "index": 8,  "label": "PMCOMP",     "name": "PM Filter Monitor Completion Condition Counts",           "name_zh": "颗粒过滤器监测完成计数(分子)" },
+        { "index": 9,  "label": "PMCOND",     "name": "PM Filter Monitor Conditions Encountered Counts",         "name_zh": "颗粒过滤器监测条件满足计数(分母)" },
+        { "index": 10, "label": "EGSCOMP",    "name": "Exhaust Gas Sensor Monitor Completion Counts",            "name_zh": "排气传感器监测完成计数(分子)" },
+        { "index": 11, "label": "EGSCOND",    "name": "Exhaust Gas Sensor Monitor Conditions Encountered Counts","name_zh": "排气传感器监测条件满足计数(分母)" },
+        { "index": 12, "label": "EGRCOMP",    "name": "EGR/VVT Monitor Completion Condition Counts",             "name_zh": "EGR/VVT监测完成计数(分子)" },
+        { "index": 13, "label": "EGRCOND",    "name": "EGR/VVT Monitor Conditions Encountered Counts",           "name_zh": "EGR/VVT监测条件满足计数(分母)" },
+        { "index": 14, "label": "BPCOMP",     "name": "Boost Pressure Monitor Completion Condition Counts",      "name_zh": "增压控制监测完成计数(分子)" },
+        { "index": 15, "label": "BPCOND",     "name": "Boost Pressure Monitor Conditions Encountered Counts",    "name_zh": "增压控制监测条件满足计数(分母)" },
+        { "index": 16, "label": "FUELCOMP",   "name": "Fuel Monitor Completion Condition Counts",                "name_zh": "燃油系统监测完成计数(分子)" },
+        { "index": 17, "label": "FUELCOND",   "name": "Fuel Monitor Conditions Encountered Counts",              "name_zh": "燃油系统监测条件满足计数(分母)" }
+      ]
+    },
+    {
+      "id": 12, "iso_id": 63500,
+      "name": "Engine Serial Number Message Count",
+      "name_zh": "发动机序列号消息计数",
+      "description": "Number of messages to report ESN. Always 05 for legacy protocols.",
+      "description_zh": "报告发动机序列号的消息数量。传统协议固定为05。",
+      "format": "count",
+      "data_bytes": 1
+    },
+    {
+      "id": 13, "iso_id": 63501,
+      "name": "Engine Serial Number (ESN)",
+      "name_zh": "发动机序列号 (ESN)",
+      "description": "Up to 17 ASCII characters. Fill bytes $00 precede ESN characters.",
+      "description_zh": "最多17位ASCII字符。前导填充$00，后跟ESN字符。",
+      "format": "ascii",
+      "data_bytes": 17
+    },
+    {
+      "id": 14, "iso_id": 63502,
+      "name": "EROTAN Message Count",
+      "name_zh": "排放法规/型式认证号消息计数",
+      "description": "Number of messages to report Exhaust Regulation Or Type Approval Number.",
+      "description_zh": "报告排放法规或型式认证号的消息数量。",
+      "format": "count",
+      "data_bytes": 1
+    },
+    {
+      "id": 15, "iso_id": 63503,
+      "name": "Exhaust Regulation Or Type Approval Number (EROTAN)",
+      "name_zh": "排放法规/型式认证号 (EROTAN)",
+      "description": "Up to 17 ASCII characters. Only one EROTAN per ECU.",
+      "description_zh": "最多17位ASCII字符。每个ECU只报告一个EROTAN。",
+      "format": "ascii",
+      "data_bytes": 17
+    },
+    {
+      "id": 16, "iso_id": 63504,
+      "name": "Protocol Identification",
+      "name_zh": "协议标识",
+      "description": "1 byte: 0x00=reserved, 0x01=ISO 27145-4, 0x02=SAE J1979 using ISO 27145-3 services, 0x03-0xFF=reserved.",
+      "description_zh": "1字节：0x00=保留, 0x01=ISO 27145-4, 0x02=SAE J1979使用ISO 27145-3服务, 0x03-0xFF=保留。",
+      "format": "hex",
+      "data_bytes": 1
+    },
+    {
+      "id": 17, "iso_id": 63505,
+      "name": "WWH-OBD GTR Number",
+      "name_zh": "WWH-OBD GTR编号",
+      "description": "11 ASCII characters: 'GTR_XXX.XXX' identifying GTR revision. Zeros are ASCII $30.",
+      "description_zh": "11位ASCII字符：'GTR_XXX.XXX'标识GTR修订版本。零为ASCII $30。",
+      "format": "ascii",
+      "data_bytes": 11
+    },
+    {
+      "id": 18, "iso_id": 63506,
+      "name": "Fueled Engine Operation Ignition Cycle Counter",
+      "name_zh": "燃烧运行点火周期计数",
+      "description": "2-byte counter incremented when fueled engine operation occurs for at least 2 sec. Required for PHEVs, optional otherwise.",
+      "description_zh": "2字节计数器，在燃油发动机运行至少2秒时递增。PHEV必须支持，其他可选。",
+      "format": "hex",
+      "data_bytes": 2
+    },
+    {
+      "id": 19, "iso_id": 63507,
+      "name": "Certification Test Group / Engine Family Number",
+      "name_zh": "认证测试组/发动机系列号",
+      "description": "12 ASCII characters identifying the Test Group (light duty) or Engine Family Number (heavy duty). Default $3F if unavailable.",
+      "description_zh": "12位ASCII字符标识测试组(轻型车)或发动机系列号(重型车)。不可用时默认$3F。",
+      "format": "ascii",
+      "data_bytes": 12
+    },
+    {
+      "id": 20, "iso_id": 63508,
+      "name": "Distance Traveled Since Evap Monitoring Decision",
+      "name_zh": "蒸发监测决策后行驶距离",
+      "description": "2-byte distance in km. Reset to $0000 on pass/fail decision. Reset to $FFFF on code clear. For 0.020\" leak check certified vehicles.",
+      "description_zh": "2字节距离(km)。通过/失败决策时归零。清码时重置为$FFFF。适用于0.020\"泄漏检测认证车辆。",
+      "format": "hex",
+      "data_bytes": 2
+    },
+    {
+      "id": 21, "iso_id": 63509,
+      "name": "Applicable Motorcycle Category for Type Approval",
+      "name_zh": "型式认证适用摩托车类别",
+      "description": "1 byte state encoded: 0x00=reserved, 0x01=L3e-A2 (medium), 0x02=L3e-A3 (high performance), 0x03-0xFF=reserved.",
+      "description_zh": "1字节状态编码：0x00=保留, 0x01=L3e-A2(中等性能), 0x02=L3e-A3(高性能), 0x03-0xFF=保留。",
+      "format": "hex",
+      "data_bytes": 1
+    },
+    {
+      "id": 22, "iso_id": 63510,
+      "name": "Vehicle Operation Data - Engine Run/Idle Time",
+      "name_zh": "车辆运行数据 - 发动机运行/怠速时间",
+      "description": "32 bytes: 8 x 4-byte counters (Recent+Lifetime for IGNCNTR, FEOCNTR, ERT, IERT). Each 1 second/bit, unsigned 32-bit.",
+      "description_zh": "32字节：8个4字节计数器（近期+终身的点火计数、燃烧运行计数、总运行时间、怠速时间）。每个1秒/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 32
+    },
+    {
+      "id": 23, "iso_id": 63511,
+      "name": "Vehicle Operation Data - Distance/Fuel Used",
+      "name_zh": "车辆运行数据 - 行驶距离/燃油消耗",
+      "description": "16 bytes: 4 x 4-byte counters (Recent+Lifetime for Distance 0.1km/bit, Fuel 0.01L/bit).",
+      "description_zh": "16字节：4个4字节计数器（近期+终身的行驶距离0.1km/位、燃油消耗0.01L/位）。",
+      "format": "vehicle_tracking",
+      "data_bytes": 16
+    },
+    {
+      "id": 24, "iso_id": 63512,
+      "name": "Vehicle Operation Data - PKE/EOE",
+      "name_zh": "车辆运行数据 - PKE/EOE",
+      "description": "12 bytes: PKE Recent/Lifetime (1 km/hr²/bit) + EOE Recent/Lifetime (0.1 kWh/bit). Note: PKE only has 2 counters (8 bytes) + EOE has 1 counter (4 bytes) for recent. Total actually 24 bytes (6 x 4-byte).",
+      "description_zh": "正动能(PKE)近期/终身(1 km/hr²/位) + 发动机输出能量(EOE)近期/终身(0.1 kWh/位)。",
+      "format": "vehicle_tracking",
+      "data_bytes": 24
+    },
+    {
+      "id": 25, "iso_id": 63513,
+      "name": "Vehicle Operation Data - PSA",
+      "name_zh": "车辆运行数据 - 驱动系统激活",
+      "description": "24 bytes: 6 x 4-byte counters (Recent+Lifetime for PSA total, PSA idle, PSA city). Each 1 sec/bit.",
+      "description_zh": "24字节：6个4字节计数器（近期+终身的总驱动时间、怠速驱动时间、城市驱动时间）。每个1秒/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 24
+    },
+    {
+      "id": 26, "iso_id": 63514,
+      "name": "Plug-in Hybrid Vehicle Distance Data",
+      "name_zh": "插电式混合动力车辆距离数据",
+      "description": "24 bytes: 6 x 4-byte counters (Recent+Lifetime for CD engine-off distance, CD engine-running distance, CI distance). 0.1 km/bit.",
+      "description_zh": "24字节：6个4字节计数器（近期+终身的电量消耗-发动机关闭距离、电量消耗-发动机运行距离、充电增加距离）。0.1 km/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 24
+    },
+    {
+      "id": 27, "iso_id": 63515,
+      "name": "Plug-in Hybrid Vehicle Fuel Data",
+      "name_zh": "插电式混合动力车辆燃油数据",
+      "description": "16 bytes: 4 x 4-byte counters (Recent+Lifetime for CD fuel consumed, CI fuel consumed). 0.01 L/bit.",
+      "description_zh": "16字节：4个4字节计数器（近期+终身的电量消耗模式燃油消耗、充电增加模式燃油消耗）。0.01 L/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 16
+    },
+    {
+      "id": 28, "iso_id": 63516,
+      "name": "Plug-in Hybrid Vehicle Grid Data",
+      "name_zh": "插电式混合动力车辆电网数据",
+      "description": "24 bytes: 6 x 4-byte counters (Recent+Lifetime for CD engine-off grid energy, CD engine-running grid energy, total grid energy into battery). 0.1 kWh/bit.",
+      "description_zh": "24字节：6个4字节计数器（近期+终身的发动机关闭电网能量、发动机运行电网能量、总电网充入能量）。0.1 kWh/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 24
+    },
+    {
+      "id": 29, "iso_id": 63517,
+      "name": "Active Aerodynamic Features #1 Off-cycle Credit Data",
+      "name_zh": "主动空气动力特性#1 非工况信用数据",
+      "description": "32 bytes: 8 x 4-byte timers (Recent+Lifetime for Grille Shutter A Timer1/2, Grille Shutter B Timer1/2). 1 sec/bit. 0xFFFFFFFF = Not Available.",
+      "description_zh": "32字节：8个4字节计时器（近期+终身的进气格栅A/B的Timer1/2）。1秒/位。0xFFFFFFFF=不可用。",
+      "format": "vehicle_tracking",
+      "data_bytes": 32
+    },
+    {
+      "id": 30, "iso_id": 63518,
+      "name": "Active Aerodynamic Features #2 Off-cycle Credit Data",
+      "name_zh": "主动空气动力特性#2 非工况信用数据",
+      "description": "16 bytes: 4 x 4-byte timers (Recent+Lifetime for Vehicle Ride Height Timer1/2). 1 sec/bit.",
+      "description_zh": "16字节：4个4字节计时器（近期+终身的车辆底盘高度Timer1/2）。1秒/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 16
+    },
+    {
+      "id": 31, "iso_id": 63519,
+      "name": "Active Aerodynamic Features #3 Off-cycle Credit Data",
+      "name_zh": "主动空气动力特性#3 非工况信用数据",
+      "description": "32 bytes: 8 x 4-byte timers (Recent+Lifetime for Aerodynamic Feature #1/#2 Timer1/2). 1 sec/bit.",
+      "description_zh": "32字节：8个4字节计时器（近期+终身的空气动力特性#1/#2的Timer1/2）。1秒/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 32
+    },
+    {
+      "id": 32, "iso_id": 63520,
+      "name": "Service 9 Supported InfoTypes [21-40]",
+      "name_zh": "服务9支持的信息类型 [21-40]",
+      "description": "Bit-encoded list of supported InfoTypes 21-40",
+      "description_zh": "支持的信息类型21-40的位编码列表",
+      "format": "supported",
+      "data_bytes": 4
+    },
+    {
+      "id": 33, "iso_id": 63521,
+      "name": "Driver-Selectable Operating Modes Off-cycle Credit Data",
+      "name_zh": "驾驶员可选操作模式非工况信用数据",
+      "description": "40 bytes: 10 x 4-byte timers (Recent+Lifetime for Eco mode, DSM #1-#4). 1 sec/bit.",
+      "description_zh": "40字节：10个4字节计时器（近期+终身的Eco模式、可选模式#1–#4）。1秒/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 40
+    },
+    {
+      "id": 34, "iso_id": 63522,
+      "name": "Run Time for Stop-Start and Coasting Off-cycle Credit Data",
+      "name_zh": "启停/滑行非工况信用运行时间数据",
+      "description": "24 bytes: 6 x 4-byte timers (Recent+Lifetime for Idle Stop-Start, Engine Running Coasting, Engine Off Coasting). 1 sec/bit.",
+      "description_zh": "24字节：6个4字节计时器（近期+终身的怠速启停、发动机运行滑行、发动机关闭滑行）。1秒/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 24
+    },
+    {
+      "id": 35, "iso_id": 63523,
+      "name": "Driver Coaching Technology Off-cycle Credit Data",
+      "name_zh": "驾驶辅导技术非工况信用数据",
+      "description": "48 bytes: 12 x 4-byte counters (Recent+Lifetime for DCT#1/#2/#3 Enabled/Utilized). 1 count/bit.",
+      "description_zh": "48字节：12个4字节计数器（近期+终身的驾驶辅导技术#1/#2/#3启用/使用计数）。1计数/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 48
+    },
+    {
+      "id": 36, "iso_id": 63524,
+      "name": "Active Powertrain Warm-up Features Off-cycle Credit Data",
+      "name_zh": "主动动力系统暖机非工况信用数据",
+      "description": "16 bytes: 4 x 4-byte timers (Recent+Lifetime for Engine Warm-up, Transmission Warm-up). 1 sec/bit.",
+      "description_zh": "16字节：4个4字节计时器（近期+终身的发动机暖机、变速箱暖机）。1秒/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 16
+    },
+    {
+      "id": 37, "iso_id": 63525,
+      "name": "Off-cycle Credit Technology #1 Vehicle Data",
+      "name_zh": "非工况信用技术#1车辆数据",
+      "description": "16 bytes: 4 x 4-byte timers (Recent+Lifetime for OCCT#1 Timer1/2). 1 sec/bit. 0xFFFFFFFF = Timer 2 not used.",
+      "description_zh": "16字节：4个4字节计时器（近期+终身的OCCT#1 Timer1/2）。1秒/位。0xFFFFFFFF=Timer2未使用。",
+      "format": "vehicle_tracking",
+      "data_bytes": 16
+    },
+    {
+      "id": 38, "iso_id": 63526,
+      "name": "Off-cycle Credit Technology #2 Vehicle Data",
+      "name_zh": "非工况信用技术#2车辆数据",
+      "description": "16 bytes: 4 x 4-byte timers (Recent+Lifetime for OCCT#2 Timer1/2). 1 sec/bit.",
+      "description_zh": "16字节：4个4字节计时器（近期+终身的OCCT#2 Timer1/2）。1秒/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 16
+    },
+    {
+      "id": 39, "iso_id": 63527,
+      "name": "Off-cycle Credit Technology #3 Vehicle Data",
+      "name_zh": "非工况信用技术#3车辆数据",
+      "description": "16 bytes: 4 x 4-byte timers (Recent+Lifetime for OCCT#3 Timer1/2). 1 sec/bit.",
+      "description_zh": "16字节：4个4字节计时器（近期+终身的OCCT#3 Timer1/2）。1秒/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 16
+    },
+    {
+      "id": 40, "iso_id": 63528,
+      "name": "Off-cycle Credit Technology #4 Vehicle Data",
+      "name_zh": "非工况信用技术#4车辆数据",
+      "description": "16 bytes: 4 x 4-byte timers (Recent+Lifetime for OCCT#4 Timer1/2). 1 sec/bit.",
+      "description_zh": "16字节：4个4字节计时器（近期+终身的OCCT#4 Timer1/2）。1秒/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 16
+    },
+    {
+      "id": 41, "iso_id": 63529,
+      "name": "Off-cycle Credit Technology #5 Vehicle Data",
+      "name_zh": "非工况信用技术#5车辆数据",
+      "description": "16 bytes: 4 x 4-byte timers (Recent+Lifetime for OCCT#5 Timer1/2). 1 sec/bit.",
+      "description_zh": "16字节：4个4字节计时器（近期+终身的OCCT#5 Timer1/2）。1秒/位。",
+      "format": "vehicle_tracking",
+      "data_bytes": 16
+    }
+  ]
+}

@@ -14,8 +14,8 @@
 * but must retain the author's copyright notice and license terms.
 *
 * Author: leiwei E-mail: ctrlfrmb@gmail.com
-* Version: v1.4.1
-* Date: 2025-06-21
+* Version: v1.5.0
+* Date: 2026-04-09
 *-----------------------------------------------------------------------------*/
 
 /**
@@ -134,7 +134,6 @@ SIMPLE_SSH_API int SimpleSSHCloseLog();
 /*============================================================================
  * 连接管理
  *============================================================================*/
-
 /**
 * @brief 创建并建立一个SSH连接实例。
 *
@@ -163,6 +162,13 @@ SIMPLE_SSH_API int SimpleSSHCloseLog();
 *                 - `--compression <0|1>`: 是否启用ZLIB数据压缩 (默认: 1)。
 *                                        **0: 禁用, 1: 启用**
 *                 - `--bufferSize <bytes>`: 内部接收缓冲区大小 (默认: 2MB)。
+*                 - `--knownHosts <path>`: known_hosts 文件路径，用于主机密钥验证。
+*                                        **若不指定，首次连接将自动信任主机密钥 (TOFU)。**
+*                 - `--enableShell <0|1>`: 是否启用持久Shell通道 (默认: 0)。
+*                                        **0: 禁用 — 仅支持 execMode=0 (单次执行模式)**
+*                                        **1: 启用 — 支持 execMode=1 (关联执行模式，类似XShell，保持上下文)**
+*                                        **注意: 使用 SimpleSSHExecuteCmd / SimpleSSHStartCmdAsync
+*                                        的 execMode=1 时，必须在连接时启用此选项。**
 *
 * @return >0: 成功，返回唯一的实例ID (Instance ID)。
 *         <0: 失败，返回错误码 (参考 SimpleSSHStatus)。

@@ -1,0 +1,138 @@
+{
+    "roundDelay": 1000,
+    "rows": [
+        {
+            "canCheckType": 0,
+            "channel": 0,
+            "checked": false,
+            "data": "00 00 03 00 00 80 02 00",
+            "delay": 0,
+            "frameFormat": -1,
+            "frameType": 3,
+            "id": "14",
+            "length": 0,
+            "period": 1000
+        },
+        {
+            "canCheckType": 0,
+            "channel": 0,
+            "checked": false,
+            "data": "00 00 03 00 00 80 02 00",
+            "delay": 0,
+            "frameFormat": -1,
+            "frameType": 1,
+            "id": "21",
+            "length": 8,
+            "period": 1000
+        },
+        {
+            "canCheckType": 0,
+            "channel": 1,
+            "checked": false,
+            "data": "12 34",
+            "delay": 0,
+            "frameFormat": -1,
+            "frameType": 1,
+            "id": "3",
+            "length": 2,
+            "period": 1000
+        },
+        {
+            "canCheckType": 0,
+            "channel": 0,
+            "checked": false,
+            "data": "01 02 03 04 05 06 07 08",
+            "delay": 0,
+            "frameFormat": -1,
+            "frameType": 0,
+            "id": "b",
+            "length": 8,
+            "period": 1000
+        },
+        {
+            "canCheckType": 0,
+            "channel": 0,
+            "checked": true,
+            "data": "01 02 03 04",
+            "delay": 0,
+            "frameFormat": -1,
+            "frameType": 1,
+            "id": "5",
+            "length": 4,
+            "period": 10
+        },
+        {
+            "canCheckType": 0,
+            "channel": 1,
+            "checked": false,
+            "data": "01 02 03 94",
+            "delay": 0,
+            "frameFormat": -1,
+            "frameType": 2,
+            "id": "5",
+            "length": 4,
+            "period": 0
+        },
+        {
+            "canCheckType": 0,
+            "channel": 0,
+            "checked": false,
+            "data": "01 02 03 04 05 06 07 08",
+            "delay": 0,
+            "frameFormat": -1,
+            "frameType": 0,
+            "id": "8",
+            "length": 8,
+            "period": 0
+        },
+        {
+            "canCheckType": 0,
+            "channel": 0,
+            "checked": false,
+            "data": "01 02 03 04 05 06 07 08",
+            "delay": 0,
+            "frameFormat": -1,
+            "frameType": 1,
+            "id": "8",
+            "length": 4,
+            "period": 0
+        },
+        {
+            "canCheckType": 0,
+            "channel": 0,
+            "checked": false,
+            "data": "01 02 03 04 05 06 07 08",
+            "delay": 0,
+            "frameFormat": -1,
+            "frameType": 2,
+            "id": "10",
+            "length": 4,
+            "period": 0
+        },
+        {
+            "canCheckType": 0,
+            "channel": 0,
+            "checked": false,
+            "data": "01 02 03 04 05 06 07 08",
+            "delay": 0,
+            "frameFormat": -1,
+            "frameType": 1,
+            "id": "10",
+            "length": 8,
+            "period": 0
+        },
+        {
+            "canCheckType": 0,
+            "channel": 0,
+            "checked": false,
+            "data": "01 02 03 04 05 06 07 08",
+            "delay": 0,
+            "frameFormat": -1,
+            "frameType": 0,
+            "id": "b",
+            "length": 8,
+            "period": 1000
+        }
+    ],
+    "sendTimes": 100
+}

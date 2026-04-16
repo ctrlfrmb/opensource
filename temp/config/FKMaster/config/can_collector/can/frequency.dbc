@@ -1,0 +1,67 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_:
+
+
+BO_ 256 Frequency_1: 8 Vector__XXX
+ SG_ Frequency04 : 48|16@1- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Frequency03 : 32|16@1- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Frequency02 : 16|16@1- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Frequency01 : 0|16@1- (1,0) [0|0] "degC" Vector__XXX
+
+BO_ 257 Frequency_2: 8 Vector__XXX
+ SG_ Frequency08 : 48|16@1- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Frequency07 : 32|16@1- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Frequency06 : 16|16@1- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Frequency05 : 0|16@1- (1,0) [0|0] "degC" Vector__XXX
+
+BO_ 258 Frequency_3: 8 Vector__XXX
+ SG_ Frequency12 : 48|16@1- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Frequency11 : 32|16@1- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Frequency10 : 16|16@1- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Frequency09 : 0|16@1- (1,0) [0|0] "degC" Vector__XXX
+
+BO_ 259 Frequency_4: 8 Vector__XXX
+ SG_ Frequency16 : 48|16@1- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Frequency15 : 32|16@1- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Frequency14 : 16|16@1- (1,0) [0|0] "degC" Vector__XXX
+ SG_ Frequency13 : 0|16@1- (1,0) [0|0] "degC" Vector__XXX
+
+
+
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "BusType" "CAN";
+

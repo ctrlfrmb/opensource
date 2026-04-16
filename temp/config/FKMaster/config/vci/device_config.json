@@ -1,0 +1,1093 @@
+{
+    "currentDeviceIndex": 1,
+    "devices": [
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 0,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 1,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 2,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 3,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 4,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 5,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 6,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 7,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 8,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 9,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 10,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 11,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 12,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 13,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 14,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        },
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 15,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        }
+    ]
+}

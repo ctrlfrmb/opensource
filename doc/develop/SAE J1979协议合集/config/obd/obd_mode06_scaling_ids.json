@@ -1,0 +1,453 @@
+{
+  "language": "en",
+  "note": "Mode $06 Unit and Scaling IDs (UASID). IDs 0x01-0x44 = unsigned 2-byte. IDs 0x81-0xB1 = signed 2-byte (two's complement). IDs 0xFA-0xFE = signed 2-byte. Value = raw × factor + offset. Signed range: -32768 ~ +32767.",
+  "note_zh": "Mode $06 单位和缩放ID (UASID)。ID 0x01-0x44 = 无符号2字节。ID 0x81-0xB1 = 有符号2字节（二补码）。ID 0xFA-0xFE = 有符号2字节。值 = 原始值 × 因子 + 偏移。有符号范围：-32768 ~ +32767。",
+  "scaling_ids": [
+    { "id": 1, "hex": "0x01", "description": "Raw Value", "description_zh": "原始值", "factor": 1.0, "signed": false, "unit": "", "offset": 0 },
+    { "id": 2, "hex": "0x02", "description": "Raw Value", "description_zh": "原始值", "factor": 0.1, "signed": false, "unit": "", "offset": 0 },
+    { "id": 3, "hex": "0x03", "description": "Raw Value", "description_zh": "原始值", "factor": 0.01, "signed": false, "unit": "", "offset": 0 },
+    { "id": 4, "hex": "0x04", "description": "Raw Value", "description_zh": "原始值", "factor": 0.001, "signed": false, "unit": "", "offset": 0 },
+    { "id": 5, "hex": "0x05", "description": "Raw Value", "description_zh": "原始值", "factor": 3.0517578e-05, "signed": false, "unit": "", "offset": 0 },
+    { "id": 6, "hex": "0x06", "description": "Raw Value", "description_zh": "原始值", "factor": 0.000305, "signed": false, "unit": "", "offset": 0 },
+    {
+      "id": 7, "hex": "0x07", "description": "Rotational frequency", "description_zh": "转速",
+      "factor": 0.25, "signed": false, "unit": "rpm", "offset": 0
+    },
+    {
+      "id": 8, "hex": "0x08", "description": "Speed", "description_zh": "速度",
+      "factor": 0.01, "signed": false, "unit": "km/h", "offset": 0,
+      "unit_alt": "mph", "alt_factor": 0.62137, "alt_offset": 0
+    },
+    {
+      "id": 9, "hex": "0x09", "description": "Speed", "description_zh": "速度",
+      "factor": 1.0, "signed": false, "unit": "km/h", "offset": 0,
+      "unit_alt": "mph", "alt_factor": 0.62137, "alt_offset": 0
+    },
+    {
+      "id": 10, "hex": "0x0A", "description": "Voltage", "description_zh": "电压",
+      "factor": 0.1220703125, "signed": false, "unit": "mV", "offset": 0,
+      "unit_alt": "V", "alt_factor": 0.001, "alt_offset": 0
+    },
+    {
+      "id": 11, "hex": "0x0B", "description": "Voltage", "description_zh": "电压",
+      "factor": 0.001, "signed": false, "unit": "V", "offset": 0,
+      "unit_alt": "mV", "alt_factor": 1000, "alt_offset": 0,
+      "note": "JSON原版误标unit为mV。CSV: 0.001 V per bit, 0~65.535 V"
+    },
+    {
+      "id": 12, "hex": "0x0C", "description": "Voltage", "description_zh": "电压",
+      "factor": 0.01, "signed": false, "unit": "V", "offset": 0,
+      "unit_alt": "mV", "alt_factor": 1000, "alt_offset": 0,
+      "note": "JSON原版误标unit为mV。CSV: 0.01 V per bit, 0~655.35 V"
+    },
+    {
+      "id": 13, "hex": "0x0D", "description": "Current", "description_zh": "电流",
+      "factor": 0.00390625, "signed": false, "unit": "mA", "offset": 0
+    },
+    {
+      "id": 14, "hex": "0x0E", "description": "Current", "description_zh": "电流",
+      "factor": 0.001, "signed": false, "unit": "A", "offset": 0
+    },
+    {
+      "id": 15, "hex": "0x0F", "description": "Current", "description_zh": "电流",
+      "factor": 0.01, "signed": false, "unit": "A", "offset": 0
+    },
+    {
+      "id": 16, "hex": "0x10", "description": "Time", "description_zh": "时间",
+      "factor": 1.0, "signed": false, "unit": "ms", "offset": 0,
+      "note": "JSON原版误标unit为s。CSV: 1 ms per bit, 0~65535 ms = 65.535 s"
+    },
+    {
+      "id": 17, "hex": "0x11", "description": "Time", "description_zh": "时间",
+      "factor": 100.0, "signed": false, "unit": "ms", "offset": 0,
+      "note": "JSON原版误标unit为s。CSV: 100 ms per bit, 0~6,553,500 ms = 6553.5 s"
+    },
+    {
+      "id": 18, "hex": "0x12", "description": "Time", "description_zh": "时间",
+      "factor": 1.0, "signed": false, "unit": "s", "offset": 0
+    },
+    {
+      "id": 19, "hex": "0x13", "description": "Resistance", "description_zh": "电阻",
+      "factor": 1.0, "signed": false, "unit": "mOhm", "offset": 0,
+      "unit_alt": "Ohm", "alt_factor": 0.001, "alt_offset": 0
+    },
+    {
+      "id": 20, "hex": "0x14", "description": "Resistance", "description_zh": "电阻",
+      "factor": 1.0, "signed": false, "unit": "Ohm", "offset": 0,
+      "unit_alt": "kOhm", "alt_factor": 0.001, "alt_offset": 0
+    },
+    {
+      "id": 21, "hex": "0x15", "description": "Resistance", "description_zh": "电阻",
+      "factor": 1.0, "signed": false, "unit": "kOhm", "offset": 0
+    },
+    {
+      "id": 22, "hex": "0x16", "description": "Temperature", "description_zh": "温度",
+      "factor": 0.1, "signed": false, "unit": "°C", "offset": -40,
+      "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32,
+      "note": "JSON原版缺unit和offset。CSV: 0.1°C per bit - 40°C. 0x0000→-40°C, 0x0190→0°C, 0xFFFF→6513.5°C"
+    },
+    {
+      "id": 23, "hex": "0x17", "description": "Pressure (Gauge)", "description_zh": "压力（表压）",
+      "factor": 0.01, "signed": false, "unit": "kPa", "offset": 0,
+      "unit_alt": "PSI", "alt_factor": 0.1450377, "alt_offset": 0
+    },
+    {
+      "id": 24, "hex": "0x18", "description": "Pressure (Air Pressure)", "description_zh": "压力（气压）",
+      "factor": 0.0117, "signed": false, "unit": "kPa", "offset": 0,
+      "unit_alt": "PSI", "alt_factor": 0.1450377, "alt_offset": 0
+    },
+    {
+      "id": 25, "hex": "0x19", "description": "Pressure (Fuel Pressure)", "description_zh": "压力（燃油压力）",
+      "factor": 0.079, "signed": false, "unit": "kPa", "offset": 0,
+      "unit_alt": "PSI", "alt_factor": 0.1450377, "alt_offset": 0
+    },
+    {
+      "id": 26, "hex": "0x1A", "description": "Pressure (Gauge)", "description_zh": "压力（表压）",
+      "factor": 1.0, "signed": false, "unit": "kPa", "offset": 0,
+      "unit_alt": "PSI", "alt_factor": 0.1450377, "alt_offset": 0
+    },
+    {
+      "id": 27, "hex": "0x1B", "description": "Pressure (Diesel Pressure)", "description_zh": "压力（柴油压力）",
+      "factor": 10.0, "signed": false, "unit": "kPa", "offset": 0,
+      "unit_alt": "PSI", "alt_factor": 0.1450377, "alt_offset": 0
+    },
+    {
+      "id": 28, "hex": "0x1C", "description": "Angle", "description_zh": "角度",
+      "factor": 0.01, "signed": false, "unit": "°", "offset": 0
+    },
+    {
+      "id": 29, "hex": "0x1D", "description": "Angle", "description_zh": "角度",
+      "factor": 0.5, "signed": false, "unit": "°", "offset": 0
+    },
+    {
+      "id": 30, "hex": "0x1E", "description": "Equivalence ratio (lambda)", "description_zh": "当量比（lambda）",
+      "factor": 3.0517578e-05, "signed": false, "unit": "lambda", "offset": 0
+    },
+    {
+      "id": 31, "hex": "0x1F", "description": "Air/Fuel Ratio", "description_zh": "空燃比",
+      "factor": 0.05, "signed": false, "unit": "A/F ratio", "offset": 0
+    },
+    {
+      "id": 32, "hex": "0x20", "description": "Ratio", "description_zh": "比率",
+      "factor": 0.00390625, "signed": false, "unit": "", "offset": 0
+    },
+    {
+      "id": 33, "hex": "0x21", "description": "Frequency", "description_zh": "频率",
+      "factor": 1.0, "signed": false, "unit": "mHz", "offset": 0,
+      "unit_alt": "Hz", "alt_factor": 0.001, "alt_offset": 0
+    },
+    {
+      "id": 34, "hex": "0x22", "description": "Frequency", "description_zh": "频率",
+      "factor": 1.0, "signed": false, "unit": "Hz", "offset": 0
+    },
+    {
+      "id": 35, "hex": "0x23", "description": "Frequency", "description_zh": "频率",
+      "factor": 1.0, "signed": false, "unit": "kHz", "offset": 0
+    },
+    {
+      "id": 36, "hex": "0x24", "description": "Counts", "description_zh": "计数",
+      "factor": 1.0, "signed": false, "unit": "counts", "offset": 0
+    },
+    {
+      "id": 37, "hex": "0x25", "description": "Distance", "description_zh": "距离",
+      "factor": 1.0, "signed": false, "unit": "km", "offset": 0,
+      "unit_alt": "miles", "alt_factor": 0.62137, "alt_offset": 0
+    },
+    {
+      "id": 38, "hex": "0x26", "description": "Voltage per time", "description_zh": "电压变化率",
+      "factor": 0.1, "signed": false, "unit": "mV/ms", "offset": 0,
+      "unit_alt": "V/ms", "alt_factor": 0.001, "alt_offset": 0
+    },
+    {
+      "id": 39, "hex": "0x27", "description": "Mass per time", "description_zh": "质量流量",
+      "factor": 0.01, "signed": false, "unit": "g/s", "offset": 0,
+      "unit_alt": "lb/s", "alt_factor": 0.0022046, "alt_offset": 0
+    },
+    {
+      "id": 40, "hex": "0x28", "description": "Mass per time", "description_zh": "质量流量",
+      "factor": 1.0, "signed": false, "unit": "g/s", "offset": 0,
+      "unit_alt": "lb/s", "alt_factor": 0.0022046, "alt_offset": 0
+    },
+    {
+      "id": 41, "hex": "0x29", "description": "Pressure per time", "description_zh": "压力变化率",
+      "factor": 0.25, "signed": false, "unit": "Pa/s", "offset": 0,
+      "unit_alt": "inH2O/s", "alt_factor": 0.0040146309, "alt_offset": 0
+    },
+    {
+      "id": 42, "hex": "0x2A", "description": "Mass per time", "description_zh": "质量流量",
+      "factor": 0.001, "signed": false, "unit": "kg/h", "offset": 0,
+      "unit_alt": "lb/h", "alt_factor": 2.20462, "alt_offset": 0
+    },
+    {
+      "id": 43, "hex": "0x2B", "description": "Switches", "description_zh": "开关状态",
+      "factor": 1.0, "signed": false, "unit": "switches", "offset": 0
+    },
+    {
+      "id": 44, "hex": "0x2C", "description": "Mass per cylinder", "description_zh": "每缸质量",
+      "factor": 0.01, "signed": false, "unit": "g/cyl", "offset": 0
+    },
+    {
+      "id": 45, "hex": "0x2D", "description": "Mass per stroke", "description_zh": "每冲程质量",
+      "factor": 0.01, "signed": false, "unit": "mg/stroke", "offset": 0
+    },
+    {
+      "id": 46, "hex": "0x2E", "description": "True/False", "description_zh": "真/假",
+      "factor": 1.0, "signed": false, "unit": "", "offset": 0
+    },
+    {
+      "id": 47, "hex": "0x2F", "description": "Percent", "description_zh": "百分比",
+      "factor": 0.01, "signed": false, "unit": "%", "offset": 0
+    },
+    {
+      "id": 48, "hex": "0x30", "description": "Percent", "description_zh": "百分比",
+      "factor": 0.001526, "signed": false, "unit": "%", "offset": 0
+    },
+    {
+      "id": 49, "hex": "0x31", "description": "Volume", "description_zh": "容量",
+      "factor": 0.001, "signed": false, "unit": "L", "offset": 0
+    },
+    {
+      "id": 50, "hex": "0x32", "description": "Length", "description_zh": "长度",
+      "factor": 3.051757813e-05, "signed": false, "unit": "inch", "offset": 0,
+      "unit_alt": "mm", "alt_factor": 25.4, "alt_offset": 0
+    },
+    {
+      "id": 51, "hex": "0x33", "description": "Equivalence ratio (lambda)", "description_zh": "当量比（lambda）",
+      "factor": 0.000244140625, "signed": false, "unit": "lambda", "offset": 0
+    },
+    {
+      "id": 52, "hex": "0x34", "description": "Time", "description_zh": "时间",
+      "factor": 1.0, "signed": false, "unit": "min", "offset": 0
+    },
+    {
+      "id": 53, "hex": "0x35", "description": "Time", "description_zh": "时间",
+      "factor": 10.0, "signed": false, "unit": "ms", "offset": 0,
+      "note": "JSON原版误标unit为s。CSV: 10 ms per bit, 0~655,350 ms = 655.35 s"
+    },
+    {
+      "id": 54, "hex": "0x36", "description": "Weight", "description_zh": "重量",
+      "factor": 0.01, "signed": false, "unit": "g", "offset": 0,
+      "unit_alt": "lbs", "alt_factor": 0.0022046, "alt_offset": 0
+    },
+    {
+      "id": 55, "hex": "0x37", "description": "Weight", "description_zh": "重量",
+      "factor": 0.1, "signed": false, "unit": "g", "offset": 0,
+      "unit_alt": "lbs", "alt_factor": 0.0022046, "alt_offset": 0
+    },
+    {
+      "id": 56, "hex": "0x38", "description": "Weight", "description_zh": "重量",
+      "factor": 1.0, "signed": false, "unit": "g", "offset": 0,
+      "unit_alt": "lbs", "alt_factor": 0.0022046, "alt_offset": 0
+    },
+    {
+      "id": 57, "hex": "0x39", "description": "Percent (with offset)", "description_zh": "百分比（带偏移）",
+      "factor": 0.01, "signed": false, "unit": "%", "offset": -327.68,
+      "note": "CSV: unsigned with offset. Formula: raw × 0.01 - 327.68. 0x0000→-327.68%, 0x8000→0.00%, 0xFFFF→327.67%"
+    },
+    {
+      "id": 58, "hex": "0x3A", "description": "Weight", "description_zh": "重量",
+      "factor": 0.001, "signed": false, "unit": "g", "offset": 0,
+      "unit_alt": "lbs", "alt_factor": 0.0022046, "alt_offset": 0
+    },
+    {
+      "id": 59, "hex": "0x3B", "description": "Weight", "description_zh": "重量",
+      "factor": 0.0001, "signed": false, "unit": "g", "offset": 0,
+      "unit_alt": "lbs", "alt_factor": 0.0022046, "alt_offset": 0
+    },
+    {
+      "id": 60, "hex": "0x3C", "description": "Time", "description_zh": "时间",
+      "factor": 0.1, "signed": false, "unit": "ms", "offset": 0
+    },
+    {
+      "id": 61, "hex": "0x3D", "description": "Current", "description_zh": "电流",
+      "factor": 0.01, "signed": false, "unit": "mA", "offset": 0
+    },
+    {
+      "id": 62, "hex": "0x3E", "description": "Area", "description_zh": "面积",
+      "factor": 6.103516e-05, "signed": false, "unit": "mm²", "offset": 0
+    },
+    {
+      "id": 63, "hex": "0x3F", "description": "Volume", "description_zh": "容量",
+      "factor": 0.01, "signed": false, "unit": "L", "offset": 0
+    },
+    {
+      "id": 64, "hex": "0x40", "description": "Part per million", "description_zh": "百万分率",
+      "factor": 1.0, "signed": false, "unit": "ppm", "offset": 0
+    },
+    {
+      "id": 65, "hex": "0x41", "description": "Current", "description_zh": "电流",
+      "factor": 0.01, "signed": false, "unit": "mA", "offset": 0
+    },
+    {
+      "id": 66, "hex": "0x42", "description": "Energy", "description_zh": "能量",
+      "factor": 0.1, "signed": false, "unit": "kJ", "offset": 0,
+      "unit_alt": "BTU", "alt_factor": 0.947817, "alt_offset": 0
+    },
+    {
+      "id": 67, "hex": "0x43", "description": "Mass per energy", "description_zh": "单位能量质量",
+      "factor": 0.000244140625, "signed": false, "unit": "g/kWh", "offset": 0,
+      "unit_alt": "g/bhp-hr", "alt_factor": 1.341022, "alt_offset": 0
+    },
+    {
+      "id": 68, "hex": "0x44", "description": "Siemens per centimeter", "description_zh": "电导率",
+      "factor": 1.0, "signed": false, "unit": "µS/cm", "offset": 0,
+      "note": "JSON原版缺unit。CSV: 1 µS/cm per bit"
+    },
+	{
+      "id": 129, "hex": "0x81", "description": "Raw Value (signed)", "description_zh": "原始值（有符号）",
+      "factor": 1.0, "signed": true, "unit": "", "offset": 0
+    },
+    {
+      "id": 130, "hex": "0x82", "description": "Raw Value (signed)", "description_zh": "原始值（有符号）",
+      "factor": 0.1, "signed": true, "unit": "", "offset": 0
+    },
+    {
+      "id": 131, "hex": "0x83", "description": "Raw Value (signed)", "description_zh": "原始值（有符号）",
+      "factor": 0.01, "signed": true, "unit": "", "offset": 0
+    },
+    {
+      "id": 132, "hex": "0x84", "description": "Raw Value (signed)", "description_zh": "原始值（有符号）",
+      "factor": 0.001, "signed": true, "unit": "", "offset": 0
+    },
+    {
+      "id": 133, "hex": "0x85", "description": "Raw Value (signed)", "description_zh": "原始值（有符号）",
+      "factor": 3.0517578e-05, "signed": true, "unit": "", "offset": 0
+    },
+    {
+      "id": 134, "hex": "0x86", "description": "Raw Value (signed)", "description_zh": "原始值（有符号）",
+      "factor": 0.000305, "signed": true, "unit": "", "offset": 0
+    },
+    {
+      "id": 135, "hex": "0x87", "description": "Raw Value (signed)", "description_zh": "原始值（有符号）",
+      "factor": 1.0, "signed": true, "unit": "ppm", "offset": 0
+    },
+    {
+      "id": 138, "hex": "0x8A", "description": "Voltage (signed)", "description_zh": "电压（有符号）",
+      "factor": 0.1220703125, "signed": true, "unit": "mV", "offset": 0,
+      "unit_alt": "V", "alt_factor": 0.001, "alt_offset": 0
+    },
+    {
+      "id": 139, "hex": "0x8B", "description": "Voltage (signed)", "description_zh": "电压（有符号）",
+      "factor": 0.001, "signed": true, "unit": "V", "offset": 0,
+      "unit_alt": "mV", "alt_factor": 1000, "alt_offset": 0
+    },
+    {
+      "id": 140, "hex": "0x8C", "description": "Voltage (signed)", "description_zh": "电压（有符号）",
+      "factor": 0.01, "signed": true, "unit": "V", "offset": 0,
+      "unit_alt": "mV", "alt_factor": 1000, "alt_offset": 0
+    },
+    {
+      "id": 141, "hex": "0x8D", "description": "Current (signed)", "description_zh": "电流（有符号）",
+      "factor": 0.00390625, "signed": true, "unit": "mA", "offset": 0,
+      "note": "JSON原版缺unit。CSV: 0.00390625 mA per bit signed"
+    },
+    {
+      "id": 142, "hex": "0x8E", "description": "Current (signed)", "description_zh": "电流（有符号）",
+      "factor": 0.001, "signed": true, "unit": "A", "offset": 0,
+      "unit_alt": "mA", "alt_factor": 1000, "alt_offset": 0
+    },
+    {
+      "id": 143, "hex": "0x8F", "description": "Time (signed)", "description_zh": "时间（有符号）",
+      "factor": 1.0, "signed": true, "unit": "ms", "offset": 0
+    },
+    {
+      "id": 144, "hex": "0x90", "description": "Time (signed)", "description_zh": "时间（有符号）",
+      "factor": 1.0, "signed": true, "unit": "ms", "offset": 0,
+      "unit_alt": "s", "alt_factor": 0.001, "alt_offset": 0,
+      "note": "Same factor as 0x8F but different display format (ms → s conversion)"
+    },
+    {
+      "id": 145, "hex": "0x91", "description": "Time (signed)", "description_zh": "时间（有符号）",
+      "factor": 0.1, "signed": true, "unit": "s", "offset": 0
+    },
+    {
+      "id": 146, "hex": "0x92", "description": "Torque (signed)", "description_zh": "扭矩（有符号）",
+      "factor": 0.1, "signed": true, "unit": "Nm", "offset": 0,
+      "unit_alt": "lbf·ft", "alt_factor": 0.737562, "alt_offset": 0
+    },
+    {
+      "id": 150, "hex": "0x96", "description": "Temperature (signed)", "description_zh": "温度（有符号）",
+      "factor": 0.1, "signed": true, "unit": "°C", "offset": 0,
+      "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32,
+      "note": "Signed version has NO offset (unlike unsigned 0x16 which has -40°C offset)"
+    },
+    {
+      "id": 151, "hex": "0x97", "description": "Temperature per time (signed)", "description_zh": "温度变化率（有符号）",
+      "factor": 0.01, "signed": true, "unit": "°C/s", "offset": 0,
+      "unit_alt": "°F/s", "alt_factor": 1.8, "alt_offset": 0
+    },
+    {
+      "id": 152, "hex": "0x98", "description": "Mass per stroke (signed)", "description_zh": "每冲程质量（有符号）",
+      "factor": 1.0, "signed": true, "unit": "mg/stroke", "offset": 0
+    },
+    {
+      "id": 153, "hex": "0x99", "description": "Pressure (signed)", "description_zh": "压力（有符号）",
+      "factor": 0.1, "signed": true, "unit": "kPa", "offset": 0,
+      "unit_alt": "PSI", "alt_factor": 0.1450377, "alt_offset": 0
+    },
+    {
+      "id": 156, "hex": "0x9C", "description": "Angle (signed)", "description_zh": "角度（有符号）",
+      "factor": 0.01, "signed": true, "unit": "°", "offset": 0
+    },
+    {
+      "id": 157, "hex": "0x9D", "description": "Angle (signed)", "description_zh": "角度（有符号）",
+      "factor": 0.5, "signed": true, "unit": "°", "offset": 0
+    },
+    {
+      "id": 168, "hex": "0xA8", "description": "Mass per time (signed)", "description_zh": "质量流量（有符号）",
+      "factor": 1.0, "signed": true, "unit": "g/s", "offset": 0,
+      "unit_alt": "lb/s", "alt_factor": 0.0022046, "alt_offset": 0
+    },
+    {
+      "id": 169, "hex": "0xA9", "description": "Pressure per time (signed)", "description_zh": "压力变化率（有符号）",
+      "factor": 0.25, "signed": true, "unit": "Pa/s", "offset": 0,
+      "unit_alt": "inH2O/s", "alt_factor": 0.0040146309, "alt_offset": 0
+    },
+    {
+      "id": 173, "hex": "0xAD", "description": "Mass per stroke (signed)", "description_zh": "每冲程质量（有符号）",
+      "factor": 0.01, "signed": true, "unit": "mg/stroke", "offset": 0
+    },
+    {
+      "id": 174, "hex": "0xAE", "description": "Mass per stroke (signed)", "description_zh": "每冲程质量（有符号）",
+      "factor": 0.1, "signed": true, "unit": "mg/stroke", "offset": 0
+    },
+    {
+      "id": 175, "hex": "0xAF", "description": "Percent (signed)", "description_zh": "百分比（有符号）",
+      "factor": 0.01, "signed": true, "unit": "%", "offset": 0
+    },
+    {
+      "id": 176, "hex": "0xB0", "description": "Percent (signed)", "description_zh": "百分比（有符号）",
+      "factor": 0.003052, "signed": true, "unit": "%", "offset": 0
+    },
+    {
+      "id": 177, "hex": "0xB1", "description": "Voltage per time (signed)", "description_zh": "电压变化率（有符号）",
+      "factor": 2.0, "signed": true, "unit": "mV/s", "offset": 0
+    },
+    {
+      "id": 250, "hex": "0xFA", "description": "Pressure (signed)", "description_zh": "压力（有符号）",
+      "factor": 20.0, "signed": true, "unit": "kPa", "offset": 0,
+      "unit_alt": "PSI", "alt_factor": 0.1450377, "alt_offset": 0
+    },
+    {
+      "id": 251, "hex": "0xFB", "description": "Pressure (signed)", "description_zh": "压力（有符号）",
+      "factor": 10.0, "signed": true, "unit": "kPa", "offset": 0,
+      "unit_alt": "PSI", "alt_factor": 0.1450377, "alt_offset": 0
+    },
+    {
+      "id": 252, "hex": "0xFC", "description": "Pressure (signed)", "description_zh": "压力（有符号）",
+      "factor": 0.01, "signed": true, "unit": "kPa", "offset": 0,
+      "unit_alt": "PSI", "alt_factor": 0.1450377, "alt_offset": 0
+    },
+    {
+      "id": 253, "hex": "0xFD", "description": "Pressure (signed)", "description_zh": "压力（有符号）",
+      "factor": 0.001, "signed": true, "unit": "kPa", "offset": 0,
+      "unit_alt": "PSI", "alt_factor": 0.1450377, "alt_offset": 0,
+      "note": "JSON原版错误id=4060。CSV源typo '0xFDC'→正确为0xFD (253)"
+    },
+    {
+      "id": 254, "hex": "0xFE", "description": "Pressure (signed)", "description_zh": "压力（有符号）",
+      "factor": 0.25, "signed": true, "unit": "Pa", "offset": 0,
+      "unit_alt": "inH2O", "alt_factor": 0.0040146309, "alt_offset": 0
+    }
+  ]
+}

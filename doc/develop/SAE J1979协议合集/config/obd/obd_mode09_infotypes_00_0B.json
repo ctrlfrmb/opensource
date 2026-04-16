@@ -1,0 +1,149 @@
+{
+  "language": "en",
+  "info_types": [
+    {
+      "id": 0, "iso_id": 63488,
+      "name": "Supported InfoTypes [$01-$20]", "name_zh": "支持的信息类型 [$01-$20]",
+      "format": "supported", "data_bytes": 4,
+      "_sub_fields": []
+    },
+    {
+      "id": 1, "iso_id": 63489,
+      "name": "MessageCount VIN", "name_zh": "VIN消息计数",
+      "description": "Number of messages to report Vehicle Identification Number (VIN). For ISO 15765-4 (CAN), support for this parameter is not recommended/required.",
+      "description_zh": "报告车辆识别号码(VIN)所需消息数。对于ISO 15765-4(CAN)，不建议/不要求支持此参数。",
+      "format": "count", "data_bytes": 1,
+      "_sub_fields": []
+    },
+    {
+      "id": 2, "iso_id": 63490,
+      "name": "Vehicle Identification Number", "name_zh": "车辆识别号码",
+      "description": "17-character VIN. For CAN, single response message with all VIN characters without fill bytes. Default $3F [?] if not programmed or unavailable.",
+      "description_zh": "17字符VIN。CAN协议为单条响应消息包含所有VIN字符无填充字节。未编程或不可用时默认$3F [?]。",
+      "format": "ascii", "data_bytes": 17,
+      "_sub_fields": []
+    },
+    {
+      "id": 3, "iso_id": 63491,
+      "name": "MessageCount CALID", "name_zh": "CALID消息计数",
+      "description": "Number of messages to report calibration identifications. Message count is always a multiple of 4.",
+      "description_zh": "报告标定标识所需消息数。消息计数始终为4的倍数。",
+      "format": "count", "data_bytes": 1,
+      "_sub_fields": []
+    },
+    {
+      "id": 4, "iso_id": 63492,
+      "name": "Calibration Identifications", "name_zh": "标定标识",
+      "description": "16 ASCII characters per CALID. Multiple CALIDs possible. Printable ASCII $20-$7E. Unused bytes $00 at end. Default $3F [?] if unavailable.",
+      "description_zh": "每个CALID 16个ASCII字符。可能有多个CALID。可打印ASCII $20-$7E。未使用字节末尾填充$00。不可用时默认$3F [?]。",
+      "format": "ascii", "data_bytes": 16,
+      "_sub_fields": []
+    },
+    {
+      "id": 5, "iso_id": 63493,
+      "name": "MessageCount CVN", "name_zh": "CVN消息计数",
+      "description": "Number of messages to report Calibration Verification Numbers.",
+      "description_zh": "报告标定验证号所需消息数。",
+      "format": "count", "data_bytes": 1,
+      "_sub_fields": []
+    },
+    {
+      "id": 6, "iso_id": 63494,
+      "name": "Calibration Verification Numbers", "name_zh": "标定验证号",
+      "description": "4-byte hex CVN per calibration. Verifies software integrity. Method 1: computed once per trip, stored in NVM. Method 2: computed on demand. Default $00 if unavailable.",
+      "description_zh": "每个标定对应4字节十六进制CVN。验证软件完整性。方法1：每次行程计算一次存于NVM。方法2：按需计算。不可用时默认$00。",
+      "format": "hex", "data_bytes": 4,
+      "_sub_fields": []
+    },
+    {
+      "id": 7, "iso_id": 63495,
+      "name": "MessageCount IPT", "name_zh": "IPT消息计数",
+      "description": "Number of messages to report In-use Performance Tracking. InfoType $08 for SI, $0B for CI.",
+      "description_zh": "报告在用性能跟踪所需消息数。InfoType $08用于SI，$0B用于CI。",
+      "format": "count", "data_bytes": 1,
+      "_sub_fields": []
+    },
+    {
+      "id": 8, "iso_id": 63496,
+      "name": "In-use Performance Tracking (SI)", "name_zh": "在用性能跟踪（点火式）",
+      "description": "IPT for spark ignition engines. 32/40/56 data bytes. All 2-byte unsigned counters reported in order.",
+      "description_zh": "点火式发动机在用性能跟踪。32/40/56数据字节。所有2字节无符号计数器按顺序报告。",
+      "format": "structured", "data_bytes": 0,
+      "data_bytes_variants": [32, 40, 56],
+      "_sub_fields": [
+        { "index": 0, "label": "OBDCOND", "name": "OBD Monitoring Conditions Encountered Counts", "name_zh": "OBD监测条件遇到次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 1, "label": "IGNCNTR", "name": "Ignition Counter", "name_zh": "点火循环计数器", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 2, "label": "CATCOMP1", "name": "Catalyst Monitor Completion Counts Bank 1", "name_zh": "催化器监测完成次数 组1", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 3, "label": "CATCOND1", "name": "Catalyst Monitor Conditions Encountered Counts Bank 1", "name_zh": "催化器监测条件遇到次数 组1", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 4, "label": "CATCOMP2", "name": "Catalyst Monitor Completion Counts Bank 2", "name_zh": "催化器监测完成次数 组2", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 5, "label": "CATCOND2", "name": "Catalyst Monitor Conditions Encountered Counts Bank 2", "name_zh": "催化器监测条件遇到次数 组2", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 6, "label": "O2SCOMP1", "name": "O2 Sensor Monitor Completion Counts Bank 1", "name_zh": "氧传感器监测完成次数 组1", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 7, "label": "O2SCOND1", "name": "O2 Sensor Monitor Conditions Encountered Counts Bank 1", "name_zh": "氧传感器监测条件遇到次数 组1", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 8, "label": "O2SCOMP2", "name": "O2 Sensor Monitor Completion Counts Bank 2", "name_zh": "氧传感器监测完成次数 组2", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 9, "label": "O2SCOND2", "name": "O2 Sensor Monitor Conditions Encountered Counts Bank 2", "name_zh": "氧传感器监测条件遇到次数 组2", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 10, "label": "EGRCOMP", "name": "EGR/VVT Monitor Completion Condition Counts", "name_zh": "EGR/VVT监测完成条件次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 11, "label": "EGRCOND", "name": "EGR/VVT Monitor Conditions Encountered Counts", "name_zh": "EGR/VVT监测条件遇到次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 12, "label": "AIRCOMP", "name": "AIR Monitor Completion Condition Counts", "name_zh": "二次空气监测完成条件次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 13, "label": "AIRCOND", "name": "AIR Monitor Conditions Encountered Counts", "name_zh": "二次空气监测条件遇到次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 14, "label": "EVAPCOMP", "name": "EVAP Monitor Completion Condition Counts", "name_zh": "蒸发监测完成条件次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 15, "label": "EVAPCOND", "name": "EVAP Monitor Conditions Encountered Counts", "name_zh": "蒸发监测条件遇到次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 16, "label": "SO2SCOMP1", "name": "Secondary O2 Sensor Monitor Completion Counts Bank 1", "name_zh": "二级氧传感器监测完成次数 组1", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts", "note": "40/56-byte response" },
+        { "index": 17, "label": "SO2SCOND1", "name": "Secondary O2 Sensor Monitor Conditions Encountered Counts Bank 1", "name_zh": "二级氧传感器监测条件遇到次数 组1", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 18, "label": "SO2SCOMP2", "name": "Secondary O2 Sensor Monitor Completion Counts Bank 2", "name_zh": "二级氧传感器监测完成次数 组2", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 19, "label": "SO2SCOND2", "name": "Secondary O2 Sensor Monitor Conditions Encountered Counts Bank 2", "name_zh": "二级氧传感器监测条件遇到次数 组2", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 20, "label": "AFRICOMP1", "name": "A/F Ratio Imbalance Monitor Completion Counts Bank 1", "name_zh": "空燃比失衡监测完成次数 组1", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts", "note": "56-byte response only" },
+        { "index": 21, "label": "AFRICOND1", "name": "A/F Ratio Imbalance Monitor Conditions Encountered Counts Bank 1", "name_zh": "空燃比失衡监测条件遇到次数 组1", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 22, "label": "AFRICOMP2", "name": "A/F Ratio Imbalance Monitor Completion Counts Bank 2", "name_zh": "空燃比失衡监测完成次数 组2", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 23, "label": "AFRICOND2", "name": "A/F Ratio Imbalance Monitor Conditions Encountered Counts Bank 2", "name_zh": "空燃比失衡监测条件遇到次数 组2", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 24, "label": "PFCOMP1", "name": "Particulate Filter Monitor Completion Counts Bank 1", "name_zh": "颗粒物滤清器监测完成次数 组1", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts", "note": "56-byte response, China 6" },
+        { "index": 25, "label": "PFCOND1", "name": "Particulate Filter Monitor Conditions Encountered Counts Bank 1", "name_zh": "颗粒物滤清器监测条件遇到次数 组1", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 26, "label": "PFCOMP2", "name": "Particulate Filter Monitor Completion Counts Bank 2", "name_zh": "颗粒物滤清器监测完成次数 组2", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 27, "label": "PFCOND2", "name": "Particulate Filter Monitor Conditions Encountered Counts Bank 2", "name_zh": "颗粒物滤清器监测条件遇到次数 组2", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" }
+      ]
+    },
+    {
+      "id": 9, "iso_id": 63497,
+      "name": "MessageCount ECUNAME", "name_zh": "ECU名称消息计数",
+      "description": "Number of messages to report ECU acronym and text name. Always 5 for non-CAN.",
+      "description_zh": "报告ECU缩写和文本名称所需消息数。非CAN协议始终为5。",
+      "format": "count", "data_bytes": 1,
+      "_sub_fields": []
+    },
+    {
+      "id": 10, "iso_id": 63498,
+      "name": "ECUNAME", "name_zh": "ECU名称",
+      "description": "20 ASCII characters: 4-char acronym + '-' delimiter + 15-char text name. Unused bytes $00.",
+      "description_zh": "20个ASCII字符：4字符缩写 + '-'分隔符 + 15字符文本名称。未使用字节$00。",
+      "format": "ascii", "data_bytes": 20,
+      "_sub_fields": []
+    },
+    {
+      "id": 11, "iso_id": 63499,
+      "name": "In-use Performance Tracking (CI)", "name_zh": "在用性能跟踪（压燃式）",
+      "description": "IPT for compression ignition engines (2010 MY+). 32 or 36 data bytes. All 2-byte unsigned counters.",
+      "description_zh": "压燃式发动机在用性能跟踪（2010年及以后车型）。32或36数据字节。所有2字节无符号计数器。",
+      "format": "structured", "data_bytes": 0,
+      "data_bytes_variants": [32, 36],
+      "_sub_fields": [
+        { "index": 0, "label": "OBDCOND", "name": "OBD Monitoring Conditions Encountered Counts", "name_zh": "OBD监测条件遇到次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 1, "label": "IGNCNTR", "name": "Ignition Cycle Counter", "name_zh": "点火循环计数器", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 2, "label": "HCCATCOMP", "name": "NMHC Catalyst Monitor Completion Counts", "name_zh": "NMHC催化器监测完成次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 3, "label": "HCCATCOND", "name": "NMHC Catalyst Monitor Conditions Encountered Counts", "name_zh": "NMHC催化器监测条件遇到次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 4, "label": "NCATCOMP", "name": "NOx/SCR Catalyst Monitor Completion Condition Counts", "name_zh": "NOx/SCR催化器监测完成条件次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 5, "label": "NCATCOND", "name": "NOx/SCR Catalyst Monitor Conditions Encountered Counts", "name_zh": "NOx/SCR催化器监测条件遇到次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 6, "label": "NADSCOMP", "name": "NOx Adsorber Monitor Completion Condition Counts", "name_zh": "NOx吸附器监测完成条件次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 7, "label": "NADSCOND", "name": "NOx Adsorber Monitor Conditions Encountered Counts", "name_zh": "NOx吸附器监测条件遇到次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 8, "label": "PMCOMP", "name": "PM Filter Monitor Completion Condition Counts", "name_zh": "PM滤清器监测完成条件次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 9, "label": "PMCOND", "name": "PM Filter Monitor Conditions Encountered Counts", "name_zh": "PM滤清器监测条件遇到次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 10, "label": "EGSCOMP", "name": "Exhaust Gas Sensor Monitor Completion Counts", "name_zh": "排气传感器监测完成次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 11, "label": "EGSCOND", "name": "Exhaust Gas Sensor Monitor Conditions Encountered Counts", "name_zh": "排气传感器监测条件遇到次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 12, "label": "EGRCOMP", "name": "EGR/VVT Monitor Completion Condition Counts", "name_zh": "EGR/VVT监测完成条件次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 13, "label": "EGRCOND", "name": "EGR/VVT Monitor Conditions Encountered Counts", "name_zh": "EGR/VVT监测条件遇到次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 14, "label": "BPCOMP", "name": "Boost Pressure Monitor Completion Condition Counts", "name_zh": "增压压力监测完成条件次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 15, "label": "BPCOND", "name": "Boost Pressure Monitor Conditions Encountered Counts", "name_zh": "增压压力监测条件遇到次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 16, "label": "FUELCOMP", "name": "Fuel Monitor Completion Condition Counts", "name_zh": "燃油监测完成条件次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" },
+        { "index": 17, "label": "FUELCOND", "name": "Fuel Monitor Conditions Encountered Counts", "name_zh": "燃油监测条件遇到次数", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" }
+      ]
+    }
+  ]
+}

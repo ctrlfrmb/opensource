@@ -1,0 +1,13 @@
+{
+    "filePath": "D:/source/file_manager/doc/dbc&arxml/SENT_FIU.dbc",
+    "signals": [
+        {
+            "id": "44000",
+            "signalName": "DataAOffSet"
+        },
+        {
+            "id": "44000",
+            "signalName": "DataBOffSet"
+        }
+    ]
+}

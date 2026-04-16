@@ -1,0 +1,264 @@
+{
+  "version": "2.0",
+  "language": "en",
+  "description": "OBD-II Mode 01 PIDs 0x20-0x3F — Fuel Pressure, Wide-Range O2 (Voltage & Current), Catalyst Temperature (SAE J1979 / ISO 15031-5)",
+
+  "pids": [
+    {
+      "pid": 32, "iso_pid": 62496,
+      "name": "PIDs Supported [21-40]", "name_zh": "支持的PID [21-40]",
+      "type": "supported", "data_bytes": 4
+    },
+    {
+      "pid": 33, "iso_pid": 62497,
+      "name": "Distance Traveled While MIL Activated", "name_zh": "MIL亮起后行驶距离",
+      "description": "Accumulates km while MIL is ON. Reset when MIL changes from OFF to ON, or by Service $04, or after 40 warm-ups without MIL.",
+      "type": "numeric", "data_bytes": 2, "reset_on_clear": true,
+      "items": [{ "label": "MIL_DIST", "bytes": "A,B", "formula": "256 * A + B", "unit": "km", "unit_alt": "miles", "alt_factor": 0.62137, "min": 0, "max": 65535 }]
+    },
+    {
+      "pid": 34, "iso_pid": 62498,
+      "name": "Fuel Pressure (relative to manifold vacuum)", "name_zh": "燃油压力(相对进气歧管真空)",
+      "description": "Fuel pressure referenced to manifold vacuum (relative pressure).",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "FRP_REL", "bytes": "A,B", "formula": "(256 * A + B) * 0.079", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 5177.27, "display": "xxxx.xxx" }]
+    },
+    {
+      "pid": 35, "iso_pid": 62499,
+      "name": "Fuel Rail Pressure (gauge)", "name_zh": "燃油轨压(表压)",
+      "description": "Fuel rail pressure referenced to atmosphere (gauge). Intended for diesel and GDI systems with higher pressure range than PIDs $0A and $22.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "FRP", "bytes": "A,B", "formula": "(256 * A + B) * 10", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655350, "display": "xxxxxx" }]
+    },
+    {
+      "pid": 36, "iso_pid": 62500,
+      "name": "Wide O2 Lambda & Voltage B1S1", "name_zh": "宽域氧传感器Lambda与电压 B1S1",
+      "description": "Wide-range/linear O2 sensor: equivalence ratio (lambda) and voltage. Uses PID $13 or $1D sensor mapping.",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA11", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S11_V", "bytes": "C,D", "formula": "(256 * C + D) * 0.000122", "unit": "V", "min": 0, "max": 7.999, "display": "x.xxx" }
+      ]
+    },
+    {
+      "pid": 37, "iso_pid": 62501,
+      "name": "Wide O2 Lambda & Voltage B1S2", "name_zh": "宽域氧传感器Lambda与电压 B1S2",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA12", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S12_V", "bytes": "C,D", "formula": "(256 * C + D) * 0.000122", "unit": "V", "min": 0, "max": 7.999, "display": "x.xxx" }
+      ]
+    },
+    {
+      "pid": 38, "iso_pid": 62502,
+      "name": "Wide O2 Lambda & Voltage B1S3 / B2S1", "name_zh": "宽域氧传感器Lambda与电压 B1S3/B2S1",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA13", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S13_V", "bytes": "C,D", "formula": "(256 * C + D) * 0.000122", "unit": "V", "min": 0, "max": 7.999, "display": "x.xxx" }
+      ]
+    },
+    {
+      "pid": 39, "iso_pid": 62503,
+      "name": "Wide O2 Lambda & Voltage B1S4 / B2S2", "name_zh": "宽域氧传感器Lambda与电压 B1S4/B2S2",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA14", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S14_V", "bytes": "C,D", "formula": "(256 * C + D) * 0.000122", "unit": "V", "min": 0, "max": 7.999, "display": "x.xxx" }
+      ]
+    },
+    {
+      "pid": 40, "iso_pid": 62504,
+      "name": "Wide O2 Lambda & Voltage B2S1 / B3S1", "name_zh": "宽域氧传感器Lambda与电压 B2S1/B3S1",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA21", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S21_V", "bytes": "C,D", "formula": "(256 * C + D) * 0.000122", "unit": "V", "min": 0, "max": 7.999, "display": "x.xxx" }
+      ]
+    },
+    {
+      "pid": 41, "iso_pid": 62505,
+      "name": "Wide O2 Lambda & Voltage B2S2 / B3S2", "name_zh": "宽域氧传感器Lambda与电压 B2S2/B3S2",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA22", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S22_V", "bytes": "C,D", "formula": "(256 * C + D) * 0.000122", "unit": "V", "min": 0, "max": 7.999, "display": "x.xxx" }
+      ]
+    },
+    {
+      "pid": 42, "iso_pid": 62506,
+      "name": "Wide O2 Lambda & Voltage B2S3 / B4S1", "name_zh": "宽域氧传感器Lambda与电压 B2S3/B4S1",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA23", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S23_V", "bytes": "C,D", "formula": "(256 * C + D) * 0.000122", "unit": "V", "min": 0, "max": 7.999, "display": "x.xxx" }
+      ]
+    },
+    {
+      "pid": 43, "iso_pid": 62507,
+      "name": "Wide O2 Lambda & Voltage B2S4 / B4S2", "name_zh": "宽域氧传感器Lambda与电压 B2S4/B4S2",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA24", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S24_V", "bytes": "C,D", "formula": "(256 * C + D) * 0.000122", "unit": "V", "min": 0, "max": 7.999, "display": "x.xxx" }
+      ]
+    },
+    {
+      "pid": 44, "iso_pid": 62508,
+      "name": "Commanded EGR", "name_zh": "指令EGR",
+      "description": "Commanded EGR valve duty cycle/position. 0%=no flow, 100%=max flow.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "EGR_PCT", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 45, "iso_pid": 62509,
+      "name": "EGR Error", "name_zh": "EGR误差",
+      "description": "EGR error = ((actual - commanded) / commanded) * 100%. Not supported if no closed-loop EGR control.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "EGR_ERR", "bytes": "A", "formula": "(A - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2, "display": "xxx.x" }]
+    },
+    {
+      "pid": 46, "iso_pid": 62510,
+      "name": "Commanded Evaporative Purge", "name_zh": "指令蒸发净化",
+      "description": "Commanded evaporative purge control valve. 0%=no purge, 100%=max purge.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "EVAP_PCT", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 47, "iso_pid": 62511,
+      "name": "Fuel Level Input", "name_zh": "燃油液位输入",
+      "description": "Nominal fuel tank liquid fill capacity as percent of maximum.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "FLI", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 48, "iso_pid": 62512,
+      "name": "Warm-ups Since DTCs Cleared", "name_zh": "DTC清除后暖机次数",
+      "description": "A warm-up: coolant rises ≥22°C from start and reaches ≥70°C (60°C diesel). Saturates at 255.",
+      "type": "numeric", "data_bytes": 1, "reset_on_clear": true,
+      "items": [{ "label": "WARM_UPS", "bytes": "A", "formula": "A", "unit": "count", "min": 0, "max": 255 }]
+    },
+    {
+      "pid": 49, "iso_pid": 62513,
+      "name": "Distance Since DTCs Cleared", "name_zh": "DTC清除后行驶距离",
+      "description": "Distance accumulated since DTCs cleared. Saturates at 65535 km.",
+      "type": "numeric", "data_bytes": 2, "reset_on_clear": true,
+      "items": [{ "label": "CLR_DIST", "bytes": "A,B", "formula": "256 * A + B", "unit": "km", "unit_alt": "miles", "alt_factor": 0.62137, "min": 0, "max": 65535 }]
+    },
+    {
+      "pid": 50, "iso_pid": 62514,
+      "name": "Evap System Vapor Pressure", "name_zh": "蒸发系统蒸汽压力",
+      "description": "Signed, 0.25 Pa per bit. From FTP sensor or evap vapor line. Mutually exclusive with PID $54 and $A3.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "EVAP_VP", "bytes": "A,B", "formula": "(256 * A + B - 32768) * 0.25", "unit": "Pa", "unit_alt": "inH2O", "alt_factor": 0.00401463, "min": -8192, "max": 8191.75, "display": "xxxx.xx" }]
+    },
+    {
+      "pid": 51, "iso_pid": 62515,
+      "name": "Barometric Pressure", "name_zh": "大气压力",
+      "description": "Barometric pressure from dedicated sensor, MAP at key-on, or inferred from MAF.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "BARO", "bytes": "A", "formula": "A", "unit": "kPa", "unit_alt": "inHg", "alt_factor": 0.2953, "min": 0, "max": 255 }]
+    },
+    {
+      "pid": 52, "iso_pid": 62516,
+      "name": "Wide O2 Lambda & Current B1S1", "name_zh": "宽域氧传感器Lambda与电流 B1S1",
+      "description": "Wide-range/linear O2 sensor: equivalence ratio (lambda) and current. C,D is signed with $8000 offset.",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA11", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S11_I", "bytes": "C,D", "formula": "(256 * C + D - 32768) * 0.00390625", "unit": "mA", "min": -128, "max": 127.996, "display": "xxx.xxx" }
+      ]
+    },
+    {
+      "pid": 53, "iso_pid": 62517,
+      "name": "Wide O2 Lambda & Current B1S2", "name_zh": "宽域氧传感器Lambda与电流 B1S2",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA12", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S12_I", "bytes": "C,D", "formula": "(256 * C + D - 32768) * 0.00390625", "unit": "mA", "min": -128, "max": 127.996, "display": "xxx.xxx" }
+      ]
+    },
+    {
+      "pid": 54, "iso_pid": 62518,
+      "name": "Wide O2 Lambda & Current B1S3 / B2S1", "name_zh": "宽域氧传感器Lambda与电流 B1S3/B2S1",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA13", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S13_I", "bytes": "C,D", "formula": "(256 * C + D - 32768) * 0.00390625", "unit": "mA", "min": -128, "max": 127.996, "display": "xxx.xxx" }
+      ]
+    },
+    {
+      "pid": 55, "iso_pid": 62519,
+      "name": "Wide O2 Lambda & Current B1S4 / B2S2", "name_zh": "宽域氧传感器Lambda与电流 B1S4/B2S2",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA14", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S14_I", "bytes": "C,D", "formula": "(256 * C + D - 32768) * 0.00390625", "unit": "mA", "min": -128, "max": 127.996, "display": "xxx.xxx" }
+      ]
+    },
+    {
+      "pid": 56, "iso_pid": 62520,
+      "name": "Wide O2 Lambda & Current B2S1 / B3S1", "name_zh": "宽域氧传感器Lambda与电流 B2S1/B3S1",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA21", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S21_I", "bytes": "C,D", "formula": "(256 * C + D - 32768) * 0.00390625", "unit": "mA", "min": -128, "max": 127.996, "display": "xxx.xxx" }
+      ]
+    },
+    {
+      "pid": 57, "iso_pid": 62521,
+      "name": "Wide O2 Lambda & Current B2S2 / B3S2", "name_zh": "宽域氧传感器Lambda与电流 B2S2/B3S2",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA22", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S22_I", "bytes": "C,D", "formula": "(256 * C + D - 32768) * 0.00390625", "unit": "mA", "min": -128, "max": 127.996, "display": "xxx.xxx" }
+      ]
+    },
+    {
+      "pid": 58, "iso_pid": 62522,
+      "name": "Wide O2 Lambda & Current B2S3 / B4S1", "name_zh": "宽域氧传感器Lambda与电流 B2S3/B4S1",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA23", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S23_I", "bytes": "C,D", "formula": "(256 * C + D - 32768) * 0.00390625", "unit": "mA", "min": -128, "max": 127.996, "display": "xxx.xxx" }
+      ]
+    },
+    {
+      "pid": 59, "iso_pid": 62523,
+      "name": "Wide O2 Lambda & Current B2S4 / B4S2", "name_zh": "宽域氧传感器Lambda与电流 B2S4/B4S2",
+      "type": "numeric", "data_bytes": 4,
+      "items": [
+        { "label": "LAMBDA24", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" },
+        { "label": "O2S24_I", "bytes": "C,D", "formula": "(256 * C + D - 32768) * 0.00390625", "unit": "mA", "min": -128, "max": 127.996, "display": "xxx.xxx" }
+      ]
+    },
+    {
+      "pid": 60, "iso_pid": 62524,
+      "name": "Catalyst Temperature B1S1", "name_zh": "催化器温度 B1S1",
+      "description": "Bank 1 catalyst temperature or Bank 1 Sensor 1 catalyst temp. May be directly measured or inferred.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "CATEMP11", "bytes": "A,B", "formula": "(256 * A + B) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x" }]
+    },
+    {
+      "pid": 61, "iso_pid": 62525,
+      "name": "Catalyst Temperature B2S1", "name_zh": "催化器温度 B2S1",
+      "description": "Bank 2 catalyst temperature or Bank 2 Sensor 1 catalyst temp.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "CATEMP21", "bytes": "A,B", "formula": "(256 * A + B) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x" }]
+    },
+    {
+      "pid": 62, "iso_pid": 62526,
+      "name": "Catalyst Temperature B1S2", "name_zh": "催化器温度 B1S2",
+      "description": "Additional Bank 1 catalyst or Bank 1 Sensor 2 catalyst temp.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "CATEMP12", "bytes": "A,B", "formula": "(256 * A + B) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x" }]
+    },
+    {
+      "pid": 63, "iso_pid": 62527,
+      "name": "Catalyst Temperature B2S2", "name_zh": "催化器温度 B2S2",
+      "description": "Additional Bank 2 catalyst or Bank 2 Sensor 2 catalyst temp.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "CATEMP22", "bytes": "A,B", "formula": "(256 * A + B) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x" }]
+    }
+  ]
+}

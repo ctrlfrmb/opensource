@@ -1,0 +1,332 @@
+{
+  "version": "2.1",
+  "language": "en",
+  "description": "OBD-II Mode 01 PIDs 0x00-0x1F — Basic Engine Data & Conventional O2 Sensors (SAE J1979 / ISO 15031-5)",
+
+  "pids": [
+    {
+      "pid": 0, "iso_pid": 62464,
+      "name": "PIDs Supported [01-20]", "name_zh": "支持的PID [01-20]",
+      "type": "supported", "data_bytes": 4
+    },
+    {
+      "pid": 1, "iso_pid": 62465,
+      "name": "Monitor Status Since DTCs Cleared", "name_zh": "DTC清除后监测状态",
+      "_fix": "#8 — Added dtc_count numeric field for Byte A bits 0-6",
+      "type": "bitmap", "data_bytes": 4, "reset_on_clear": true,
+      "numeric_fields": [
+        { "label": "DTC_CNT", "bytes": "A", "formula": "A & 127", "unit": "count", "min": 0, "max": 127,
+          "name": "Number of confirmed emission-related DTCs", "name_zh": "已确认的排放相关DTC数量" }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 7, "name": "MIL Status", "name_zh": "MIL状态", "v0": "OFF", "v1": "ON" },
+        { "byte": "B", "bit": 0, "name": "Misfire monitoring supported", "name_zh": "失火监测支持", "v0": "NO", "v1": "YES" },
+        { "byte": "B", "bit": 1, "name": "Fuel system monitoring supported", "name_zh": "燃油系统监测支持", "v0": "NO", "v1": "YES" },
+        { "byte": "B", "bit": 2, "name": "Comprehensive component monitoring supported", "name_zh": "综合组件监测支持", "v0": "NO", "v1": "YES" },
+        { "byte": "B", "bit": 3, "name": "Compression ignition", "name_zh": "压燃式点火", "v0": "Spark", "v1": "Compression" },
+        { "byte": "B", "bit": 4, "name": "Misfire monitoring ready", "name_zh": "失火监测就绪", "v0": "Complete", "v1": "Incomplete" },
+        { "byte": "B", "bit": 5, "name": "Fuel system monitoring ready", "name_zh": "燃油系统监测就绪", "v0": "Complete", "v1": "Incomplete" },
+        { "byte": "B", "bit": 6, "name": "Comprehensive component monitoring ready", "name_zh": "综合组件监测就绪", "v0": "Complete", "v1": "Incomplete" },
+        { "byte": "C", "bit": 0, "name": "Catalyst / NMHC catalyst monitoring supported", "name_zh": "催化器/NMHC催化器监测支持", "v0": "NO", "v1": "YES" },
+        { "byte": "C", "bit": 1, "name": "Heated catalyst / NOx aftertreatment supported", "name_zh": "加热催化器/NOx后处理支持", "v0": "NO", "v1": "YES" },
+        { "byte": "C", "bit": 2, "name": "Evaporative system / Reserved(CI) supported", "name_zh": "蒸发系统/保留(CI)支持", "v0": "NO", "v1": "YES" },
+        { "byte": "C", "bit": 3, "name": "Secondary air / Boost pressure supported", "name_zh": "二次空气/增压压力支持", "v0": "NO", "v1": "YES" },
+        { "byte": "C", "bit": 5, "name": "O2 sensor / Exhaust gas sensor supported", "name_zh": "氧传感器/排气传感器支持", "v0": "NO", "v1": "YES" },
+        { "byte": "C", "bit": 6, "name": "O2 sensor heater / PM filter supported", "name_zh": "氧传感器加热器/PM滤清器支持", "v0": "NO", "v1": "YES" },
+        { "byte": "C", "bit": 7, "name": "EGR and/or VVT system supported", "name_zh": "EGR和/或VVT系统支持", "v0": "NO", "v1": "YES" },
+        { "byte": "D", "bit": 0, "name": "Catalyst / NMHC catalyst ready", "name_zh": "催化器/NMHC催化器就绪", "v0": "Complete", "v1": "Incomplete" },
+        { "byte": "D", "bit": 1, "name": "Heated catalyst / NOx aftertreatment ready", "name_zh": "加热催化器/NOx后处理就绪", "v0": "Complete", "v1": "Incomplete" },
+        { "byte": "D", "bit": 2, "name": "Evaporative system ready", "name_zh": "蒸发系统就绪", "v0": "Complete", "v1": "Incomplete" },
+        { "byte": "D", "bit": 3, "name": "Secondary air / Boost pressure ready", "name_zh": "二次空气/增压压力就绪", "v0": "Complete", "v1": "Incomplete" },
+        { "byte": "D", "bit": 5, "name": "O2 sensor / Exhaust gas sensor ready", "name_zh": "氧传感器/排气传感器就绪", "v0": "Complete", "v1": "Incomplete" },
+        { "byte": "D", "bit": 6, "name": "O2 sensor heater / PM filter ready", "name_zh": "氧传感器加热器/PM滤清器就绪", "v0": "Complete", "v1": "Incomplete" },
+        { "byte": "D", "bit": 7, "name": "EGR and/or VVT system ready", "name_zh": "EGR和/或VVT系统就绪", "v0": "Complete", "v1": "Incomplete" }
+      ]
+    },
+    {
+      "pid": 2, "iso_pid": 62466,
+      "name": "Freeze Frame DTC", "name_zh": "冻结帧DTC",
+      "type": "special", "data_bytes": 2, "reset_on_clear": true
+    },
+    {
+      "pid": 3, "iso_pid": 62467,
+      "name": "Fuel System Status", "name_zh": "燃油系统状态",
+      "_fix": "#9 — Removed incorrect Byte A bits 5-7 (were wrongly labelled as B2 status) and Byte B bits 5-7; Byte A = Fuel System 1 (bits 0-4 only), Byte B = Fuel System 2 (bits 0-4 only), bits 5-7 reserved in both bytes",
+      "description": "Byte A = Fuel System 1 status, Byte B = Fuel System 2 status (or $00 if no second fuel system). Each byte bits 0-4 are state-encoded (only one bit active at a time). Bits 5-7 are reserved ($0).",
+      "description_zh": "字节A=燃油系统1状态，字节B=燃油系统2状态(无第二系统时为$00)。每字节位0-4为状态编码(同时只有一位激活)。位5-7为保留($0)。",
+      "type": "bitmap", "data_bytes": 2,
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Fuel System 1: Open loop — not yet satisfied", "name_zh": "燃油系统1:开环-未满足条件", "v0": "", "v1": "OL" },
+        { "byte": "A", "bit": 1, "name": "Fuel System 1: Closed loop — using O2 feedback", "name_zh": "燃油系统1:闭环-使用氧传感器反馈", "v0": "", "v1": "CL" },
+        { "byte": "A", "bit": 2, "name": "Fuel System 1: Open loop — driving conditions", "name_zh": "燃油系统1:开环-驾驶条件", "v0": "", "v1": "OL-Drive" },
+        { "byte": "A", "bit": 3, "name": "Fuel System 1: Open loop — system fault", "name_zh": "燃油系统1:开环-系统故障", "v0": "", "v1": "OL-Fault" },
+        { "byte": "A", "bit": 4, "name": "Fuel System 1: Closed loop — O2 sensor fault", "name_zh": "燃油系统1:闭环-氧传感器故障", "v0": "", "v1": "CL-Fault" },
+        { "byte": "B", "bit": 0, "name": "Fuel System 2: Open loop — not yet satisfied", "name_zh": "燃油系统2:开环-未满足条件", "v0": "", "v1": "OL" },
+        { "byte": "B", "bit": 1, "name": "Fuel System 2: Closed loop — using O2 feedback", "name_zh": "燃油系统2:闭环-使用氧传感器反馈", "v0": "", "v1": "CL" },
+        { "byte": "B", "bit": 2, "name": "Fuel System 2: Open loop — driving conditions", "name_zh": "燃油系统2:开环-驾驶条件", "v0": "", "v1": "OL-Drive" },
+        { "byte": "B", "bit": 3, "name": "Fuel System 2: Open loop — system fault", "name_zh": "燃油系统2:开环-系统故障", "v0": "", "v1": "OL-Fault" },
+        { "byte": "B", "bit": 4, "name": "Fuel System 2: Closed loop — O2 sensor fault", "name_zh": "燃油系统2:闭环-氧传感器故障", "v0": "", "v1": "CL-Fault" }
+      ]
+    },
+    {
+      "pid": 4, "iso_pid": 62468,
+      "name": "Calculated Engine Load", "name_zh": "计算发动机负荷",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "LOAD_PCT", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 5, "iso_pid": 62469,
+      "name": "Engine Coolant Temperature", "name_zh": "发动机冷却液温度",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "ECT", "bytes": "A", "formula": "A - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215 }]
+    },
+    {
+      "pid": 6, "iso_pid": 62470,
+      "name": "Short Term Fuel Trim - Bank 1", "name_zh": "短期燃油修正-组1",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "SHRTFT1", "bytes": "A", "formula": "(A - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2 }]
+    },
+    {
+      "pid": 7, "iso_pid": 62471,
+      "name": "Long Term Fuel Trim - Bank 1", "name_zh": "长期燃油修正-组1",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "LONGFT1", "bytes": "A", "formula": "(A - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2 }]
+    },
+    {
+      "pid": 8, "iso_pid": 62472,
+      "name": "Short Term Fuel Trim - Bank 2", "name_zh": "短期燃油修正-组2",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "SHRTFT2", "bytes": "A", "formula": "(A - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2 }]
+    },
+    {
+      "pid": 9, "iso_pid": 62473,
+      "name": "Long Term Fuel Trim - Bank 2", "name_zh": "长期燃油修正-组2",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "LONGFT2", "bytes": "A", "formula": "(A - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2 }]
+    },
+    {
+      "pid": 10, "iso_pid": 62474,
+      "name": "Fuel Pressure (gauge)", "name_zh": "燃油压力(表压)",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "FP", "bytes": "A", "formula": "A * 3", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 765 }]
+    },
+    {
+      "pid": 11, "iso_pid": 62475,
+      "name": "Intake Manifold Absolute Pressure", "name_zh": "进气歧管绝对压力",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "MAP", "bytes": "A", "formula": "A", "unit": "kPa", "unit_alt": "inHg", "alt_factor": 0.2953, "min": 0, "max": 255 }]
+    },
+    {
+      "pid": 12, "iso_pid": 62476,
+      "name": "Engine RPM", "name_zh": "发动机转速",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "RPM", "bytes": "A,B", "formula": "(256 * A + B) / 4", "unit": "rpm", "min": 0, "max": 16383.75 }]
+    },
+    {
+      "pid": 13, "iso_pid": 62477,
+      "name": "Vehicle Speed", "name_zh": "车速",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "VSS", "bytes": "A", "formula": "A", "unit": "km/h", "unit_alt": "mph", "alt_factor": 0.62137, "min": 0, "max": 255 }]
+    },
+    {
+      "pid": 14, "iso_pid": 62478,
+      "name": "Ignition Timing Advance (#1 Cyl)", "name_zh": "点火正时提前角(#1缸)",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "SPARKADV", "bytes": "A", "formula": "A / 2 - 64", "unit": "°BTDC", "min": -64, "max": 63.5 }]
+    },
+    {
+      "pid": 15, "iso_pid": 62479,
+      "name": "Intake Air Temperature", "name_zh": "进气温度",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "IAT", "bytes": "A", "formula": "A - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215 }]
+    },
+    {
+      "pid": 16, "iso_pid": 62480,
+      "name": "MAF Air Flow Rate", "name_zh": "空气流量传感器",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "MAF", "bytes": "A,B", "formula": "(256 * A + B) / 100", "unit": "g/s", "min": 0, "max": 655.35 }]
+    },
+    {
+      "pid": 17, "iso_pid": 62481,
+      "name": "Absolute Throttle Position", "name_zh": "绝对节气门位置",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "TP", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100 }]
+    },
+    {
+      "pid": 18, "iso_pid": 62482,
+      "name": "Commanded Secondary Air Status", "name_zh": "指令二次空气状态",
+      "type": "bitmap", "data_bytes": 1,
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Upstream of first catalytic converter", "name_zh": "第一催化器上游", "v0": "", "v1": "UPS" },
+        { "byte": "A", "bit": 1, "name": "Downstream of first catalytic converter inlet", "name_zh": "第一催化器入口下游", "v0": "", "v1": "DNS" },
+        { "byte": "A", "bit": 2, "name": "Atmosphere / Off", "name_zh": "大气/关闭", "v0": "", "v1": "OFF" },
+        { "byte": "A", "bit": 3, "name": "Pump on for diagnostics", "name_zh": "诊断用泵开启", "v0": "", "v1": "DIAG" }
+      ]
+    },
+    {
+      "pid": 19, "iso_pid": 62483,
+      "name": "O2 Sensors Present (2 banks)", "name_zh": "氧传感器位置(2组)",
+      "description": "PID $13: 2-bank layout. Mutually exclusive with PID $1D (4-bank).",
+      "type": "bitmap", "data_bytes": 1,
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Bank 1 Sensor 1", "name_zh": "组1传感器1", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 1, "name": "Bank 1 Sensor 2", "name_zh": "组1传感器2", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 2, "name": "Bank 1 Sensor 3", "name_zh": "组1传感器3", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 3, "name": "Bank 1 Sensor 4", "name_zh": "组1传感器4", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 4, "name": "Bank 2 Sensor 1", "name_zh": "组2传感器1", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 5, "name": "Bank 2 Sensor 2", "name_zh": "组2传感器2", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 6, "name": "Bank 2 Sensor 3", "name_zh": "组2传感器3", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 7, "name": "Bank 2 Sensor 4", "name_zh": "组2传感器4", "v0": "NO", "v1": "YES" }
+      ]
+    },
+    {
+      "pid": 20, "iso_pid": 62484,
+      "name": "O2 Sensor B1S1 — Voltage & Short Term FT", "name_zh": "氧传感器B1S1—电压与短期修正",
+      "description": "Conventional 0-1V O2 sensor. Byte A=voltage, B=SHRTFT ($FF if not used).",
+      "type": "numeric", "data_bytes": 2,
+      "items": [
+        { "label": "O2S11", "bytes": "A", "formula": "A * 0.005", "unit": "V", "min": 0, "max": 1.275, "display": "x.xxx" },
+        { "label": "SHRTFT11", "bytes": "B", "formula": "(B - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2 }
+      ]
+    },
+    {
+      "pid": 21, "iso_pid": 62485,
+      "name": "O2 Sensor B1S2 — Voltage & Short Term FT", "name_zh": "氧传感器B1S2—电压与短期修正",
+      "type": "numeric", "data_bytes": 2,
+      "items": [
+        { "label": "O2S12", "bytes": "A", "formula": "A * 0.005", "unit": "V", "min": 0, "max": 1.275 },
+        { "label": "SHRTFT12", "bytes": "B", "formula": "(B - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2 }
+      ]
+    },
+    {
+      "pid": 22, "iso_pid": 62486,
+      "name": "O2 Sensor B1S3/B2S1 — Voltage & Short Term FT", "name_zh": "氧传感器B1S3/B2S1—电压与短期修正",
+      "type": "numeric", "data_bytes": 2,
+      "items": [
+        { "label": "O2S13", "bytes": "A", "formula": "A * 0.005", "unit": "V", "min": 0, "max": 1.275 },
+        { "label": "SHRTFT13", "bytes": "B", "formula": "(B - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2 }
+      ]
+    },
+    {
+      "pid": 23, "iso_pid": 62487,
+      "name": "O2 Sensor B1S4/B2S2 — Voltage & Short Term FT", "name_zh": "氧传感器B1S4/B2S2—电压与短期修正",
+      "type": "numeric", "data_bytes": 2,
+      "items": [
+        { "label": "O2S14", "bytes": "A", "formula": "A * 0.005", "unit": "V", "min": 0, "max": 1.275 },
+        { "label": "SHRTFT14", "bytes": "B", "formula": "(B - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2 }
+      ]
+    },
+    {
+      "pid": 24, "iso_pid": 62488,
+      "name": "O2 Sensor B2S1/B3S1 — Voltage & Short Term FT", "name_zh": "氧传感器B2S1/B3S1—电压与短期修正",
+      "type": "numeric", "data_bytes": 2,
+      "items": [
+        { "label": "O2S21", "bytes": "A", "formula": "A * 0.005", "unit": "V", "min": 0, "max": 1.275 },
+        { "label": "SHRTFT21", "bytes": "B", "formula": "(B - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2 }
+      ]
+    },
+    {
+      "pid": 25, "iso_pid": 62489,
+      "name": "O2 Sensor B2S2/B3S2 — Voltage & Short Term FT", "name_zh": "氧传感器B2S2/B3S2—电压与短期修正",
+      "type": "numeric", "data_bytes": 2,
+      "items": [
+        { "label": "O2S22", "bytes": "A", "formula": "A * 0.005", "unit": "V", "min": 0, "max": 1.275 },
+        { "label": "SHRTFT22", "bytes": "B", "formula": "(B - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2 }
+      ]
+    },
+    {
+      "pid": 26, "iso_pid": 62490,
+      "name": "O2 Sensor B2S3/B4S1 — Voltage & Short Term FT", "name_zh": "氧传感器B2S3/B4S1—电压与短期修正",
+      "type": "numeric", "data_bytes": 2,
+      "items": [
+        { "label": "O2S23", "bytes": "A", "formula": "A * 0.005", "unit": "V", "min": 0, "max": 1.275 },
+        { "label": "SHRTFT23", "bytes": "B", "formula": "(B - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2 }
+      ]
+    },
+    {
+      "pid": 27, "iso_pid": 62491,
+      "name": "O2 Sensor B2S4/B4S2 — Voltage & Short Term FT", "name_zh": "氧传感器B2S4/B4S2—电压与短期修正",
+      "type": "numeric", "data_bytes": 2,
+      "items": [
+        { "label": "O2S24", "bytes": "A", "formula": "A * 0.005", "unit": "V", "min": 0, "max": 1.275 },
+        { "label": "SHRTFT24", "bytes": "B", "formula": "(B - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2 }
+      ]
+    },
+    {
+      "pid": 28, "iso_pid": 62492,
+      "name": "OBD Standards Compliance", "name_zh": "OBD标准兼容性",
+      "type": "enum", "data_bytes": 1, "enum_byte": "A",
+      "enums": [
+        { "code": 1,  "name": "OBD II (CARB)", "name_zh": "OBD II (加州)" },
+        { "code": 2,  "name": "OBD (EPA)", "name_zh": "OBD (联邦)" },
+        { "code": 3,  "name": "OBD and OBD II", "name_zh": "OBD和OBD II" },
+        { "code": 4,  "name": "OBD I", "name_zh": "OBD I" },
+        { "code": 5,  "name": "Not OBD compliant", "name_zh": "非OBD" },
+        { "code": 6,  "name": "EOBD", "name_zh": "EOBD (欧洲)" },
+        { "code": 7,  "name": "EOBD and OBD II", "name_zh": "EOBD和OBD II" },
+        { "code": 8,  "name": "EOBD and OBD", "name_zh": "EOBD和OBD" },
+        { "code": 9,  "name": "EOBD, OBD and OBD II", "name_zh": "EOBD/OBD/OBD II" },
+        { "code": 10, "name": "JOBD", "name_zh": "JOBD (日本)" },
+        { "code": 11, "name": "JOBD and OBD II", "name_zh": "JOBD和OBD II" },
+        { "code": 12, "name": "JOBD and EOBD", "name_zh": "JOBD和EOBD" },
+        { "code": 13, "name": "JOBD, EOBD and OBD II", "name_zh": "JOBD/EOBD/OBD II" },
+        { "code": 14, "name": "OBD, EOBD and KOBD", "name_zh": "OBD/EOBD/KOBD" },
+        { "code": 15, "name": "OBD, OBD II, EOBD and KOBD", "name_zh": "OBD/OBDII/EOBD/KOBD" },
+        { "code": 17, "name": "EMD", "name_zh": "发动机制造商诊断" },
+        { "code": 18, "name": "EMD+", "name_zh": "增强型发动机制造商诊断" },
+        { "code": 19, "name": "HD OBD-C (Child/Partial)", "name_zh": "重型OBD(子/部分)" },
+        { "code": 20, "name": "HD OBD", "name_zh": "重型OBD" },
+        { "code": 21, "name": "WWH OBD", "name_zh": "全球统一OBD" },
+        { "code": 23, "name": "HD EOBD-I", "name_zh": "重型EOBD-I(无NOx)" },
+        { "code": 24, "name": "HD EOBD-I N", "name_zh": "重型EOBD-I(含NOx)" },
+        { "code": 25, "name": "HD EOBD-II", "name_zh": "重型EOBD-II(无NOx)" },
+        { "code": 26, "name": "HD EOBD-II N", "name_zh": "重型EOBD-II(含NOx)" },
+        { "code": 28, "name": "OBDBr-1", "name_zh": "巴西OBD第1阶段" },
+        { "code": 29, "name": "OBDBr-2", "name_zh": "巴西OBD第2/2+阶段" },
+        { "code": 30, "name": "KOBD", "name_zh": "韩国OBD" },
+        { "code": 31, "name": "IOBD I", "name_zh": "印度OBD I" },
+        { "code": 32, "name": "IOBD II", "name_zh": "印度OBD II" },
+        { "code": 33, "name": "HD EOBD-VI", "name_zh": "重型EOBD-VI" },
+        { "code": 34, "name": "OBD, OBD II and HD OBD", "name_zh": "OBD/OBD II/重型OBD" },
+        { "code": 35, "name": "OBDBr-3", "name_zh": "巴西OBD第3阶段" },
+        { "code": 36, "name": "MC EOBD-I", "name_zh": "摩托车EOBD-I" },
+        { "code": 37, "name": "MC EOBD-II", "name_zh": "摩托车EOBD-II" },
+        { "code": 38, "name": "MC COBD-I", "name_zh": "摩托车中国OBD-I" },
+        { "code": 39, "name": "MC TOBD-I", "name_zh": "摩托车台湾OBD-I" },
+        { "code": 40, "name": "MC JOBD-I", "name_zh": "摩托车日本OBD-I" },
+        { "code": 41, "name": "CN-OBD-6", "name_zh": "国六OBD" },
+        { "code": 42, "name": "OBDBr-D", "name_zh": "巴西OBD柴油" }
+      ]
+    },
+    {
+      "pid": 29, "iso_pid": 62493,
+      "name": "O2 Sensors Present (4 banks)", "name_zh": "氧传感器位置(4组)",
+      "description": "PID $1D: 4-bank layout. Mutually exclusive with PID $13 (2-bank).",
+      "type": "bitmap", "data_bytes": 1,
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Bank 1 Sensor 1", "name_zh": "组1传感器1", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 1, "name": "Bank 1 Sensor 2", "name_zh": "组1传感器2", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 2, "name": "Bank 2 Sensor 1", "name_zh": "组2传感器1", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 3, "name": "Bank 2 Sensor 2", "name_zh": "组2传感器2", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 4, "name": "Bank 3 Sensor 1", "name_zh": "组3传感器1", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 5, "name": "Bank 3 Sensor 2", "name_zh": "组3传感器2", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 6, "name": "Bank 4 Sensor 1", "name_zh": "组4传感器1", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 7, "name": "Bank 4 Sensor 2", "name_zh": "组4传感器2", "v0": "NO", "v1": "YES" }
+      ]
+    },
+    {
+      "pid": 30, "iso_pid": 62494,
+      "name": "Auxiliary Input Status", "name_zh": "辅助输入状态",
+      "type": "bitmap", "data_bytes": 1,
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Power Take Off (PTO) Status", "name_zh": "PTO状态", "v0": "OFF", "v1": "ON" }
+      ]
+    },
+    {
+      "pid": 31, "iso_pid": 62495,
+      "name": "Time Since Engine Start", "name_zh": "发动机启动后时间",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "RUNTM", "bytes": "A,B", "formula": "256 * A + B", "unit": "s", "min": 0, "max": 65535 }]
+    }
+  ]
+}

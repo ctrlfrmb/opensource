@@ -1,0 +1,53 @@
+{
+    "flash": {
+        "appAddr": "0X00000000",
+        "appPath": "",
+        "blockSize": 4096,
+        "drvAddr": "0X00000000",
+        "drvPath": "",
+        "eraseTimeout": 30000,
+        "secLevel": "0X01",
+        "security": {
+            "algoType": -1,
+            "dllPath": "",
+            "funcName": ""
+        },
+        "steps": [
+        ]
+    },
+    "security": {
+        "algoType": -1,
+        "canoeVariant": "",
+        "dllPath": "",
+        "funcName": "",
+        "keyOrder": 0,
+        "seedOrder": 0
+    },
+    "session": {
+        "canType": 0,
+        "funcId": "0X7DF",
+        "funcResMax": "0X7FF",
+        "funcResMin": "0X700",
+        "padByte": "0XAA",
+        "padSize": 0,
+        "reqId": "0X7E0",
+        "resId": "0X7E8",
+        "testerPresentId": "0X0",
+        "testerPresentInterval": 2000,
+        "testerPresentSubFunc": "0X80",
+        "tpConfig": {
+            "blockSize": "0X00",
+            "maxNrc78": 5,
+            "nAr": 5000,
+            "nAs": 1000,
+            "nBs": 1000,
+            "nCr": 1000,
+            "stMin": "0X00"
+        }
+    },
+    "uiLog": {
+        "filter3ELog": true,
+        "funcTimeout": 3000,
+        "maxLogRows": 10000
+    }
+}

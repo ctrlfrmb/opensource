@@ -1,0 +1,433 @@
+{
+  "version": "2.2",
+  "language": "en",
+  "description": "OBD-II Mode 01 PIDs 0x60-0x7F — Torque, Auxiliary I/O, Dual MAF/ECT/IAT, EGR, Turbocharger, DPF, EGT (SAE J1979 / ISO 15031-5)",
+
+  "pids": [
+    {
+      "pid": 96, "iso_pid": 62560,
+      "name": "PIDs Supported [61-80]", "name_zh": "支持的PID [61-80]",
+      "type": "supported", "data_bytes": 4
+    },
+    {
+      "pid": 97, "iso_pid": 62561,
+      "name": "Demanded Engine - Percent Torque", "name_zh": "需求发动机扭矩百分比",
+      "description": "Driver-demanded engine percent torque. Ranges from -125% (e.g., engine braking/coast-down) to +130% of reference torque (PID $63). Includes requested torque from all sources (driver, cruise control, traction control).",
+      "description_zh": "驾驶员需求的发动机扭矩百分比。范围-125%(如发动机制动/滑行)至+130%参考扭矩(PID $63)。包含所有来源的扭矩需求(驾驶员、巡航、牵引力控制)。",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "TQ_DD", "bytes": "A", "formula": "A - 125", "unit": "%", "min": -125, "max": 130 }]
+    },
+    {
+      "pid": 98, "iso_pid": 62562,
+      "name": "Actual Engine - Percent Torque", "name_zh": "实际发动机扭矩百分比",
+      "description": "Actual engine output percent torque (indicated torque minus friction/pumping losses). Percent of reference torque (PID $63). Negative values indicate motoring (friction + pumping > combustion).",
+      "description_zh": "实际发动机输出扭矩百分比(指示扭矩减去摩擦/泵送损失)。参考扭矩(PID $63)的百分比。负值表示拖动(摩擦+泵送>燃烧)。",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "TQ_ACT", "bytes": "A", "formula": "A - 125", "unit": "%", "min": -125, "max": 130 }]
+    },
+    {
+      "pid": 99, "iso_pid": 62563,
+      "name": "Engine Reference Torque", "name_zh": "发动机参考扭矩",
+      "description": "Engine reference torque in Nm. The 100% point for PID $61/$62/$64/$8E. Typically the maximum rated torque of the engine. Shall not change while the engine is running.",
+      "description_zh": "发动机参考扭矩(Nm)。PID $61/$62/$64/$8E的100%基准点。通常为发动机最大额定扭矩。发动机运行时不应改变。",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "TQ_REF", "bytes": "A,B", "formula": "256 * A + B", "unit": "Nm", "min": 0, "max": 65535 }]
+    },
+    {
+      "pid": 100, "iso_pid": 62564,
+      "name": "Engine Percent Torque Data", "name_zh": "发动机扭矩百分比数据",
+      "description": "5 torque map points defining the engine percent torque versus RPM curve: Idle, Point 1 (low RPM breakpoint), Point 2, Point 3, Point 4 (rated RPM). Each value is percent of reference torque (PID $63).",
+      "description_zh": "定义发动机扭矩百分比-转速曲线的5个映射点：怠速、点1(低转速断点)、点2、点3、点4(额定转速)。每个值为参考扭矩(PID $63)的百分比。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "TQ_IDLE", "bytes": "A", "formula": "A - 125", "unit": "%", "min": -125, "max": 130, "name": "Torque @ Idle", "name_zh": "怠速扭矩" },
+        { "label": "TQ_PT1", "bytes": "B", "formula": "B - 125", "unit": "%", "min": -125, "max": 130, "name": "Torque @ Engine Point 1", "name_zh": "发动机点1扭矩" },
+        { "label": "TQ_PT2", "bytes": "C", "formula": "C - 125", "unit": "%", "min": -125, "max": 130, "name": "Torque @ Engine Point 2", "name_zh": "发动机点2扭矩" },
+        { "label": "TQ_PT3", "bytes": "D", "formula": "D - 125", "unit": "%", "min": -125, "max": 130, "name": "Torque @ Engine Point 3", "name_zh": "发动机点3扭矩" },
+        { "label": "TQ_PT4", "bytes": "E", "formula": "E - 125", "unit": "%", "min": -125, "max": 130, "name": "Torque @ Engine Point 4 (rated)", "name_zh": "发动机点4扭矩(额定)" }
+      ]
+    },
+    {
+      "pid": 101, "iso_pid": 62565,
+      "name": "Auxiliary Input/Output Supported", "name_zh": "辅助输入/输出支持",
+      "_fix": "#10 — Added numeric_fields for Recommended Gear (Byte B bits 4-7)",
+      "description": "Byte A: bit 0=PTO active, bit 1=Auto trans neutral drive, bit 2=Manual trans neutral, bit 3=Glow plug lamp status, bits 4-7=reserved. Byte B: bits 0-3=reserved, bits 4-7=Recommended shift gear (0=No recommendation, 1-15=Gear number).",
+      "description_zh": "字节A: 位0=PTO激活, 位1=自动变速器空挡, 位2=手动变速器空挡, 位3=预热塞指示灯状态, 位4-7=保留。字节B: 位0-3=保留, 位4-7=建议换挡挡位(0=无建议, 1-15=挡位号)。",
+      "type": "bitmap", "data_bytes": 2,
+      "numeric_fields": [
+        { "label": "REC_GEAR", "bytes": "B", "formula": "(B >> 4) & 15", "unit": "", "min": 0, "max": 15,
+          "name": "Recommended Gear", "name_zh": "建议挡位",
+          "_values": {
+            "0": "No recommendation", "1": "Gear 1", "2": "Gear 2", "3": "Gear 3",
+            "4": "Gear 4", "5": "Gear 5", "6": "Gear 6", "7": "Gear 7",
+            "8": "Gear 8", "9": "Gear 9", "10": "Gear 10", "11": "Gear 11",
+            "12": "Gear 12", "13": "Gear 13", "14": "Gear 14", "15": "Gear 15"
+          },
+          "_values_zh": {
+            "0": "无建议", "1": "1挡", "2": "2挡", "3": "3挡",
+            "4": "4挡", "5": "5挡", "6": "6挡", "7": "7挡",
+            "8": "8挡", "9": "9挡", "10": "10挡", "11": "11挡",
+            "12": "12挡", "13": "13挡", "14": "14挡", "15": "15挡"
+          }
+        }
+      ],
+      "bits": [
+        { "byte": "A", "bit": 0, "name": "Power Take Off (PTO) active", "name_zh": "PTO激活", "v0": "OFF", "v1": "ON" },
+        { "byte": "A", "bit": 1, "name": "Automatic transmission neutral drive", "name_zh": "自动变速器空挡", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 2, "name": "Manual transmission neutral", "name_zh": "手动变速器空挡", "v0": "NO", "v1": "YES" },
+        { "byte": "A", "bit": 3, "name": "Glow plug lamp status", "name_zh": "预热塞指示灯", "v0": "OFF", "v1": "ON" }
+      ]
+    },
+    {
+      "pid": 102, "iso_pid": 62566,
+      "name": "Mass Air Flow Sensor (dual)", "name_zh": "空气流量传感器(双)",
+      "description": "A=support (bit0=MAF A, bit1=MAF B). B,C=MAF Sensor A (0.03125 g/s per bit). D,E=MAF Sensor B. Replaces PID $10 for vehicles with two MAF sensors.",
+      "description_zh": "A=支持(位0=MAF A, 位1=MAF B)。B,C=MAF传感器A(0.03125 g/s/位)。D,E=MAF传感器B。用于双MAF车辆替代PID $10。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "MAF_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "MAF_A", "bytes": "B,C", "formula": "(256 * B + C) * 0.03125", "unit": "g/s", "min": 0, "max": 2047.97, "display": "xxxx.xx", "name": "MAF Sensor A", "name_zh": "MAF传感器A" },
+        { "label": "MAF_B", "bytes": "D,E", "formula": "(256 * D + E) * 0.03125", "unit": "g/s", "min": 0, "max": 2047.97, "display": "xxxx.xx", "name": "MAF Sensor B", "name_zh": "MAF传感器B" }
+      ]
+    },
+    {
+      "pid": 103, "iso_pid": 62567,
+      "name": "Engine Coolant Temperature (dual)", "name_zh": "发动机冷却液温度(双)",
+      "description": "A=support (bit0=ECT sensor 1, bit1=ECT sensor 2). B=ECT Sensor 1, C=ECT Sensor 2. 1°C with -40 offset.",
+      "description_zh": "A=支持(位0=ECT传感器1, 位1=ECT传感器2)。B=ECT传感器1, C=ECT传感器2。1°C/-40偏移。",
+      "type": "numeric", "data_bytes": 3,
+      "items": [
+        { "label": "ECT_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "ECT_1", "bytes": "B", "formula": "B - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215, "name": "ECT Sensor 1", "name_zh": "ECT传感器1" },
+        { "label": "ECT_2", "bytes": "C", "formula": "C - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215, "name": "ECT Sensor 2", "name_zh": "ECT传感器2" }
+      ]
+    },
+    {
+      "pid": 104, "iso_pid": 62568,
+      "name": "Intake Air Temperature Sensor (quad)", "name_zh": "进气温度传感器(四)",
+      "description": "A=support (bit0=IAT B1S1, bit1=IAT B1S2, bit2=IAT B2S1, bit3=IAT B2S2). B-E=IAT sensors. 1°C with -40 offset. Replaces PID $0F for multiple sensor locations.",
+      "description_zh": "A=支持。B-E=IAT传感器。1°C/-40偏移。多传感器位置替代PID $0F。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "IAT_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "IAT_B1S1", "bytes": "B", "formula": "B - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215, "name": "IAT Bank1 Sensor1", "name_zh": "IAT B1-S1" },
+        { "label": "IAT_B1S2", "bytes": "C", "formula": "C - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215, "name": "IAT Bank1 Sensor2", "name_zh": "IAT B1-S2" },
+        { "label": "IAT_B2S1", "bytes": "D", "formula": "D - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215, "name": "IAT Bank2 Sensor1", "name_zh": "IAT B2-S1" },
+        { "label": "IAT_B2S2", "bytes": "E", "formula": "E - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215, "name": "IAT Bank2 Sensor2", "name_zh": "IAT B2-S2" }
+      ]
+    },
+    {
+      "pid": 105, "iso_pid": 62569,
+      "name": "Commanded EGR and EGR Error", "name_zh": "指令EGR与EGR误差",
+      "description": "A=support (bit0=EGR A, bit1=EGR B). For each system: Commanded duty (100/255%), Actual duty (100/255%), Error (signed, (X-128)*100/128 %).",
+      "description_zh": "A=支持。每个系统：指令占空比(100/255%), 实际占空比(100/255%), 误差(有符号, (X-128)*100/128 %)。",
+      "type": "numeric", "data_bytes": 7,
+      "items": [
+        { "label": "EGR_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "EGR_A_CMD", "bytes": "B", "formula": "B * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Commanded EGR A Duty", "name_zh": "指令EGR A占空比" },
+        { "label": "EGR_A_ACT", "bytes": "C", "formula": "C * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Actual EGR A Duty", "name_zh": "实际EGR A占空比" },
+        { "label": "EGR_A_ERR", "bytes": "D", "formula": "(D - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2, "display": "xxx.x", "name": "EGR A Error", "name_zh": "EGR A误差" },
+        { "label": "EGR_B_CMD", "bytes": "E", "formula": "E * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Commanded EGR B Duty", "name_zh": "指令EGR B占空比" },
+        { "label": "EGR_B_ACT", "bytes": "F", "formula": "F * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Actual EGR B Duty", "name_zh": "实际EGR B占空比" },
+        { "label": "EGR_B_ERR", "bytes": "G", "formula": "(G - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2, "display": "xxx.x", "name": "EGR B Error", "name_zh": "EGR B误差" }
+      ]
+    },
+    {
+      "pid": 106, "iso_pid": 62570,
+      "name": "Commanded Diesel Intake Air Flow Control", "name_zh": "指令柴油进气流量控制",
+      "description": "A=support (bit0=System A, bit1=System B). Commanded intake air flow and relative position for diesel throttle/intake air control.",
+      "description_zh": "A=支持。柴油节气门/进气控制的指令进气流量与相对位置。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "DIAF_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "DIAF_A_CMD", "bytes": "B", "formula": "B * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Commanded Intake Air Flow A", "name_zh": "指令进气流量A" },
+        { "label": "DIAF_A_REL", "bytes": "C", "formula": "C * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Relative Intake Air Flow Position A", "name_zh": "相对进气流量位置A" },
+        { "label": "DIAF_B_CMD", "bytes": "D", "formula": "D * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Commanded Intake Air Flow B", "name_zh": "指令进气流量B" },
+        { "label": "DIAF_B_REL", "bytes": "E", "formula": "E * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Relative Intake Air Flow Position B", "name_zh": "相对进气流量位置B" }
+      ]
+    },
+    {
+      "pid": 107, "iso_pid": 62571,
+      "name": "Exhaust Gas Recirculation Temperature", "name_zh": "废气再循环温度",
+      "_fix": "Dual-scaling — support byte A bits 4/5 select wide scaling (1°C/bit vs 0.1°C/bit)",
+      "description": "A=support: bit0=EGR Temp B1, bit1=EGR Temp B2, bit4=B1 wide range, bit5=B2 wide range. Standard: (256*X+Y)/10-40, 0.1°C/bit, -40~6513.5°C. Wide: 256*X+Y-40, 1°C/bit, -40~65495°C.",
+      "description_zh": "A=支持: 位0=EGR温度B1, 位1=EGR温度B2, 位4=B1宽范围, 位5=B2宽范围。标准: 0.1°C/位。宽: 1°C/位。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "EGRT_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "EGR_TEMP_B1", "bytes": "B,C", "formula": "(256 * B + C) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x",
+          "formula_wide": "256 * B + C - 40", "formula_wide_condition": "support_bit_4", "min_wide": -40, "max_wide": 65495,
+          "name": "EGR Temperature Bank 1", "name_zh": "EGR温度 组1" },
+        { "label": "EGR_TEMP_B2", "bytes": "D,E", "formula": "(256 * D + E) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x",
+          "formula_wide": "256 * D + E - 40", "formula_wide_condition": "support_bit_5", "min_wide": -40, "max_wide": 65495,
+          "name": "EGR Temperature Bank 2", "name_zh": "EGR温度 组2" }
+      ]
+    },
+    {
+      "pid": 108, "iso_pid": 62572,
+      "name": "Commanded Throttle Actuator Control and Relative Throttle Position", "name_zh": "指令节气门执行器控制与相对节气门位置",
+      "description": "A=support (bit0=System A, bit1=System B). For each system: Commanded TAC (100/255%) and Relative TP (100/255%).",
+      "description_zh": "A=支持。每个系统：指令TAC(100/255%)和相对TP(100/255%)。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "TAC2_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "TAC_A_CMD", "bytes": "B", "formula": "B * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Commanded TAC A", "name_zh": "指令TAC A" },
+        { "label": "TP_A_REL", "bytes": "C", "formula": "C * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Relative Throttle Position A", "name_zh": "相对节气门位置A" },
+        { "label": "TAC_B_CMD", "bytes": "D", "formula": "D * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Commanded TAC B", "name_zh": "指令TAC B" },
+        { "label": "TP_B_REL", "bytes": "E", "formula": "E * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Relative Throttle Position B", "name_zh": "相对节气门位置B" }
+      ]
+    },
+    {
+      "pid": 109, "iso_pid": 62573,
+      "name": "Fuel Pressure Control System", "name_zh": "燃油压力控制系统",
+      "description": "A=support (bit0=System A, bit1=System B). Commanded FRP, actual FRP (10 kPa/bit), and FRP temperature (1°C, -40 offset) for each fuel system.",
+      "description_zh": "A=支持。每个燃油系统的指令FRP、实际FRP(10 kPa/位)和FRP温度(1°C, -40偏移)。",
+      "type": "numeric", "data_bytes": 9,
+      "items": [
+        { "label": "FPC_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "FRP_A_CMD", "bytes": "B,C", "formula": "(256 * B + C) * 10", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655350, "name": "Commanded FRP A", "name_zh": "指令FRP A" },
+        { "label": "FRP_A_ACT", "bytes": "D,E", "formula": "(256 * D + E) * 10", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655350, "name": "Actual FRP A", "name_zh": "实际FRP A" },
+        { "label": "FRP_T_A", "bytes": "F", "formula": "F - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215, "name": "FRP Temperature A", "name_zh": "FRP温度A" },
+        { "label": "FRP_B_CMD", "bytes": "G,H", "formula": "(256 * G + H) * 10", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655350, "name": "Commanded FRP B", "name_zh": "指令FRP B" },
+        { "label": "FRP_T_B", "bytes": "I", "formula": "I - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215, "name": "FRP Temperature B", "name_zh": "FRP温度B" }
+      ]
+    },
+    {
+      "pid": 110, "iso_pid": 62574,
+      "name": "Injection Pressure Control System", "name_zh": "喷射压力控制系统",
+      "description": "A=support (bit0=System A, bit1=System B). Commanded and actual injection pressure, 10 kPa/bit per system.",
+      "description_zh": "A=支持。每个系统的指令和实际喷射压力, 10 kPa/位。",
+      "type": "numeric", "data_bytes": 9,
+      "items": [
+        { "label": "IPC_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "INJ_A_CMD", "bytes": "B,C", "formula": "(256 * B + C) * 10", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655350, "name": "Commanded Injection Pressure A", "name_zh": "指令喷射压力A" },
+        { "label": "INJ_A_ACT", "bytes": "D,E", "formula": "(256 * D + E) * 10", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655350, "name": "Actual Injection Pressure A", "name_zh": "实际喷射压力A" },
+        { "label": "INJ_B_CMD", "bytes": "F,G", "formula": "(256 * F + G) * 10", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655350, "name": "Commanded Injection Pressure B", "name_zh": "指令喷射压力B" },
+        { "label": "INJ_B_ACT", "bytes": "H,I", "formula": "(256 * H + I) * 10", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655350, "name": "Actual Injection Pressure B", "name_zh": "实际喷射压力B" }
+      ]
+    },
+    {
+      "pid": 111, "iso_pid": 62575,
+      "name": "Turbocharger Compressor Inlet Pressure", "name_zh": "涡轮增压器压缩机入口压力",
+      "_fix": "Dual-scaling — support byte A bits 4/5 select wide range (8 kPa/bit vs 1 kPa/bit)",
+      "description": "A=support: bit0=TC A, bit1=TC B, bit4=TC A wide, bit5=TC B wide. Standard: 1 kPa/bit (0-255 kPa). Wide: 8 kPa/bit (0-2040 kPa). Measures absolute pressure at compressor inlet (before compressor, after air filter).",
+      "description_zh": "A=支持: 位0=TC A, 位1=TC B, 位4=TC A宽范围, 位5=TC B宽范围。标准: 1 kPa/位(0-255 kPa)。宽: 8 kPa/位(0-2040 kPa)。测量压缩机入口绝对压力(压缩机前, 空滤后)。",
+      "type": "numeric", "data_bytes": 3,
+      "items": [
+        { "label": "TCIP_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "TC_A_IP", "bytes": "B", "formula": "B", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 255,
+          "formula_wide": "B * 8", "formula_wide_condition": "support_bit_4", "min_wide": 0, "max_wide": 2040,
+          "name": "TC A Compressor Inlet Pressure", "name_zh": "TC A压缩机入口压力" },
+        { "label": "TC_B_IP", "bytes": "C", "formula": "C", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 255,
+          "formula_wide": "C * 8", "formula_wide_condition": "support_bit_5", "min_wide": 0, "max_wide": 2040,
+          "name": "TC B Compressor Inlet Pressure", "name_zh": "TC B压缩机入口压力" }
+      ]
+    },
+    {
+      "pid": 112, "iso_pid": 62576,
+      "name": "Boost Pressure Control", "name_zh": "增压压力控制",
+      "description": "A=support (bit0=System A, bit1=System B). Commanded and actual boost pressure duty for each system (100/255 %).",
+      "description_zh": "A=支持。每个系统的指令和实际增压压力占空比(100/255 %)。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "BOOST_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "BOOST_A_CMD", "bytes": "B", "formula": "B * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Commanded Boost A", "name_zh": "指令增压A" },
+        { "label": "BOOST_A_ACT", "bytes": "C", "formula": "C * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Actual Boost A", "name_zh": "实际增压A" },
+        { "label": "BOOST_B_CMD", "bytes": "D", "formula": "D * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Commanded Boost B", "name_zh": "指令增压B" },
+        { "label": "BOOST_B_ACT", "bytes": "E", "formula": "E * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Actual Boost B", "name_zh": "实际增压B" }
+      ]
+    },
+    {
+      "pid": 113, "iso_pid": 62577,
+      "name": "Variable Geometry Turbo (VGT) Control", "name_zh": "可变几何涡轮(VGT)控制",
+      "description": "A=support (bit0=VGT A, bit1=VGT B). Commanded and actual VGT position duty for each turbo (100/255 %).",
+      "description_zh": "A=支持。每个涡轮的指令和实际VGT位置占空比(100/255 %)。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "VGT_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "VGT_A_CMD", "bytes": "B", "formula": "B * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Commanded VGT A Position", "name_zh": "指令VGT A位置" },
+        { "label": "VGT_A_ACT", "bytes": "C", "formula": "C * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Actual VGT A Position", "name_zh": "实际VGT A位置" },
+        { "label": "VGT_B_CMD", "bytes": "D", "formula": "D * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Commanded VGT B Position", "name_zh": "指令VGT B位置" },
+        { "label": "VGT_B_ACT", "bytes": "E", "formula": "E * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Actual VGT B Position", "name_zh": "实际VGT B位置" }
+      ]
+    },
+    {
+      "pid": 114, "iso_pid": 62578,
+      "name": "Wastegate Control", "name_zh": "排气旁通阀控制",
+      "description": "A=support (bit0=WG A, bit1=WG B). Commanded and actual wastegate position duty for each turbo (100/255 %).",
+      "description_zh": "A=支持。每个涡轮的指令和实际旁通阀位置占空比(100/255 %)。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "WG_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "WG_A_CMD", "bytes": "B", "formula": "B * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Commanded Wastegate A", "name_zh": "指令旁通阀A" },
+        { "label": "WG_A_ACT", "bytes": "C", "formula": "C * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Actual Wastegate A", "name_zh": "实际旁通阀A" },
+        { "label": "WG_B_CMD", "bytes": "D", "formula": "D * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Commanded Wastegate B", "name_zh": "指令旁通阀B" },
+        { "label": "WG_B_ACT", "bytes": "E", "formula": "E * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x", "name": "Actual Wastegate B", "name_zh": "实际旁通阀B" }
+      ]
+    },
+    {
+      "pid": 115, "iso_pid": 62579,
+      "name": "Exhaust Pressure", "name_zh": "排气压力",
+      "description": "A=support (bit0=Sensor A, bit1=Sensor B). B,C=Exhaust Pressure Sensor A. D,E=Sensor B. 0.01 kPa/bit, gauge pressure.",
+      "description_zh": "A=支持。B,C=排气压力传感器A。D,E=传感器B。0.01 kPa/位, 表压。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "EXHP_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "EXHP_A", "bytes": "B,C", "formula": "(256 * B + C) * 0.01", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655.35, "display": "xxx.xx", "name": "Exhaust Pressure A", "name_zh": "排气压力A" },
+        { "label": "EXHP_B", "bytes": "D,E", "formula": "(256 * D + E) * 0.01", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655.35, "display": "xxx.xx", "name": "Exhaust Pressure B", "name_zh": "排气压力B" }
+      ]
+    },
+    {
+      "pid": 116, "iso_pid": 62580,
+      "name": "Turbocharger RPM", "name_zh": "涡轮增压器转速",
+      "description": "A=support (bit0=TC A, bit1=TC B). B,C=TC A RPM. D,E=TC B RPM. 1 rpm/bit.",
+      "description_zh": "A=支持。B,C=TC A转速。D,E=TC B转速。1 rpm/位。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "TCRPM_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "TC_A_RPM", "bytes": "B,C", "formula": "256 * B + C", "unit": "rpm", "min": 0, "max": 65535, "name": "TC A RPM", "name_zh": "TC A转速" },
+        { "label": "TC_B_RPM", "bytes": "D,E", "formula": "256 * D + E", "unit": "rpm", "min": 0, "max": 65535, "name": "TC B RPM", "name_zh": "TC B转速" }
+      ]
+    },
+    {
+      "pid": 117, "iso_pid": 62581,
+      "name": "Turbocharger Temperature A", "name_zh": "涡轮增压器温度A",
+      "description": "A=support (bit0=T1 compressor inlet, bit1=T2 compressor outlet, bit2=T3 turbine inlet, bit3=T4 turbine outlet). 0.1°C with -40 offset per 2-byte sensor. For Turbocharger A.",
+      "description_zh": "A=支持(位0=T1压缩机入口, 位1=T2压缩机出口, 位2=T3涡轮入口, 位3=T4涡轮出口)。每2字节传感器0.1°C/-40偏移。涡轮增压器A。",
+      "type": "numeric", "data_bytes": 9,
+      "items": [
+        { "label": "TCT_A_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "TCA_T1", "bytes": "B,C", "formula": "(256 * B + C) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "TC A Compressor Inlet Temp", "name_zh": "TC A压缩机入口温度" },
+        { "label": "TCA_T2", "bytes": "D,E", "formula": "(256 * D + E) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "TC A Compressor Outlet Temp", "name_zh": "TC A压缩机出口温度" },
+        { "label": "TCA_T3", "bytes": "F,G", "formula": "(256 * F + G) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "TC A Turbine Inlet Temp", "name_zh": "TC A涡轮入口温度" },
+        { "label": "TCA_T4", "bytes": "H,I", "formula": "(256 * H + I) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "TC A Turbine Outlet Temp", "name_zh": "TC A涡轮出口温度" }
+      ]
+    },
+    {
+      "pid": 118, "iso_pid": 62582,
+      "name": "Turbocharger Temperature B", "name_zh": "涡轮增压器温度B",
+      "description": "Same structure as PID $75 but for Turbocharger B.",
+      "description_zh": "与PID $75结构相同，但为涡轮增压器B。",
+      "type": "numeric", "data_bytes": 9,
+      "items": [
+        { "label": "TCT_B_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "TCB_T1", "bytes": "B,C", "formula": "(256 * B + C) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "TC B Compressor Inlet Temp", "name_zh": "TC B压缩机入口温度" },
+        { "label": "TCB_T2", "bytes": "D,E", "formula": "(256 * D + E) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "TC B Compressor Outlet Temp", "name_zh": "TC B压缩机出口温度" },
+        { "label": "TCB_T3", "bytes": "F,G", "formula": "(256 * F + G) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "TC B Turbine Inlet Temp", "name_zh": "TC B涡轮入口温度" },
+        { "label": "TCB_T4", "bytes": "H,I", "formula": "(256 * H + I) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "TC B Turbine Outlet Temp", "name_zh": "TC B涡轮出口温度" }
+      ]
+    },
+    {
+      "pid": 119, "iso_pid": 62583,
+      "name": "Charge Air Cooler Temperature (CACT)", "name_zh": "中冷器温度(CACT)",
+      "description": "A=support (bit0=B1S1, bit1=B1S2, bit2=B2S1, bit3=B2S2). 1°C with -40 offset, 1 byte per sensor.",
+      "description_zh": "A=支持。1°C/-40偏移, 每传感器1字节。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "CACT_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "CACT_B1S1", "bytes": "B", "formula": "B - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215, "name": "CACT B1 Sensor 1", "name_zh": "CACT B1-S1" },
+        { "label": "CACT_B1S2", "bytes": "C", "formula": "C - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215, "name": "CACT B1 Sensor 2", "name_zh": "CACT B1-S2" },
+        { "label": "CACT_B2S1", "bytes": "D", "formula": "D - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215, "name": "CACT B2 Sensor 1", "name_zh": "CACT B2-S1" },
+        { "label": "CACT_B2S2", "bytes": "E", "formula": "E - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215, "name": "CACT B2 Sensor 2", "name_zh": "CACT B2-S2" }
+      ]
+    },
+    {
+      "pid": 120, "iso_pid": 62584,
+      "name": "Exhaust Gas Temperature Bank 1 (Sensors 1-4)", "name_zh": "排气温度传感器 组1(传感器1-4)",
+      "description": "A=support (bit0=S1, bit1=S2, bit2=S3, bit3=S4, bits4-7=reserved). 0.1°C with -40 offset per 2-byte sensor. For Bank 1 sensors 1-4 (pre-turbo, post-turbo, pre-catalyst, post-catalyst, etc.).",
+      "description_zh": "A=支持(位0-3=传感器1-4)。每2字节传感器0.1°C/-40偏移。组1传感器1-4(涡轮前、涡轮后、催化器前、催化器后等)。",
+      "type": "numeric", "data_bytes": 9,
+      "items": [
+        { "label": "EGT1_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "EGT_B1S1", "bytes": "B,C", "formula": "(256 * B + C) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "EGT Bank1 Sensor1", "name_zh": "EGT B1-S1" },
+        { "label": "EGT_B1S2", "bytes": "D,E", "formula": "(256 * D + E) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "EGT Bank1 Sensor2", "name_zh": "EGT B1-S2" },
+        { "label": "EGT_B1S3", "bytes": "F,G", "formula": "(256 * F + G) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "EGT Bank1 Sensor3", "name_zh": "EGT B1-S3" },
+        { "label": "EGT_B1S4", "bytes": "H,I", "formula": "(256 * H + I) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "EGT Bank1 Sensor4", "name_zh": "EGT B1-S4" }
+      ]
+    },
+    {
+      "pid": 121, "iso_pid": 62585,
+      "name": "Exhaust Gas Temperature Bank 2 (Sensors 1-4)", "name_zh": "排气温度传感器 组2(传感器1-4)",
+      "description": "Same structure as PID $78 but for Bank 2.",
+      "description_zh": "与PID $78结构相同，但为组2。",
+      "type": "numeric", "data_bytes": 9,
+      "items": [
+        { "label": "EGT2_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "EGT_B2S1", "bytes": "B,C", "formula": "(256 * B + C) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "EGT Bank2 Sensor1", "name_zh": "EGT B2-S1" },
+        { "label": "EGT_B2S2", "bytes": "D,E", "formula": "(256 * D + E) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "EGT Bank2 Sensor2", "name_zh": "EGT B2-S2" },
+        { "label": "EGT_B2S3", "bytes": "F,G", "formula": "(256 * F + G) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "EGT Bank2 Sensor3", "name_zh": "EGT B2-S3" },
+        { "label": "EGT_B2S4", "bytes": "H,I", "formula": "(256 * H + I) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "EGT Bank2 Sensor4", "name_zh": "EGT B2-S4" }
+      ]
+    },
+    {
+      "pid": 122, "iso_pid": 62586,
+      "name": "DPF Differential Pressure Bank 1", "name_zh": "DPF差压 组1",
+      "description": "A=support (bit0=Sensor 1). B,C=DPF ΔP Bank 1 (signed, 0.01 kPa/bit via offset). Positive = normal flow direction (inlet > outlet).",
+      "description_zh": "A=支持。B,C=DPF差压组1(有符号, 0.01 kPa/位, 偏移法)。正值=正常流向(入口>出口)。",
+      "type": "numeric", "data_bytes": 3,
+      "items": [
+        { "label": "DPF_DP1_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "DPF_DP_B1", "bytes": "B,C", "formula": "(256 * B + C - 32768) * 0.01", "unit": "kPa", "unit_alt": "inH2O", "alt_factor": 4.01463, "min": -327.68, "max": 327.67, "display": "xxx.xx", "name": "DPF Delta Pressure Bank 1", "name_zh": "DPF差压 组1" }
+      ]
+    },
+    {
+      "pid": 123, "iso_pid": 62587,
+      "name": "DPF Differential Pressure Bank 2", "name_zh": "DPF差压 组2",
+      "description": "Same structure as PID $7A but for Bank 2.",
+      "description_zh": "与PID $7A结构相同，但为组2。",
+      "type": "numeric", "data_bytes": 3,
+      "items": [
+        { "label": "DPF_DP2_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "DPF_DP_B2", "bytes": "B,C", "formula": "(256 * B + C - 32768) * 0.01", "unit": "kPa", "unit_alt": "inH2O", "alt_factor": 4.01463, "min": -327.68, "max": 327.67, "display": "xxx.xx", "name": "DPF Delta Pressure Bank 2", "name_zh": "DPF差压 组2" }
+      ]
+    },
+    {
+      "pid": 124, "iso_pid": 62588,
+      "name": "DPF Bank 1 (Inlet/Outlet Pressure)", "name_zh": "DPF 组1(入口/出口压力)",
+      "description": "A=support (bit0=Inlet, bit1=Outlet). B,C=DPF B1 Inlet Pressure (0.01 kPa/bit). D,E=DPF B1 Outlet Pressure.",
+      "description_zh": "A=支持(位0=入口, 位1=出口)。B,C=DPF B1入口压力(0.01 kPa/位)。D,E=DPF B1出口压力。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "DPF1_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "DPF_B1_IN", "bytes": "B,C", "formula": "(256 * B + C) * 0.01", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655.35, "display": "xxx.xx", "name": "DPF B1 Inlet Pressure", "name_zh": "DPF B1入口压力" },
+        { "label": "DPF_B1_OUT", "bytes": "D,E", "formula": "(256 * D + E) * 0.01", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655.35, "display": "xxx.xx", "name": "DPF B1 Outlet Pressure", "name_zh": "DPF B1出口压力" }
+      ]
+    },
+    {
+      "pid": 125, "iso_pid": 62589,
+      "name": "DPF Bank 2 (Inlet/Outlet Pressure)", "name_zh": "DPF 组2(入口/出口压力)",
+      "description": "Same structure as PID $7C but for Bank 2.",
+      "description_zh": "与PID $7C结构相同，但为组2。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "DPF2_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "DPF_B2_IN", "bytes": "B,C", "formula": "(256 * B + C) * 0.01", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655.35, "display": "xxx.xx", "name": "DPF B2 Inlet Pressure", "name_zh": "DPF B2入口压力" },
+        { "label": "DPF_B2_OUT", "bytes": "D,E", "formula": "(256 * D + E) * 0.01", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655.35, "display": "xxx.xx", "name": "DPF B2 Outlet Pressure", "name_zh": "DPF B2出口压力" }
+      ]
+    },
+    {
+      "pid": 126, "iso_pid": 62590,
+      "name": "DPF Temperature Bank 1", "name_zh": "DPF温度 组1",
+      "description": "A=support (bit0=Inlet, bit1=Outlet). B,C=DPF B1 Inlet Temp (0.1°C, -40 offset). D,E=DPF B1 Outlet Temp.",
+      "description_zh": "A=支持(位0=入口, 位1=出口)。B,C=DPF B1入口温度(0.1°C, -40偏移)。D,E=DPF B1出口温度。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "DPFT1_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "DPF_T_B1_IN", "bytes": "B,C", "formula": "(256 * B + C) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "DPF B1 Inlet Temp", "name_zh": "DPF B1入口温度" },
+        { "label": "DPF_T_B1_OUT", "bytes": "D,E", "formula": "(256 * D + E) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "DPF B1 Outlet Temp", "name_zh": "DPF B1出口温度" }
+      ]
+    },
+    {
+      "pid": 127, "iso_pid": 62591,
+      "name": "DPF Temperature Bank 2", "name_zh": "DPF温度 组2",
+      "description": "Same structure as PID $7E but for Bank 2.",
+      "description_zh": "与PID $7E结构相同，但为组2。",
+      "type": "numeric", "data_bytes": 5,
+      "items": [
+        { "label": "DPFT2_SUP", "bytes": "A", "formula": "A", "unit": "bitmap", "min": 0, "max": 255 },
+        { "label": "DPF_T_B2_IN", "bytes": "B,C", "formula": "(256 * B + C) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "DPF B2 Inlet Temp", "name_zh": "DPF B2入口温度" },
+        { "label": "DPF_T_B2_OUT", "bytes": "D,E", "formula": "(256 * D + E) / 10 - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 6513.5, "display": "xxxx.x", "name": "DPF B2 Outlet Temp", "name_zh": "DPF B2出口温度" }
+      ]
+    }
+  ]
+}

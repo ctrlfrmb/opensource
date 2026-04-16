@@ -1,0 +1,89 @@
+{
+  "language": "en",
+  "info_types": [
+    {
+      "id": 12, "iso_id": 63500,
+      "name": "MessageCount ESN", "name_zh": "ESN消息计数",
+      "description": "Number of messages to report Engine Serial Number.",
+      "description_zh": "报告发动机序列号所需消息数。",
+      "format": "count", "data_bytes": 1,
+      "_sub_fields": []
+    },
+    {
+      "id": 13, "iso_id": 63501,
+      "name": "Engine Serial Number", "name_zh": "发动机序列号",
+      "description": "Up to 17 printable ASCII characters, preceded by fill bytes $00. Same message format as VIN.",
+      "description_zh": "最多17个可打印ASCII字符，前面填充$00字节。与VIN相同的消息格式。",
+      "format": "ascii", "data_bytes": 17,
+      "_sub_fields": []
+    },
+    {
+      "id": 14, "iso_id": 63502,
+      "name": "MessageCount EROTAN", "name_zh": "EROTAN消息计数",
+      "description": "Number of messages to report Exhaust Regulation Or Type Approval Number.",
+      "description_zh": "报告排放法规或型式批准号所需消息数。",
+      "format": "count", "data_bytes": 1,
+      "_sub_fields": []
+    },
+    {
+      "id": 15, "iso_id": 63503,
+      "name": "Exhaust Regulation Or Type Approval Number", "name_zh": "排放法规或型式批准号",
+      "description": "Up to 17 printable ASCII characters (EROTAN). Defined by vehicle manufacturer per Type Approval office.",
+      "description_zh": "最多17个可打印ASCII字符(EROTAN)。由整车厂按型式批准机构定义。",
+      "format": "ascii", "data_bytes": 17,
+      "_sub_fields": []
+    },
+    {
+      "id": 16, "iso_id": 63504,
+      "name": "Protocol Identification", "name_zh": "协议标识",
+      "description": "1 byte: 0x00=reserved, 0x01=ISO 27145-4, 0x02=SAE J1979 utilizing ISO 27145-3 services.",
+      "description_zh": "1字节：0x00=保留，0x01=ISO 27145-4，0x02=SAE J1979使用ISO 27145-3服务。",
+      "format": "hex", "data_bytes": 1,
+      "_sub_fields": []
+    },
+    {
+      "id": 17, "iso_id": 63505,
+      "name": "WWH-OBD GTR Number", "name_zh": "WWH-OBD GTR编号",
+      "description": "11 ASCII characters: GTR_XXX.xxx identifying GTR revision for WWH-OBD compliance.",
+      "description_zh": "11个ASCII字符：GTR_XXX.xxx标识WWH-OBD合规的GTR修订版本。",
+      "format": "ascii", "data_bytes": 11,
+      "_sub_fields": []
+    },
+    {
+      "id": 18, "iso_id": 63506,
+      "name": "Fueled Engine Operation Ignition Cycle Counter", "name_zh": "燃油发动机运行点火循环计数器",
+      "description": "2-byte counter incremented within 10s if fueled engine operation for ≥2s ±1s. Required for PHEV, optional for others.",
+      "description_zh": "2字节计数器，如果燃油发动机运行≥2s±1s则在10s内递增。PHEV必须，其他可选。",
+      "format": "numeric", "data_bytes": 2,
+      "_sub_fields": [
+        { "index": 0, "label": "FEOCNTR", "name": "Fueled Engine Operation Ignition Cycle Counter", "name_zh": "燃油发动机运行点火循环计数器", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "counts" }
+      ]
+    },
+    {
+      "id": 19, "iso_id": 63507,
+      "name": "Certification Test Group/Engine Family Number", "name_zh": "认证测试组/发动机系列号",
+      "description": "12 ASCII characters identifying the Test Group (LD) or Engine Family Number (HD). Default $3F [?] if unavailable.",
+      "description_zh": "12个ASCII字符标识测试组（轻型车）或发动机系列号（重型车）。不可用时默认$3F [?]。",
+      "format": "ascii", "data_bytes": 12,
+      "_sub_fields": []
+    },
+    {
+      "id": 20, "iso_id": 63508,
+      "name": "Distance Traveled Since Evap Monitoring Decision", "name_zh": "蒸发监测决策后行驶距离",
+      "description": "2-byte, 1 km/count, 0~65535 km. Reset $0000 on pass/fail decision. Reset $FFFF on Service $04 or reprogram. Does not wrap.",
+      "description_zh": "2字节，1 km/计数，0~65535 km。通过/失败决策时重置为$0000。服务$04或重新编程时重置为$FFFF。不回绕。",
+      "format": "numeric", "data_bytes": 2,
+      "_sub_fields": [
+        { "index": 0, "label": "EVAP_DIST", "name": "Distance Traveled Since Evap Monitoring Decision", "name_zh": "蒸发监测决策后行驶距离", "bytes": "A,B", "formula": "(A*256+B)", "data_bytes": 2, "unit": "km" }
+      ]
+    },
+    {
+      "id": 21, "iso_id": 63509,
+      "name": "Applicable Motorcycle Category for Type Approval", "name_zh": "适用摩托车型式批准类别",
+      "description": "1 byte: 0x00=reserved, 0x01=L3e-A2 (Medium), 0x02=L3e-A3 (High), 0x03-0xFF=reserved.",
+      "description_zh": "1字节：0x00=保留，0x01=L3e-A2（中等性能），0x02=L3e-A3（高性能），0x03-0xFF=保留。",
+      "format": "hex", "data_bytes": 1,
+      "_sub_fields": []
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+    "flash": {
+        "appAddr": "0X00000000",
+        "appPath": "",
+        "blockSize": 4096,
+        "drvAddr": "0X00000000",
+        "drvPath": "",
+        "eraseTimeout": 30000,
+        "secLevel": "0X01",
+        "security": {
+            "algoType": -1,
+            "dllPath": "",
+            "funcName": ""
+        },
+        "steps": [
+        ]
+    },
+    "pduDefinitionsFile": "config/vci/uds_pdu_definitions.json",
+    "requestManagerData": "[{\"name\":\"Session Control - Extended\",\"pdu\":\"10 03\",\"waitTime\":100},{\"name\":\"ECU Reset\",\"pdu\":\"11 60\",\"waitTime\":500},{\"name\":\"Session Control - Programming\",\"pdu\":\"10 02\",\"waitTime\":500},{\"name\":\"Security Access\",\"pdu\":\"27 07\",\"waitTime\":1000},{\"name\":\"Read - Data SW P/N\",\"pdu\":\"22 f1 89 11 22 33 44 55 66 11 22 33 44 55 66 11 22 33 44 55 66 11 22 33 44 55 66 11 22 33 44 55 66 11 22 33 44 55 66 77 88\",\"waitTime\":1000}]",
+    "security": {
+        "algoType": 1,
+        "canoeVariant": "",
+        "dllPath": "D:\\source\\build\\FKMaster\\BIN\\UAES_MES80_Security.dll",
+        "funcName": "UAES_Calc_Key",
+        "keyOrder": 0,
+        "seedOrder": 0
+    },
+    "session": {
+        "canType": 0,
+        "funcId": "0X7DF",
+        "funcResMax": "0X7FF",
+        "funcResMin": "0X700",
+        "padByte": "0XAA",
+        "padSize": 8,
+        "reqId": "0X630",
+        "resId": "0X730",
+        "testerPresentId": "0X0",
+        "testerPresentInterval": 2000,
+        "testerPresentSubFunc": "0X80",
+        "tpConfig": {
+            "blockSize": "0X00",
+            "maxNrc78": 5,
+            "nAr": 5000,
+            "nAs": 1000,
+            "nBs": 1000,
+            "nCr": 1000,
+            "stMin": "0X00"
+        }
+    },
+    "uiLog": {
+        "filter3ELog": true,
+        "funcTimeout": 3000,
+        "maxLogRows": 3000
+    }
+}

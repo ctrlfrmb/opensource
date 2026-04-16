@@ -1,0 +1,210 @@
+{
+    "dids": {
+        "0x101": {
+            "description": "实际指示扭矩 ",
+            "parameters": [
+                {
+                    "bitLength": 16,
+                    "dataType": "unsigned",
+                    "description": "实际指示扭矩 ",
+                    "endianness": "big",
+                    "factor": 0.001525879,
+                    "name": "Indicated real engine torque",
+                    "startBit": 0,
+                    "unit": "%"
+                }
+            ],
+            "text": "Indicated real engine torque"
+        },
+        "0x103": {
+            "description": "发动机温度",
+            "parameters": [
+                {
+                    "bitLength": 8,
+                    "dataType": "unsigned",
+                    "description": "发动机温度",
+                    "endianness": "big",
+                    "factor": 0.75,
+                    "name": "engine temperature",
+                    "offset": 48,
+                    "startBit": 0
+                }
+            ],
+            "text": "engine temperature"
+        },
+        "0x301": {
+            "text": "Injection time"
+        }
+    },
+    "dtcs": {
+        "0x222": {
+            "text": "New Item"
+        }
+    },
+    "nrcs": {
+        "0x0": {
+            "description": "This is not an error code, but represents a positive response. Should not be in this list normally.",
+            "text": "Positive Response"
+        },
+        "0x10": {
+            "description": "The server rejects the request for a reason not covered by other specific NRCs.",
+            "text": "General Reject"
+        },
+        "0x11": {
+            "description": "The requested service is not supported by the server.",
+            "text": "Service Not Supported"
+        },
+        "0x12": {
+            "description": "The requested sub-function is not supported or is invalid.",
+            "text": "Sub-function Not Supported"
+        },
+        "0x13": {
+            "description": "The request message length is incorrect or the format is invalid.",
+            "text": "Incorrect Message Length Or Invalid Format"
+        },
+        "0x14": {
+            "description": "The response message would exceed the available buffer size or transport layer capacity.",
+            "text": "Response Too Long"
+        },
+        "0x21": {
+            "description": "The server is busy. The client should try sending the request again later.",
+            "text": "Busy Repeat Request"
+        },
+        "0x22": {
+            "description": "The server cannot perform the request due to incorrect operating conditions (e.g., vehicle speed, engine state).",
+            "text": "Conditions Not Correct"
+        },
+        "0x24": {
+            "description": "The request was received in an incorrect sequence (e.g., sending a key before requesting a seed).",
+            "text": "Request Sequence Error"
+        },
+        "0x25": {
+            "description": "A component on a sub-network failed to respond in time.",
+            "text": "No Response From Subnet Component"
+        },
+        "0x26": {
+            "description": "A failure condition prevents the server from executing the requested action.",
+            "text": "Failure Prevents Execution Of Requested Action"
+        },
+        "0x31": {
+            "description": "A parameter in the request is out of its valid range.",
+            "text": "Request Out Of Range"
+        },
+        "0x33": {
+            "description": "The client does not have the required security access level to perform the request.",
+            "text": "Security Access Denied"
+        },
+        "0x35": {
+            "description": "The key sent by the client does not match the server's computed key.",
+            "text": "Invalid Key"
+        },
+        "0x36": {
+            "description": "The client has tried to gain security access too many times.",
+            "text": "Exceeded Number Of Attempts"
+        },
+        "0x37": {
+            "description": "The client must wait for a specific time delay before attempting security access again.",
+            "text": "Required Time Delay Not Expired"
+        },
+        "0x70": {
+            "description": "The server rejected the upload or download request.",
+            "text": "Upload/Download Not Accepted"
+        },
+        "0x71": {
+            "description": "The data transfer was suspended, possibly due to an error.",
+            "text": "Transfer Data Suspended"
+        },
+        "0x72": {
+            "description": "An error occurred during a programming or flashing sequence.",
+            "text": "General Programming Failure"
+        },
+        "0x73": {
+            "description": "The block sequence counter in the transfer data request is incorrect.",
+            "text": "Wrong Block Sequence Counter"
+        },
+        "0x78": {
+            "description": "The server has received the request but the action is not yet complete. The client should wait and may receive a final response later.",
+            "text": "Request Correctly Received - Response Pending"
+        },
+        "0x7e": {
+            "description": "The requested sub-function is not supported in the currently active diagnostic session.",
+            "text": "Sub-function Not Supported In Active Session"
+        },
+        "0x7f": {
+            "description": "The requested service is not supported in the currently active diagnostic session.",
+            "text": "Service Not Supported In Active Session"
+        },
+        "0x81": {
+            "description": "The engine speed is too high to perform the requested action.",
+            "text": "RPM Too High"
+        },
+        "0x82": {
+            "description": "The engine speed is too low to perform the requested action.",
+            "text": "RPM Too Low"
+        },
+        "0x83": {
+            "description": "The engine is running, preventing the requested action.",
+            "text": "Engine Is Running"
+        },
+        "0x84": {
+            "description": "The engine is not running, preventing the requested action.",
+            "text": "Engine Is Not Running"
+        },
+        "0x85": {
+            "description": "The engine has not been running long enough.",
+            "text": "Engine Run Time Too Low"
+        },
+        "0x86": {
+            "description": "A temperature reading is too high.",
+            "text": "Temperature Too High"
+        },
+        "0x87": {
+            "description": "A temperature reading is too low.",
+            "text": "Temperature Too Low"
+        },
+        "0x88": {
+            "description": "The vehicle speed is too high.",
+            "text": "Vehicle Speed Too High"
+        },
+        "0x89": {
+            "description": "The vehicle speed is too low.",
+            "text": "Vehicle Speed Too Low"
+        },
+        "0x8a": {
+            "description": "The throttle or pedal position is too high.",
+            "text": "Throttle/Pedal Too High"
+        },
+        "0x8b": {
+            "description": "The throttle or pedal position is too low.",
+            "text": "Throttle/Pedal Too Low"
+        },
+        "0x8c": {
+            "description": "The transmission is not in neutral.",
+            "text": "Transmission Not In Neutral"
+        },
+        "0x8d": {
+            "description": "The transmission is not in gear.",
+            "text": "Transmission Not In Gear"
+        },
+        "0x8f": {
+            "description": "The brake is not applied.",
+            "text": "Brake Switch(es) Not Closed"
+        },
+        "0x90": {
+            "description": "The gear shifter is not in Park.",
+            "text": "Shifter Lever Not In Park"
+        },
+        "0x91": {
+            "description": "The torque converter clutch is locked.",
+            "text": "Torque Converter Clutch Locked"
+        },
+        "0x92": {
+            "description": "The vehicle's battery voltage is too high.",
+            "text": "Voltage Too High"
+        },
+        "0x93": {
+            "description": "The vehicle's battery voltage is too low.",
+            "text": "Voltage Too Low"
+        }
+    }
+}

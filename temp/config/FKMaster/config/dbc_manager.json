@@ -1,0 +1,17 @@
+{
+    "customFileMap": {
+        "dbc_import_default_directory": "D:/source/file_manager/doc/dbc&arxml",
+        "vci_dbc_view": "D:/source/file_manager/doc/dbc&arxml/SENT_FIU.dbc"
+    },
+    "dbcFiles": [
+        {
+            "encoding": "GB2312",
+            "filePath": "D:/source/file_manager/doc/dbc&arxml/H56b_Matrix_SPT1CAN_V5.0.1_BMS.dbc"
+        },
+        {
+            "encoding": "GB2312",
+            "filePath": "D:/source/file_manager/doc/dbc&arxml/SENT_FIU.dbc"
+        }
+    ],
+    "version": "2.0"
+}

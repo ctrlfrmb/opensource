@@ -1,0 +1,41 @@
+{
+    "currentDeviceIndex": 0,
+    "devices": [
+        {
+            "canChannels": [
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                },
+                {
+                    "baudRate": "500000",
+                    "fdBaudRate": "2000000",
+                    "terminalResistorEnabled": true,
+                    "type": "CANFD"
+                }
+            ],
+            "deviceIndex": 0,
+            "linChannels": [
+                {
+                    "baudRate": "19200",
+                    "ldfFile": "",
+                    "type": "Master"
+                },
+                {
+                    "baudRate": "19200",
+                    "ldfFile": "",
+                    "type": "Slave"
+                }
+            ],
+            "localIP": ""
+        }
+    ],
+    "systemConfig": {
+        "baseIpOctet": 130,
+        "maxChannelSize": 8,
+        "maxDeviceSize": 32,
+        "networkSegment": "192.168.201"
+    }
+}

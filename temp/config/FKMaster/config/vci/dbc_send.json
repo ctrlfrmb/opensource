@@ -1,0 +1,111 @@
+{
+    "dbcFile": "D:/source/file_manager/doc/dbc&arxml/SENT_FIU.dbc",
+    "roundDelay": 1000,
+    "rows": [
+        {
+            "canCheckType": 2,
+            "channel": 0,
+            "checked": false,
+            "data": "00 00",
+            "delay": 10,
+            "frameFormat": 1,
+            "frameType": 0,
+            "id": "40000",
+            "length": 2,
+            "messageName": "SentSysCfg",
+            "period": 1000
+        },
+        {
+            "canCheckType": 2,
+            "channel": 0,
+            "checked": false,
+            "data": "00 0a 00 00 00 00",
+            "delay": 10,
+            "frameFormat": 1,
+            "frameType": 0,
+            "id": "41000",
+            "length": 6,
+            "messageName": "SentChanl_Cfg",
+            "period": 1000
+        },
+        {
+            "canCheckType": 2,
+            "channel": 0,
+            "checked": false,
+            "data": "00 00 00 00 00 00",
+            "delay": 10,
+            "frameFormat": 1,
+            "frameType": 0,
+            "id": "42000",
+            "length": 6,
+            "messageName": "SentSensor_Cfg",
+            "period": 1000
+        },
+        {
+            "canCheckType": 2,
+            "channel": 0,
+            "checked": true,
+            "data": "01 01 00 00 00 00 00 00 00 00 00 00",
+            "delay": 10,
+            "frameFormat": 1,
+            "frameType": 0,
+            "id": "43000",
+            "length": 12,
+            "messageName": "SentWriteFsData",
+            "period": 1000
+        },
+        {
+            "canCheckType": 2,
+            "channel": 0,
+            "checked": true,
+            "data": "01 01 00 00 00 00 00",
+            "delay": 10,
+            "frameFormat": 1,
+            "frameType": 0,
+            "id": "43001",
+            "length": 7,
+            "messageName": "SentWriteSlData",
+            "period": 1000
+        },
+        {
+            "canCheckType": 2,
+            "channel": 0,
+            "checked": false,
+            "data": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+            "delay": 10,
+            "frameFormat": 1,
+            "frameType": 0,
+            "id": "44000",
+            "length": 32,
+            "messageName": "SentBrige_Cfg",
+            "period": 1000
+        },
+        {
+            "canCheckType": 2,
+            "channel": 0,
+            "checked": false,
+            "data": "00 00 00 00 00 00 00 00 00 00 00 00",
+            "delay": 10,
+            "frameFormat": 1,
+            "frameType": 0,
+            "id": "45000",
+            "length": 12,
+            "messageName": "SentResponseFsMsg",
+            "period": 1000
+        },
+        {
+            "canCheckType": 2,
+            "channel": 0,
+            "checked": false,
+            "data": "00 00 00 00 00 00 00 00",
+            "delay": 10,
+            "frameFormat": 1,
+            "frameType": 0,
+            "id": "45001",
+            "length": 8,
+            "messageName": "SentResponseSlMsg",
+            "period": 1000
+        }
+    ],
+    "sendTimes": 1
+}

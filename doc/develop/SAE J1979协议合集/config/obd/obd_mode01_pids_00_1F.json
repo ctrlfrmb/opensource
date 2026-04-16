@@ -1,0 +1,1801 @@
+{
+  "language": "en",
+  "pids": [
+    {
+      "pid": 0,
+      "iso_pid": 62464,
+      "name": "Supported PIDs [$01-$20]",
+      "name_zh": "支持的PID [$01-$20]",
+      "type": "supported",
+      "data_bytes": 4
+    },
+    {
+      "pid": 1,
+      "iso_pid": 62465,
+      "name": "I/M Readiness Data",
+      "name_zh": "I/M 就绪状态数据",
+      "description": "The bits in this PID shall report two pieces of information for each monitor: monitor status since DTCs were last cleared (saved in NVRAM or Keep Alive RAM), and monitors supported on this vehicle.",
+      "description_zh": "此PID的各位报告每个监测器的两项信息：自上次清除DTC以来的监测器状态（保存在NVRAM或Keep Alive RAM中）；以及本车支持的监测器。",
+      "data_bytes": 4,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "DTC_MIL",
+          "name": "Number of emission-related DTCs and MIL status",
+          "name_zh": "排放相关DTC数量及MIL状态",
+          "bytes": "A",
+          "formula": "",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": "DTC and MIL Status"
+        },
+        {
+          "label": "MON_SUP",
+          "name": "Support and status of monitors (continuous)",
+          "name_zh": "监测器支持及状态（连续型）",
+          "bytes": "B",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "MON_NC_SUP",
+          "name": "Supported monitors (non-continuous)",
+          "name_zh": "支持的监测器（非连续型）",
+          "bytes": "C",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        },
+        {
+          "label": "MON_NC_STS",
+          "name": "Status of monitors (non-continuous) since DTC cleared",
+          "name_zh": "清除DTC后非连续型监测器状态",
+          "bytes": "D",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": ""
+        }
+      ],
+      "bits": [
+        {
+          "byte": "A", "bit": 7,
+          "name": "Malfunction Indicator Lamp (MIL) Status",
+          "name_zh": "故障指示灯(MIL)状态",
+          "v0": "OFF", "v1": "ON",
+          "v0_zh": "关闭", "v1_zh": "点亮"
+        },
+        {
+          "byte": "B", "bit": 0,
+          "name": "Misfire monitoring supported",
+          "name_zh": "失火监测支持",
+          "v0": "NO", "v1": "YES",
+          "v0_zh": "否", "v1_zh": "是"
+        },
+        {
+          "byte": "B", "bit": 1,
+          "name": "Fuel system monitoring supported",
+          "name_zh": "燃油系统监测支持",
+          "v0": "NO", "v1": "YES",
+          "v0_zh": "否", "v1_zh": "是"
+        },
+        {
+          "byte": "B", "bit": 2,
+          "name": "Comprehensive component monitoring supported",
+          "name_zh": "综合部件监测支持",
+          "v0": "NO", "v1": "YES",
+          "v0_zh": "否", "v1_zh": "是"
+        },
+        {
+          "byte": "B", "bit": 3,
+          "name": "Ignition type",
+          "name_zh": "点火类型",
+          "v0": "Spark ignition", "v1": "Compression ignition",
+          "v0_zh": "点火式（汽油机）", "v1_zh": "压燃式（柴油机）",
+          "note": "Determines interpretation of bytes C and D"
+        },
+        {
+          "byte": "B", "bit": 4,
+          "name": "Misfire monitoring ready",
+          "name_zh": "失火监测就绪",
+          "v0": "Complete/N/A", "v1": "Not complete",
+          "v0_zh": "完成/不适用", "v1_zh": "未完成"
+        },
+        {
+          "byte": "B", "bit": 5,
+          "name": "Fuel system monitoring ready",
+          "name_zh": "燃油系统监测就绪",
+          "v0": "Complete/N/A", "v1": "Not complete",
+          "v0_zh": "完成/不适用", "v1_zh": "未完成"
+        },
+        {
+          "byte": "B", "bit": 6,
+          "name": "Comprehensive component monitoring ready",
+          "name_zh": "综合部件监测就绪",
+          "v0": "Complete/N/A", "v1": "Not complete",
+          "v0_zh": "完成/不适用", "v1_zh": "未完成"
+        },
+        {
+          "byte": "B", "bit": 7,
+          "name": "Reserved",
+          "name_zh": "保留",
+          "v0": "0", "v1": "0",
+          "note": "Shall be reported as 0"
+        },
+        {
+          "byte": "C", "bit": 0,
+          "name": "Catalyst monitoring supported (SI) / NMHC catalyst monitoring supported (CI)",
+          "name_zh": "催化器监测支持(SI) / NMHC催化器监测支持(CI)",
+          "v0": "NO", "v1": "YES",
+          "v0_zh": "否", "v1_zh": "是",
+          "display_si": "CAT_SUP", "display_ci": "HCCATSUP"
+        },
+        {
+          "byte": "C", "bit": 1,
+          "name": "Heated catalyst monitoring supported (SI) / NOx aftertreatment monitoring supported (CI)",
+          "name_zh": "加热催化器监测支持(SI) / NOx后处理监测支持(CI)",
+          "v0": "NO", "v1": "YES",
+          "v0_zh": "否", "v1_zh": "是",
+          "display_si": "HCAT_SUP", "display_ci": "NCAT_SUP"
+        },
+        {
+          "byte": "C", "bit": 2,
+          "name": "Evaporative system monitoring supported (SI) / Reserved (CI)",
+          "name_zh": "蒸发系统监测支持(SI) / 保留(CI)",
+          "v0": "NO", "v1": "YES",
+          "v0_zh": "否", "v1_zh": "是",
+          "display_si": "EVAP_SUP",
+          "note": "CI: bit shall always be reported as 0"
+        },
+        {
+          "byte": "C", "bit": 3,
+          "name": "Secondary air system monitoring supported (SI) / Boost pressure system monitoring supported (CI)",
+          "name_zh": "二次空气系统监测支持(SI) / 增压系统监测支持(CI)",
+          "v0": "NO", "v1": "YES",
+          "v0_zh": "否", "v1_zh": "是",
+          "display_si": "AIR_SUP", "display_ci": "BP_SUP"
+        },
+        {
+          "byte": "C", "bit": 4,
+          "name": "Reserved",
+          "name_zh": "保留",
+          "v0": "0", "v1": "0",
+          "note": "Shall always be reported as 0"
+        },
+        {
+          "byte": "C", "bit": 5,
+          "name": "Oxygen sensor monitoring supported (SI) / Exhaust gas sensor monitoring supported (CI)",
+          "name_zh": "氧传感器监测支持(SI) / 排气传感器监测支持(CI)",
+          "v0": "NO", "v1": "YES",
+          "v0_zh": "否", "v1_zh": "是",
+          "display_si": "O2S_SUP", "display_ci": "EGS_SUP"
+        },
+        {
+          "byte": "C", "bit": 6,
+          "name": "Oxygen sensor heater monitoring supported (SI) / PM filter monitoring supported (CI)",
+          "name_zh": "氧传感器加热器监测支持(SI) / 颗粒过滤器监测支持(CI)",
+          "v0": "NO", "v1": "YES",
+          "v0_zh": "否", "v1_zh": "是",
+          "display_si": "HTR_SUP", "display_ci": "PM_SUP"
+        },
+        {
+          "byte": "C", "bit": 7,
+          "name": "EGR and/or VVT system monitoring supported",
+          "name_zh": "EGR和/或VVT系统监测支持",
+          "v0": "NO", "v1": "YES",
+          "v0_zh": "否", "v1_zh": "是",
+          "display": "EGR_SUP"
+        },
+        {
+          "byte": "D", "bit": 0,
+          "name": "Catalyst monitoring ready (SI) / NMHC catalyst monitoring ready (CI)",
+          "name_zh": "催化器监测就绪(SI) / NMHC催化器监测就绪(CI)",
+          "v0": "Complete/N/A", "v1": "Not complete",
+          "v0_zh": "完成/不适用", "v1_zh": "未完成",
+          "display_si": "CAT_RDY", "display_ci": "HCCATRDY"
+        },
+        {
+          "byte": "D", "bit": 1,
+          "name": "Heated catalyst monitoring ready (SI) / NOx aftertreatment monitoring ready (CI)",
+          "name_zh": "加热催化器监测就绪(SI) / NOx后处理监测就绪(CI)",
+          "v0": "Complete/N/A", "v1": "Not complete",
+          "v0_zh": "完成/不适用", "v1_zh": "未完成",
+          "display_si": "HCAT_RDY", "display_ci": "NCAT_RDY"
+        },
+        {
+          "byte": "D", "bit": 2,
+          "name": "Evaporative system monitoring ready (SI) / Reserved (CI)",
+          "name_zh": "蒸发系统监测就绪(SI) / 保留(CI)",
+          "v0": "Complete/N/A", "v1": "Not complete",
+          "v0_zh": "完成/不适用", "v1_zh": "未完成",
+          "display_si": "EVAP_RDY",
+          "note": "CI: always report as 0"
+        },
+        {
+          "byte": "D", "bit": 3,
+          "name": "Secondary air system monitoring ready (SI) / Boost pressure system monitoring ready (CI)",
+          "name_zh": "二次空气系统监测就绪(SI) / 增压系统监测就绪(CI)",
+          "v0": "Complete/N/A", "v1": "Not complete",
+          "v0_zh": "完成/不适用", "v1_zh": "未完成",
+          "display_si": "AIR_RDY", "display_ci": "BP_RDY"
+        },
+        {
+          "byte": "D", "bit": 4,
+          "name": "Reserved",
+          "name_zh": "保留",
+          "v0": "0", "v1": "0",
+          "note": "Always report as 0"
+        },
+        {
+          "byte": "D", "bit": 5,
+          "name": "Oxygen sensor monitoring ready (SI) / Exhaust gas sensor monitoring ready (CI)",
+          "name_zh": "氧传感器监测就绪(SI) / 排气传感器监测就绪(CI)",
+          "v0": "Complete/N/A", "v1": "Not complete",
+          "v0_zh": "完成/不适用", "v1_zh": "未完成",
+          "display_si": "O2S_RDY", "display_ci": "EGS_RDY"
+        },
+        {
+          "byte": "D", "bit": 6,
+          "name": "Oxygen sensor heater monitoring ready (SI) / PM filter monitoring ready (CI)",
+          "name_zh": "氧传感器加热器监测就绪(SI) / 颗粒过滤器监测就绪(CI)",
+          "v0": "Complete/N/A", "v1": "Not complete",
+          "v0_zh": "完成/不适用", "v1_zh": "未完成",
+          "display_si": "HTR_RDY", "display_ci": "PM_RDY"
+        },
+        {
+          "byte": "D", "bit": 7,
+          "name": "EGR and/or VVT system monitoring ready",
+          "name_zh": "EGR和/或VVT系统监测就绪",
+          "v0": "Complete/N/A", "v1": "Not complete",
+          "v0_zh": "完成/不适用", "v1_zh": "未完成",
+          "display": "EGR_RDY"
+        }
+      ],
+      "numeric_fields": [
+        {
+          "label": "DTC_CNT",
+          "name": "Number of confirmed emission-related DTCs stored in this ECU",
+          "name_zh": "本ECU存储的已确认排放相关DTC数量",
+          "bytes": "A",
+          "formula": "A & 127",
+          "unit": "",
+          "min": 0.0,
+          "max": 127.0,
+          "display": "DTC_CNT: xxxd"
+        }
+      ],
+      "reset_on_clear": true
+    },
+    {
+      "pid": 2,
+      "iso_pid": 62466,
+      "name": "Freeze Frame DTC",
+      "name_zh": "冻结帧DTC",
+      "description": "$0000 indicates no stored freeze frame data. DTC format and DTCs are defined in ISO 15031-6.",
+      "description_zh": "$0000表示无存储的冻结帧数据。DTC格式和DTC定义见ISO 15031-6。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "DTCFRZF",
+          "name": "DTC that caused required freeze frame data storage",
+          "name_zh": "触发冻结帧数据存储的DTC",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B)",
+          "unit": "",
+          "min": 0.0,
+          "max": 65535.0,
+          "display": "DTCFRZF: Pxxxx"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": [],
+      "reset_on_clear": true
+    },
+    {
+      "pid": 3,
+      "iso_pid": 62467,
+      "name": "Fuel System Status",
+      "name_zh": "燃油系统状态",
+      "description": "Fuel system status shall be supported by spark ignition vehicles that use closed loop feedback control of air/fuel ratio. Only one bit per fuel system should be set at a time. If engine is off and ignition is on, all bits shall be reported as 0.",
+      "description_zh": "使用闭环空燃比反馈控制的点火式车辆应支持燃油系统状态。每个燃油系统同一时间仅应设置一个位。发动机关闭且点火开启时，所有位应报告为0。",
+      "data_bytes": 2,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "FUELSYSA",
+          "name": "Fuel system A status",
+          "name_zh": "燃油系统A状态",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": "FUELSYSA:"
+        },
+        {
+          "label": "FUELSYSB",
+          "name": "Fuel system B status",
+          "name_zh": "燃油系统B状态",
+          "bytes": "B",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": "FUELSYSB:"
+        }
+      ],
+      "bits": [
+        {
+          "byte": "A", "bit": 0,
+          "name": "Open loop - not yet satisfied conditions for closed loop (Bank 1 or both)",
+          "name_zh": "开环 - 尚未满足闭环条件（气缸组1或全部）",
+          "v0": "0", "v1": "1",
+          "display": "OL"
+        },
+        {
+          "byte": "A", "bit": 1,
+          "name": "Closed loop - using O2 sensor(s) as feedback for fuel control",
+          "name_zh": "闭环 - 使用氧传感器反馈进行燃油控制",
+          "v0": "0", "v1": "1",
+          "display": "CL"
+        },
+        {
+          "byte": "A", "bit": 2,
+          "name": "Open loop due to driving conditions (Bank 1 or both)",
+          "name_zh": "因驾驶工况开环（气缸组1或全部）",
+          "v0": "0", "v1": "1",
+          "display": "OL-Drive",
+          "note": "e.g. power enrichment, deceleration enleanment, cylinder deactivation"
+        },
+        {
+          "byte": "A", "bit": 3,
+          "name": "Open loop - due to detected system fault (Bank 1 or both)",
+          "name_zh": "因检测到系统故障而开环（气缸组1或全部）",
+          "v0": "0", "v1": "1",
+          "display": "OL-Fault"
+        },
+        {
+          "byte": "A", "bit": 4,
+          "name": "Closed loop, but fault with at least one O2 sensor",
+          "name_zh": "闭环，但至少一个氧传感器故障",
+          "v0": "0", "v1": "1",
+          "display": "CL-Fault",
+          "note": "May be using single O2 sensor for fuel control (Bank 1 or Bank 2)"
+        },
+        {
+          "byte": "A", "bit": 5,
+          "name": "Open loop - not yet satisfied conditions for closed loop (Bank 2)",
+          "name_zh": "开环 - 尚未满足闭环条件（气缸组2）",
+          "v0": "0", "v1": "1",
+          "display": "OL B2"
+        },
+        {
+          "byte": "A", "bit": 6,
+          "name": "Open loop due to driving conditions (Bank 2)",
+          "name_zh": "因驾驶工况开环（气缸组2）",
+          "v0": "0", "v1": "1",
+          "display": "OL-Drive B2"
+        },
+        {
+          "byte": "A", "bit": 7,
+          "name": "Open loop - due to detected system fault (Bank 2)",
+          "name_zh": "因检测到系统故障而开环（气缸组2）",
+          "v0": "0", "v1": "1",
+          "display": "OL-Fault B2"
+        },
+        {
+          "byte": "B", "bit": 0,
+          "name": "Open loop - not yet satisfied conditions for closed loop (Bank 1 or both)",
+          "name_zh": "开环 - 尚未满足闭环条件（气缸组1或全部）",
+          "v0": "0", "v1": "1",
+          "display": "OL"
+        },
+        {
+          "byte": "B", "bit": 1,
+          "name": "Closed loop - using O2 sensor(s) as feedback for fuel control",
+          "name_zh": "闭环 - 使用氧传感器反馈进行燃油控制",
+          "v0": "0", "v1": "1",
+          "display": "CL"
+        },
+        {
+          "byte": "B", "bit": 2,
+          "name": "Open loop due to driving conditions (Bank 1 or both)",
+          "name_zh": "因驾驶工况开环（气缸组1或全部）",
+          "v0": "0", "v1": "1",
+          "display": "OL-Drive"
+        },
+        {
+          "byte": "B", "bit": 3,
+          "name": "Open loop - due to detected system fault (Bank 1 or both)",
+          "name_zh": "因检测到系统故障而开环（气缸组1或全部）",
+          "v0": "0", "v1": "1",
+          "display": "OL-Fault"
+        },
+        {
+          "byte": "B", "bit": 4,
+          "name": "Closed loop, but fault with at least one O2 sensor",
+          "name_zh": "闭环，但至少一个氧传感器故障",
+          "v0": "0", "v1": "1",
+          "display": "CL-Fault"
+        },
+        {
+          "byte": "B", "bit": 5,
+          "name": "Open loop - not yet satisfied conditions for closed loop (Bank 2)",
+          "name_zh": "开环 - 尚未满足闭环条件（气缸组2）",
+          "v0": "0", "v1": "1",
+          "display": "OL B2"
+        },
+        {
+          "byte": "B", "bit": 6,
+          "name": "Open loop due to driving conditions (Bank 2)",
+          "name_zh": "因驾驶工况开环（气缸组2）",
+          "v0": "0", "v1": "1",
+          "display": "OL-Drive B2"
+        },
+        {
+          "byte": "B", "bit": 7,
+          "name": "Open loop - due to detected system fault (Bank 2)",
+          "name_zh": "因检测到系统故障而开环（气缸组2）",
+          "v0": "0", "v1": "1",
+          "display": "OL-Fault B2"
+        }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 4,
+      "iso_pid": 62468,
+      "name": "Calculated LOAD Value",
+      "name_zh": "计算负荷值",
+      "description": "Percent of maximum available engine torque. Reaches 100% at WOT at any altitude, temperature or rpm. At engine off and ignition on, LOAD_PCT = 0%. If engine torque is negative, LOAD_PCT shall be reported as 0%. For hybrid vehicles, reflects torque from ICE only.",
+      "description_zh": "最大可用发动机扭矩的百分比。在任何海拔、温度或转速下，全油门时达到100%。发动机关闭且点火开启时LOAD_PCT=0%。发动机扭矩为负时报告为0%。混合动力车辆仅反映内燃机产生的扭矩。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LOAD_PCT",
+          "name": "Calculated LOAD Value",
+          "name_zh": "计算负荷值",
+          "bytes": "A",
+          "formula": "A * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "LOAD_PCT: xxx.x %"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 5,
+      "iso_pid": 62469,
+      "name": "Engine Coolant Temperature",
+      "name_zh": "发动机冷却液温度",
+      "description": "ECT shall display engine coolant temperature derived from an engine coolant temperature sensor or a cylinder head temperature sensor.",
+      "description_zh": "ECT显示由发动机冷却液温度传感器或缸盖温度传感器获取的发动机冷却液温度。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "ECT",
+          "name": "Engine Coolant Temperature",
+          "name_zh": "发动机冷却液温度",
+          "bytes": "A",
+          "formula": "A - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "ECT: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 6,
+      "iso_pid": 62470,
+      "name": "Short Term Fuel Trim - Bank 1",
+      "name_zh": "短期燃油修正 - 气缸组1",
+      "description": "Short Term Fuel Trim shall be supported by spark ignition vehicles that use closed loop feedback control of air/fuel ratio. If the fuel system is in open loop, SHRTFT shall report 0% correction.",
+      "description_zh": "使用闭环空燃比反馈控制的点火式车辆应支持短期燃油修正。燃油系统处于开环时，SHRTFT应报告0%修正量。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "SHRTFT1",
+          "name": "Short Term Fuel Trim - Bank 1",
+          "name_zh": "短期燃油修正 - 气缸组1",
+          "bytes": "A",
+          "formula": "A * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "SHRTFT1: xxx.x %",
+          "note": "Use if only 1 fuel trim value"
+        },
+        {
+          "label": "SHRTFT3",
+          "name": "Short Term Fuel Trim - Bank 3",
+          "name_zh": "短期燃油修正 - 气缸组3",
+          "bytes": "B",
+          "formula": "B * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "SHRTFT3: xxx.x %",
+          "note": "Only included if PID $1D indicates O2 sensor present in Bank 3"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 7,
+      "iso_pid": 62471,
+      "name": "Long Term Fuel Trim - Bank 1",
+      "name_zh": "长期燃油修正 - 气缸组1",
+      "description": "Fuel trim correction for Bank 1/3 stored in NVRAM or Keep-alive RAM. LONGFT indicates the correction currently being utilized in both open loop and closed loop fuel control. If no correction is utilized in open loop, LONGFT shall report 0%.",
+      "description_zh": "存储在NVRAM或保持RAM中的气缸组1/3燃油修正量。LONGFT指示在开环和闭环燃油控制中当前使用的修正量。开环中未使用修正时，LONGFT应报告0%。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LONGFT1",
+          "name": "Long Term Fuel Trim - Bank 1",
+          "name_zh": "长期燃油修正 - 气缸组1",
+          "bytes": "A",
+          "formula": "A * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "LONGFT1: xxx.x %",
+          "note": "Use if only 1 fuel trim value"
+        },
+        {
+          "label": "LONGFT3",
+          "name": "Long Term Fuel Trim - Bank 3",
+          "name_zh": "长期燃油修正 - 气缸组3",
+          "bytes": "B",
+          "formula": "B * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "LONGFT3: xxx.x %",
+          "note": "Only included if PID $1D indicates O2 sensor present in Bank 3"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 8,
+      "iso_pid": 62472,
+      "name": "Short Term Fuel Trim - Bank 2",
+      "name_zh": "短期燃油修正 - 气缸组2",
+      "description": "Short Term Fuel Trim Bank 2/4. If the fuel system is in open loop, SHRTFT shall report 0% correction.",
+      "description_zh": "气缸组2/4短期燃油修正。燃油系统处于开环时，SHRTFT应报告0%修正量。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "SHRTFT2",
+          "name": "Short Term Fuel Trim - Bank 2",
+          "name_zh": "短期燃油修正 - 气缸组2",
+          "bytes": "A",
+          "formula": "A * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "SHRTFT2: xxx.x %",
+          "note": "Use if only 1 fuel trim value"
+        },
+        {
+          "label": "SHRTFT4",
+          "name": "Short Term Fuel Trim - Bank 4",
+          "name_zh": "短期燃油修正 - 气缸组4",
+          "bytes": "B",
+          "formula": "B * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "SHRTFT4: xxx.x %",
+          "note": "Only included if PID $1D indicates O2 sensor present in Bank 4"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 9,
+      "iso_pid": 62473,
+      "name": "Long Term Fuel Trim - Bank 2",
+      "name_zh": "长期燃油修正 - 气缸组2",
+      "description": "Fuel trim correction for Bank 2/4 stored in NVRAM or Keep-alive RAM. LONGFT indicates the correction currently being utilized in both open loop and closed loop fuel control.",
+      "description_zh": "存储在NVRAM或保持RAM中的气缸组2/4燃油修正量。LONGFT指示在开环和闭环燃油控制中当前使用的修正量。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "LONGFT2",
+          "name": "Long Term Fuel Trim - Bank 2",
+          "name_zh": "长期燃油修正 - 气缸组2",
+          "bytes": "A",
+          "formula": "A * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "LONGFT2: xxx.x %",
+          "note": "Use if only 1 fuel trim value"
+        },
+        {
+          "label": "LONGFT4",
+          "name": "Long Term Fuel Trim - Bank 4",
+          "name_zh": "长期燃油修正 - 气缸组4",
+          "bytes": "B",
+          "formula": "B * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "LONGFT4: xxx.x %",
+          "note": "Only included if PID $1D indicates O2 sensor present in Bank 4"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+	{
+      "pid": 10,
+      "iso_pid": 62474,
+      "name": "Fuel Pressure (gauge)",
+      "name_zh": "燃油压力（表压）",
+      "description": "FP shall display fuel pressure when the reading is referenced to atmosphere (gauge pressure).",
+      "description_zh": "FP显示以大气压力为基准的燃油压力（表压）。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "FP",
+          "name": "Fuel Pressure (gauge)",
+          "name_zh": "燃油压力（表压）",
+          "bytes": "A",
+          "formula": "A * 3",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 765.0,
+          "display": "FP: xxxx kPa (xxx.x PSI)",
+          "unit_alt": "PSI",
+          "alt_factor": 0.14504,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 11,
+      "iso_pid": 62475,
+      "name": "Intake Manifold Absolute Pressure",
+      "name_zh": "进气歧管绝对压力",
+      "description": "MAP shall display manifold pressure derived from a Manifold Absolute Pressure sensor, if a sensor is utilized. If a vehicle uses both a MAP and MAF sensor, both PIDs shall be supported. If PID $4F is supported for this ECU, the external test equipment shall calculate scaling and range as explained in PID $4F Data D definition.",
+      "description_zh": "MAP显示由歧管绝对压力传感器获取的歧管压力。如果车辆同时使用MAP和MAF传感器，则两个PID都应支持。如果此ECU支持PID $4F，外部测试设备应按PID $4F数据D定义计算缩放和范围。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "MAP",
+          "name": "Intake Manifold Absolute Pressure",
+          "name_zh": "进气歧管绝对压力",
+          "bytes": "A",
+          "formula": "A",
+          "unit": "kPa",
+          "min": 0.0,
+          "max": 255.0,
+          "display": "MAP: xxx kPa (xx.x inHg)",
+          "unit_alt": "inHg",
+          "alt_factor": 0.2953,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 12,
+      "iso_pid": 62476,
+      "name": "Engine RPM",
+      "name_zh": "发动机转速",
+      "description": "Engine RPM shall display revolutions per minute of the engine crankshaft.",
+      "description_zh": "发动机转速显示发动机曲轴每分钟的转数。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "RPM",
+          "name": "Engine RPM",
+          "name_zh": "发动机转速",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 0.25",
+          "unit": "rpm",
+          "min": 0.0,
+          "max": 16383.75,
+          "display": "RPM: xxxxx min⁻¹"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 13,
+      "iso_pid": 62477,
+      "name": "Vehicle Speed Sensor",
+      "name_zh": "车速传感器",
+      "description": "VSS shall display vehicle road speed. Vehicle speed may be derived from a vehicle speed sensor, calculated by the ECU using other speed sensors, or obtained from the vehicle serial data communication bus.",
+      "description_zh": "VSS显示车辆道路行驶速度。车速可来源于车速传感器、由ECU使用其他速度传感器计算得出、或从车辆串行数据通信总线获取。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "VSS",
+          "name": "Vehicle Speed Sensor",
+          "name_zh": "车速传感器",
+          "bytes": "A",
+          "formula": "A",
+          "unit": "km/h",
+          "min": 0.0,
+          "max": 255.0,
+          "display": "VSS: xxx km/h (xxx mph)",
+          "unit_alt": "mph",
+          "alt_factor": 0.6214,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 14,
+      "iso_pid": 62478,
+      "name": "Ignition Timing Advance for #1 Cylinder",
+      "name_zh": "1缸点火正时提前角",
+      "description": "Ignition timing advance shall be supported by spark ignition vehicles. Ignition timing spark advance in degrees BTDC for #1 cylinder (not including mechanical advance).",
+      "description_zh": "点火式车辆应支持点火正时提前角。1缸上止点前的点火正时提前角度（不包括机械提前量）。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "SPARKADV",
+          "name": "Ignition Timing Advance for #1 Cylinder",
+          "name_zh": "1缸点火正时提前角",
+          "bytes": "A",
+          "formula": "A * 0.5 - 64",
+          "unit": "°",
+          "min": -64.0,
+          "max": 63.5,
+          "display": "SPARKADV: xx °"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 15,
+      "iso_pid": 62479,
+      "name": "Intake Air Temperature",
+      "name_zh": "进气温度",
+      "description": "IAT shall display intake manifold air temperature. IAT may be obtained directly from a sensor, or may be inferred by the control strategy using other sensor inputs.",
+      "description_zh": "IAT显示进气歧管空气温度。IAT可直接从传感器获取，也可由控制策略利用其他传感器输入推算得出。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "IAT",
+          "name": "Intake Air Temperature",
+          "name_zh": "进气温度",
+          "bytes": "A",
+          "formula": "A - 40",
+          "unit": "°C",
+          "min": -40.0,
+          "max": 215.0,
+          "display": "IAT: xxx °C (xxx °F)",
+          "unit_alt": "°F",
+          "alt_factor": 1.8,
+          "alt_offset": 32
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 16,
+      "iso_pid": 62480,
+      "name": "Air Flow Rate from Mass Air Flow Sensor",
+      "name_zh": "空气质量流量传感器的空气流量",
+      "description": "MAF shall display the airflow rate as measured by a vehicle that utilizes a MAF sensor or an equivalent source. If the engine is off and the ignition is on, the actual sensor value reading shall be reported. If the actual sensor reading cannot be reported, the MAF value shall be reported as 0.00 g/s.",
+      "description_zh": "MAF显示使用空气质量流量传感器或等效来源测量的空气流量。发动机关闭且点火开启时，应报告实际传感器读数。如无法报告实际传感器读数，MAF值应报告为0.00 g/s。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "MAF",
+          "name": "Air Flow Rate from Mass Air Flow Sensor",
+          "name_zh": "空气质量流量",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B) * 0.01",
+          "unit": "g/s",
+          "min": 0.0,
+          "max": 655.35,
+          "display": "MAF: xxx.xx g/s (xxxx.x lb/min)",
+          "unit_alt": "lb/min",
+          "alt_factor": 0.13228,
+          "alt_offset": 0
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 17,
+      "iso_pid": 62481,
+      "name": "Absolute Throttle Position",
+      "name_zh": "绝对节气门位置",
+      "description": "Absolute throttle position (not relative or learned) shall be displayed as a normalized value, scaled from 0 to 100%. Throttle position at idle will usually indicate greater than 0%, and at WOT will usually indicate less than 100%.",
+      "description_zh": "绝对节气门位置（非\"相对\"或\"学习\"节气门位置）显示为归一化值，范围0至100%。怠速时节气门位置通常大于0%，全开时通常小于100%。",
+      "data_bytes": 1,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "TP",
+          "name": "Absolute Throttle Position",
+          "name_zh": "绝对节气门位置",
+          "bytes": "A",
+          "formula": "A * 100 / 255",
+          "unit": "%",
+          "min": 0.0,
+          "max": 100.0,
+          "display": "TP: xxx.x %"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 18,
+      "iso_pid": 62482,
+      "name": "Commanded Secondary Air Status",
+      "name_zh": "二次空气指令状态",
+      "description": "Commanded Secondary Air Status. Only one bit should be set at a time. Bits 4-7 are reserved and shall be reported as 0.",
+      "description_zh": "二次空气指令状态。同一时间仅应设置一个位。位4-7为保留位，应报告为0。",
+      "data_bytes": 1,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "AIR_STAT",
+          "name": "Commanded Secondary Air Status",
+          "name_zh": "二次空气指令状态",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": "AIR_STAT:"
+        }
+      ],
+      "bits": [
+        {
+          "byte": "A", "bit": 0,
+          "name": "Upstream of first catalytic converter",
+          "name_zh": "第一催化转化器上游",
+          "v0": "0", "v1": "1",
+          "display": "AIR_STAT: UPS"
+        },
+        {
+          "byte": "A", "bit": 1,
+          "name": "Downstream of first catalytic converter inlet",
+          "name_zh": "第一催化转化器入口下游",
+          "v0": "0", "v1": "1",
+          "display": "AIR_STAT: DNS"
+        },
+        {
+          "byte": "A", "bit": 2,
+          "name": "Atmosphere / off",
+          "name_zh": "大气 / 关闭",
+          "v0": "0", "v1": "1",
+          "display": "AIR_STAT: OFF"
+        },
+        {
+          "byte": "A", "bit": 3,
+          "name": "Pump commanded on for diagnostics",
+          "name_zh": "泵为诊断目的被指令开启",
+          "v0": "0", "v1": "1",
+          "display": "AIR_STAT: DIAG",
+          "note": "Excel source has description typo (shows 'Atmosphere/off'); corrected per Scaling column"
+        }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 19,
+      "iso_pid": 62483,
+      "name": "Location of Oxygen Sensors (2-bank)",
+      "name_zh": "氧传感器位置（双缸组配置）",
+      "description": "Location of Oxygen Sensors, where sensor 1 is closest to the engine. PID $13 shall only be supported if PID $1D is not supported. Recommended for 1 or 2 bank O2 sensor engine configurations.",
+      "description_zh": "氧传感器位置，传感器1最靠近发动机。仅在不支持PID $1D时才应支持PID $13。推荐用于1或2缸组氧传感器发动机配置。",
+      "data_bytes": 1,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "O2SLOC",
+          "name": "Location of oxygen sensors",
+          "name_zh": "氧传感器位置",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": "O2SLOC:"
+        }
+      ],
+      "bits": [
+        {
+          "byte": "A", "bit": 0,
+          "name": "Bank 1 - Sensor 1 present",
+          "name_zh": "气缸组1 - 传感器1存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S11"
+        },
+        {
+          "byte": "A", "bit": 1,
+          "name": "Bank 1 - Sensor 2 present",
+          "name_zh": "气缸组1 - 传感器2存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S12"
+        },
+        {
+          "byte": "A", "bit": 2,
+          "name": "Bank 1 - Sensor 3 present",
+          "name_zh": "气缸组1 - 传感器3存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S13"
+        },
+        {
+          "byte": "A", "bit": 3,
+          "name": "Bank 1 - Sensor 4 present",
+          "name_zh": "气缸组1 - 传感器4存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S14"
+        },
+        {
+          "byte": "A", "bit": 4,
+          "name": "Bank 2 - Sensor 1 present",
+          "name_zh": "气缸组2 - 传感器1存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S21"
+        },
+        {
+          "byte": "A", "bit": 5,
+          "name": "Bank 2 - Sensor 2 present",
+          "name_zh": "气缸组2 - 传感器2存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S22"
+        },
+        {
+          "byte": "A", "bit": 6,
+          "name": "Bank 2 - Sensor 3 present",
+          "name_zh": "气缸组2 - 传感器3存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S23"
+        },
+        {
+          "byte": "A", "bit": 7,
+          "name": "Bank 2 - Sensor 4 present",
+          "name_zh": "气缸组2 - 传感器4存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S24"
+        }
+      ],
+      "numeric_fields": [],
+      "note": "PIDs $14-$1B shall be used for conventional 0-1V O2 sensors. Wide-range/linear O2 sensors shall use PIDs $24-$2B or $34-$3B."
+    },
+    {
+      "pid": 20,
+      "iso_pid": 62484,
+      "name": "O2 Sensor Output Voltage and SHRTFT - Bank 1, Sensor 1",
+      "name_zh": "氧传感器输出电压及短期燃油修正 - 气缸组1，传感器1",
+      "description": "O2S Output Voltage Bank 1, Sensor 1 (uses PID $13) or Bank 1, Sensor 1 (uses PID $1D). SHRTFT reported as $FF if the sensor is not used in the calculation or if SHRTFT is not applicable.",
+      "description_zh": "氧传感器输出电压：气缸组1传感器1（使用PID $13）或气缸组1传感器1（使用PID $1D）。如果该传感器未参与计算或SHRTFT不适用，SHRTFT报告为$FF。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "O2S11",
+          "name": "O2 Sensor Voltage - Bank 1, Sensor 1",
+          "name_zh": "氧传感器电压 - 气缸组1，传感器1",
+          "bytes": "A",
+          "formula": "A * 0.005",
+          "unit": "V",
+          "min": 0.0,
+          "max": 1.275,
+          "display": "O2S11: x.xxx V"
+        },
+        {
+          "label": "SHRTFT11",
+          "name": "SHRTFT associated with O2S - Bank 1, Sensor 1",
+          "name_zh": "关联氧传感器的短期燃油修正 - 气缸组1，传感器1",
+          "bytes": "B",
+          "formula": "B * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "SHRTFT: xxx.x %",
+          "note": "$FF = not used / not applicable"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 21,
+      "iso_pid": 62485,
+      "name": "O2 Sensor Output Voltage and SHRTFT - Bank 1, Sensor 2",
+      "name_zh": "氧传感器输出电压及短期燃油修正 - 气缸组1，传感器2",
+      "description": "O2S Output Voltage Bank 1, Sensor 2 (uses PID $13) or Bank 1, Sensor 2 (uses PID $1D).",
+      "description_zh": "氧传感器输出电压：气缸组1传感器2（使用PID $13）或气缸组1传感器2（使用PID $1D）。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "O2S12",
+          "name": "O2 Sensor Voltage - Bank 1, Sensor 2",
+          "name_zh": "氧传感器电压 - 气缸组1，传感器2",
+          "bytes": "A",
+          "formula": "A * 0.005",
+          "unit": "V",
+          "min": 0.0,
+          "max": 1.275,
+          "display": "O2S12: x.xxx V"
+        },
+        {
+          "label": "SHRTFT12",
+          "name": "SHRTFT associated with O2S - Bank 1, Sensor 2",
+          "name_zh": "关联氧传感器的短期燃油修正 - 气缸组1，传感器2",
+          "bytes": "B",
+          "formula": "B * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "SHRTFT: xxx.x %",
+          "note": "$FF = not used / not applicable"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 22,
+      "iso_pid": 62486,
+      "name": "O2 Sensor Output Voltage and SHRTFT - Bank 1 Sensor 3 / Bank 2 Sensor 1",
+      "name_zh": "氧传感器输出电压及短期燃油修正 - 组1传感器3 / 组2传感器1",
+      "description": "O2S Output Voltage Bank 1, Sensor 3 (uses PID $13) or Bank 2, Sensor 1 (uses PID $1D).",
+      "description_zh": "氧传感器输出电压：气缸组1传感器3（使用PID $13）或气缸组2传感器1（使用PID $1D）。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "O2S13_21",
+          "name": "O2 Sensor Voltage - B1S3 ($13) / B2S1 ($1D)",
+          "name_zh": "氧传感器电压 - 组1传感器3($13) / 组2传感器1($1D)",
+          "bytes": "A",
+          "formula": "A * 0.005",
+          "unit": "V",
+          "min": 0.0,
+          "max": 1.275,
+          "display": "O2Sxh: x.xxx V"
+        },
+        {
+          "label": "SHRTFT13_21",
+          "name": "SHRTFT associated with O2S - B1S3 ($13) / B2S1 ($1D)",
+          "name_zh": "关联氧传感器的短期燃油修正 - 组1传感器3($13) / 组2传感器1($1D)",
+          "bytes": "B",
+          "formula": "B * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "SHRTFT: xxx.x %",
+          "note": "$FF = not used / not applicable"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 23,
+      "iso_pid": 62487,
+      "name": "O2 Sensor Output Voltage and SHRTFT - Bank 1 Sensor 4 / Bank 2 Sensor 2",
+      "name_zh": "氧传感器输出电压及短期燃油修正 - 组1传感器4 / 组2传感器2",
+      "description": "O2S Output Voltage Bank 1, Sensor 4 (uses PID $13) or Bank 2, Sensor 2 (uses PID $1D).",
+      "description_zh": "氧传感器输出电压：气缸组1传感器4（使用PID $13）或气缸组2传感器2（使用PID $1D）。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "O2S14_22",
+          "name": "O2 Sensor Voltage - B1S4 ($13) / B2S2 ($1D)",
+          "name_zh": "氧传感器电压 - 组1传感器4($13) / 组2传感器2($1D)",
+          "bytes": "A",
+          "formula": "A * 0.005",
+          "unit": "V",
+          "min": 0.0,
+          "max": 1.275,
+          "display": "O2Sxh: x.xxx V"
+        },
+        {
+          "label": "SHRTFT14_22",
+          "name": "SHRTFT associated with O2S - B1S4 ($13) / B2S2 ($1D)",
+          "name_zh": "关联氧传感器的短期燃油修正 - 组1传感器4($13) / 组2传感器2($1D)",
+          "bytes": "B",
+          "formula": "B * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "SHRTFT: xxx.x %",
+          "note": "$FF = not used / not applicable"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 24,
+      "iso_pid": 62488,
+      "name": "O2 Sensor Output Voltage and SHRTFT - Bank 2 Sensor 1 / Bank 3 Sensor 1",
+      "name_zh": "氧传感器输出电压及短期燃油修正 - 组2传感器1 / 组3传感器1",
+      "description": "O2S Output Voltage Bank 2, Sensor 1 (uses PID $13) or Bank 3, Sensor 1 (uses PID $1D).",
+      "description_zh": "氧传感器输出电压：气缸组2传感器1（使用PID $13）或气缸组3传感器1（使用PID $1D）。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "O2S21_31",
+          "name": "O2 Sensor Voltage - B2S1 ($13) / B3S1 ($1D)",
+          "name_zh": "氧传感器电压 - 组2传感器1($13) / 组3传感器1($1D)",
+          "bytes": "A",
+          "formula": "A * 0.005",
+          "unit": "V",
+          "min": 0.0,
+          "max": 1.275,
+          "display": "O2Sxh: x.xxx V"
+        },
+        {
+          "label": "SHRTFT21_31",
+          "name": "SHRTFT associated with O2S - B2S1 ($13) / B3S1 ($1D)",
+          "name_zh": "关联氧传感器的短期燃油修正 - 组2传感器1($13) / 组3传感器1($1D)",
+          "bytes": "B",
+          "formula": "B * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "SHRTFT: xxx.x %",
+          "note": "$FF = not used / not applicable"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 25,
+      "iso_pid": 62489,
+      "name": "O2 Sensor Output Voltage and SHRTFT - Bank 2 Sensor 2 / Bank 3 Sensor 2",
+      "name_zh": "氧传感器输出电压及短期燃油修正 - 组2传感器2 / 组3传感器2",
+      "description": "O2S Output Voltage Bank 2, Sensor 2 (uses PID $13) or Bank 3, Sensor 2 (uses PID $1D).",
+      "description_zh": "氧传感器输出电压：气缸组2传感器2（使用PID $13）或气缸组3传感器2（使用PID $1D）。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "O2S22_32",
+          "name": "O2 Sensor Voltage - B2S2 ($13) / B3S2 ($1D)",
+          "name_zh": "氧传感器电压 - 组2传感器2($13) / 组3传感器2($1D)",
+          "bytes": "A",
+          "formula": "A * 0.005",
+          "unit": "V",
+          "min": 0.0,
+          "max": 1.275,
+          "display": "O2Sxh: x.xxx V"
+        },
+        {
+          "label": "SHRTFT22_32",
+          "name": "SHRTFT associated with O2S - B2S2 ($13) / B3S2 ($1D)",
+          "name_zh": "关联氧传感器的短期燃油修正 - 组2传感器2($13) / 组3传感器2($1D)",
+          "bytes": "B",
+          "formula": "B * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "SHRTFT: xxx.x %",
+          "note": "$FF = not used / not applicable"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 26,
+      "iso_pid": 62490,
+      "name": "O2 Sensor Output Voltage and SHRTFT - Bank 2 Sensor 3 / Bank 4 Sensor 1",
+      "name_zh": "氧传感器输出电压及短期燃油修正 - 组2传感器3 / 组4传感器1",
+      "description": "O2S Output Voltage Bank 2, Sensor 3 (uses PID $13) or Bank 4, Sensor 1 (uses PID $1D).",
+      "description_zh": "氧传感器输出电压：气缸组2传感器3（使用PID $13）或气缸组4传感器1（使用PID $1D）。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "O2S23_41",
+          "name": "O2 Sensor Voltage - B2S3 ($13) / B4S1 ($1D)",
+          "name_zh": "氧传感器电压 - 组2传感器3($13) / 组4传感器1($1D)",
+          "bytes": "A",
+          "formula": "A * 0.005",
+          "unit": "V",
+          "min": 0.0,
+          "max": 1.275,
+          "display": "O2Sxh: x.xxx V"
+        },
+        {
+          "label": "SHRTFT23_41",
+          "name": "SHRTFT associated with O2S - B2S3 ($13) / B4S1 ($1D)",
+          "name_zh": "关联氧传感器的短期燃油修正 - 组2传感器3($13) / 组4传感器1($1D)",
+          "bytes": "B",
+          "formula": "B * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "SHRTFT: xxx.x %",
+          "note": "$FF = not used / not applicable"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+    {
+      "pid": 27,
+      "iso_pid": 62491,
+      "name": "O2 Sensor Output Voltage and SHRTFT - Bank 2 Sensor 4 / Bank 4 Sensor 2",
+      "name_zh": "氧传感器输出电压及短期燃油修正 - 组2传感器4 / 组4传感器2",
+      "description": "O2S Output Voltage Bank 2, Sensor 4 (uses PID $13) or Bank 4, Sensor 2 (uses PID $1D).",
+      "description_zh": "氧传感器输出电压：气缸组2传感器4（使用PID $13）或气缸组4传感器2（使用PID $1D）。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "O2S24_42",
+          "name": "O2 Sensor Voltage - B2S4 ($13) / B4S2 ($1D)",
+          "name_zh": "氧传感器电压 - 组2传感器4($13) / 组4传感器2($1D)",
+          "bytes": "A",
+          "formula": "A * 0.005",
+          "unit": "V",
+          "min": 0.0,
+          "max": 1.275,
+          "display": "O2Sxh: x.xxx V"
+        },
+        {
+          "label": "SHRTFT24_42",
+          "name": "SHRTFT associated with O2S - B2S4 ($13) / B4S2 ($1D)",
+          "name_zh": "关联氧传感器的短期燃油修正 - 组2传感器4($13) / 组4传感器2($1D)",
+          "bytes": "B",
+          "formula": "B * 100 / 128 - 100",
+          "unit": "%",
+          "min": -100.0,
+          "max": 99.22,
+          "display": "SHRTFT: xxx.x %",
+          "note": "$FF = not used / not applicable"
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    },
+	    {
+      "pid": 28,
+      "iso_pid": 62492,
+      "name": "OBD Requirements to Which Vehicle or Engine is Certified",
+      "name_zh": "车辆或发动机所认证的OBD要求",
+      "description": "OBD requirements to which vehicle or engine is certified. PID $1C may be reported by a single ECU or by any OBD ECU that activates the MIL. If supported by multiple ECUs, reported values do not have to be identical but each ECU shall accurately report its OBD compliance level.",
+      "description_zh": "车辆或发动机所认证的OBD要求。PID $1C可由单个ECU或任何激活MIL的OBD ECU报告。如果多个ECU支持，报告值不必相同，但每个ECU应准确报告其OBD合规等级。",
+      "data_bytes": 1,
+      "type": "enum",
+      "enum_byte": "A",
+      "display": "OBDSUP:",
+      "enums": [
+        {
+          "code": 1,
+          "name": "OBD II (California ARB)",
+          "name_zh": "OBD II（加州ARB）",
+          "desc": "California-only (including other CAA Sec. 177 states) OBD II certified systems.",
+          "desc_zh": "仅加利福尼亚州（包括其他CAA第177条款州）OBD II认证系统。",
+          "display": "OBD II"
+        },
+        {
+          "code": 2,
+          "name": "OBD (Federal EPA)",
+          "name_zh": "OBD（联邦EPA）",
+          "desc": "US Federal only OBD-certified (including vehicles using US Federal allowance to certify to California OBD II but then turn off/disable 0.020\" evap leak detection prior to 2017 MY).",
+          "desc_zh": "仅美国联邦OBD认证（包括利用联邦豁免认证加州OBD II但在2017车型年前关闭/禁用0.020英寸蒸发泄漏检测的车辆）。",
+          "display": "OBD"
+        },
+        {
+          "code": 3,
+          "name": "OBD and OBD II",
+          "name_zh": "OBD和OBD II",
+          "desc": "US 50-state certified or non-California vehicles certified to California OBD II requirements (including 0.020\" evap leak detection) in lieu of US Federal OBD.",
+          "desc_zh": "美国50州认证或非加州车辆按加州OBD II要求（包括0.020英寸蒸发泄漏检测）代替联邦OBD认证。",
+          "display": "OBD and OBD II"
+        },
+        {
+          "code": 4,
+          "name": "OBD I",
+          "name_zh": "OBD I",
+          "desc": "Certified to California OBD I requirements (pre-1996 model year California certified vehicles).",
+          "desc_zh": "按加州OBD I要求认证（1996车型年前加州认证车辆）。",
+          "display": "OBD I"
+        },
+        {
+          "code": 5,
+          "name": "Not OBD compliant",
+          "name_zh": "不符合OBD",
+          "desc": "Not certified to any OBD requirements (e.g., US Federal pre-1996 MY, Canadian pre-1997 MY, non-street legal applications).",
+          "desc_zh": "未按任何OBD要求认证（如1996车型年前的联邦车辆、1997车型年前的加拿大车辆、非公路合法用途）。",
+          "display": "NO OBD"
+        },
+        {
+          "code": 6,
+          "name": "EOBD",
+          "name_zh": "EOBD（欧洲OBD）",
+          "desc": "Euro OBD.",
+          "desc_zh": "欧洲OBD。",
+          "display": "EOBD"
+        },
+        {
+          "code": 7,
+          "name": "EOBD and OBD II",
+          "name_zh": "EOBD和OBD II",
+          "desc": "Euro OBD and California OBD-II.",
+          "desc_zh": "欧洲OBD和加州OBD-II。",
+          "display": "EOBD and OBD II"
+        },
+        {
+          "code": 8,
+          "name": "EOBD and OBD",
+          "name_zh": "EOBD和OBD",
+          "desc": "Euro OBD and US Federal OBD.",
+          "desc_zh": "欧洲OBD和美国联邦OBD。",
+          "display": "EOBD and OBD"
+        },
+        {
+          "code": 9,
+          "name": "EOBD, OBD and OBD II",
+          "name_zh": "EOBD、OBD和OBD II",
+          "desc": "Euro OBD, US Federal OBD, and California OBD-II.",
+          "desc_zh": "欧洲OBD、美国联邦OBD和加州OBD-II。",
+          "display": "EOBD, OBD and OBD II"
+        },
+        {
+          "code": 10,
+          "name": "JOBD",
+          "name_zh": "JOBD（日本OBD）",
+          "desc": "Japan OBD.",
+          "desc_zh": "日本OBD。",
+          "display": "JOBD"
+        },
+        {
+          "code": 11,
+          "name": "JOBD and OBD II",
+          "name_zh": "JOBD和OBD II",
+          "desc": "Japan OBD and California OBD-II.",
+          "desc_zh": "日本OBD和加州OBD-II。",
+          "display": "JOBD and OBD II"
+        },
+        {
+          "code": 12,
+          "name": "JOBD and EOBD",
+          "name_zh": "JOBD和EOBD",
+          "desc": "Japan OBD and Euro OBD.",
+          "desc_zh": "日本OBD和欧洲OBD。",
+          "display": "JOBD and EOBD"
+        },
+        {
+          "code": 13,
+          "name": "JOBD, EOBD, and OBD II",
+          "name_zh": "JOBD、EOBD和OBD II",
+          "desc": "Japan OBD, Euro OBD and California OBD-II.",
+          "desc_zh": "日本OBD、欧洲OBD和加州OBD-II。",
+          "display": "JOBD, EOBD, and OBD II"
+        },
+        {
+          "code": 14,
+          "name": "OBD, EOBD and KOBD",
+          "name_zh": "OBD、EOBD和KOBD",
+          "desc": "OBD, Euro OBD and Korea OBD.",
+          "desc_zh": "OBD、欧洲OBD和韩国OBD。",
+          "display": "OBD, EOBD and KOBD"
+        },
+        {
+          "code": 15,
+          "name": "OBD, OBD II, EOBD and KOBD",
+          "name_zh": "OBD、OBD II、EOBD和KOBD",
+          "desc": "OBD, OBD II, Euro OBD and Korea OBD.",
+          "desc_zh": "OBD、OBD II、欧洲OBD和韩国OBD。",
+          "display": "OBD, OBD II, EOBD and KOBD"
+        },
+        {
+          "code": 16,
+          "name": "SAE/ISO reserved",
+          "name_zh": "SAE/ISO保留",
+          "desc": "SAE/ISO reserved.",
+          "desc_zh": "SAE/ISO保留。",
+          "display": "SAE/ISO reserved"
+        },
+        {
+          "code": 17,
+          "name": "Engine Manufacturer Diagnostics (EMD)",
+          "name_zh": "发动机制造商诊断(EMD)",
+          "desc": "US Heavy-duty vehicles (>14,000 lbs) certified to EMD under title 13, CCR section 1971 (e.g., 2007-2009 MY diesel and gasoline engines).",
+          "desc_zh": "根据第13编CCR第1971条认证EMD的美国重型车辆(>14,000磅)（如2007-2009车型年柴油和汽油发动机）。",
+          "display": "EMD"
+        },
+        {
+          "code": 18,
+          "name": "Engine Manufacturer Diagnostics Enhanced (EMD+)",
+          "name_zh": "增强型发动机制造商诊断(EMD+)",
+          "desc": "US Heavy-duty engines (>14,000 lbs) certified to EMD+ under title 13, CCR section 1971.1 (e.g., 2010-2012 MY diesel/gasoline not certified to HD OBD, 2013-2019 MY alternate fuel engines).",
+          "desc_zh": "根据第13编CCR第1971.1条认证EMD+的美国重型发动机(>14,000磅)（如2010-2012车型年未认证HD OBD的柴油/汽油机，2013-2019车型年替代燃料发动机）。",
+          "display": "EMD+"
+        },
+        {
+          "code": 19,
+          "name": "Heavy Duty On-Board Diagnostics (Child/Partial)",
+          "name_zh": "重型车载诊断(子级/部分)",
+          "desc": "US Heavy-duty engines (>14,000 lbs) certified to HDOBD as an extrapolated/child rating under title 13, CCR section 1971.1(d)(7.1.2) or (7.2.3).",
+          "desc_zh": "根据第13编CCR第1971.1(d)(7.1.2)或(7.2.3)条作为外推/子级评定认证HDOBD的美国重型发动机(>14,000磅)。",
+          "display": "HD OBD-C"
+        },
+        {
+          "code": 20,
+          "name": "Heavy Duty On-Board Diagnostics",
+          "name_zh": "重型车载诊断(HD OBD)",
+          "desc": "US Heavy-duty engines (>14,000 lbs) certified to HDOBD as a full OBD/parent rating under title 13, CCR section 1971.1(d)(7.1.1) or (7.2.2).",
+          "desc_zh": "根据第13编CCR第1971.1(d)(7.1.1)或(7.2.2)条作为完整OBD/父级评定认证HDOBD的美国重型发动机(>14,000磅)。",
+          "display": "HD OBD"
+        },
+        {
+          "code": 21,
+          "name": "World Wide Harmonized OBD",
+          "name_zh": "全球统一OBD(WWH-OBD)",
+          "desc": "World Wide Harmonized OBD.",
+          "desc_zh": "全球统一OBD。",
+          "display": "WWH OBD"
+        },
+        {
+          "code": 22,
+          "name": "SAE/ISO reserved",
+          "name_zh": "SAE/ISO保留",
+          "desc": "SAE/ISO reserved.",
+          "desc_zh": "SAE/ISO保留。",
+          "display": "SAE/ISO reserved"
+        },
+        {
+          "code": 23,
+          "name": "Heavy Duty Euro OBD Stage I without NOx Control",
+          "name_zh": "重型欧洲OBD第I阶段（无NOx控制）",
+          "desc": "Heavy Duty Euro OBD Stage I without NOx control.",
+          "desc_zh": "重型欧洲OBD第I阶段（无NOx控制）。",
+          "display": "HD EOBD-I"
+        },
+        {
+          "code": 24,
+          "name": "Heavy Duty Euro OBD Stage I with NOx Control",
+          "name_zh": "重型欧洲OBD第I阶段（带NOx控制）",
+          "desc": "Heavy Duty Euro OBD Stage I with NOx control.",
+          "desc_zh": "重型欧洲OBD第I阶段（带NOx控制）。",
+          "display": "HD EOBD-I N"
+        },
+        {
+          "code": 25,
+          "name": "Heavy Duty Euro OBD Stage II without NOx Control",
+          "name_zh": "重型欧洲OBD第II阶段（无NOx控制）",
+          "desc": "Heavy Duty Euro OBD Stage II without NOx control.",
+          "desc_zh": "重型欧洲OBD第II阶段（无NOx控制）。",
+          "display": "HD EOBD-II"
+        },
+        {
+          "code": 26,
+          "name": "Heavy Duty Euro OBD Stage II with NOx Control",
+          "name_zh": "重型欧洲OBD第II阶段（带NOx控制）",
+          "desc": "Heavy Duty Euro OBD Stage II with NOx control.",
+          "desc_zh": "重型欧洲OBD第II阶段（带NOx控制）。",
+          "display": "HD EOBD-II N"
+        },
+        {
+          "code": 27,
+          "name": "SAE/ISO reserved",
+          "name_zh": "SAE/ISO保留",
+          "desc": "SAE/ISO reserved.",
+          "desc_zh": "SAE/ISO保留。",
+          "display": "SAE/ISO reserved"
+        },
+        {
+          "code": 28,
+          "name": "Brazil OBD Phase 1",
+          "name_zh": "巴西OBD第1阶段",
+          "desc": "Brazil OBD Phase 1.",
+          "desc_zh": "巴西OBD第1阶段。",
+          "display": "OBDBr-1"
+        },
+        {
+          "code": 29,
+          "name": "Brazil OBD Phase 2 and Phase 2+",
+          "name_zh": "巴西OBD第2阶段和第2+阶段",
+          "desc": "Brazil OBD Phase 2 and Phase 2+.",
+          "desc_zh": "巴西OBD第2阶段和第2+阶段。",
+          "display": "OBDBr-2"
+        },
+        {
+          "code": 30,
+          "name": "Korean OBD",
+          "name_zh": "韩国OBD(KOBD)",
+          "desc": "Korean OBD.",
+          "desc_zh": "韩国OBD。",
+          "display": "KOBD"
+        },
+        {
+          "code": 31,
+          "name": "India OBD I",
+          "name_zh": "印度OBD I",
+          "desc": "India OBD I.",
+          "desc_zh": "印度OBD I。",
+          "display": "IOBD I"
+        },
+        {
+          "code": 32,
+          "name": "India OBD II",
+          "name_zh": "印度OBD II",
+          "desc": "India OBD II.",
+          "desc_zh": "印度OBD II。",
+          "display": "IOBD II"
+        },
+        {
+          "code": 33,
+          "name": "Euro VI",
+          "name_zh": "欧VI（重型欧洲OBD第VI阶段）",
+          "desc": "Heavy Duty Euro OBD Stage VI.",
+          "desc_zh": "重型欧洲OBD第VI阶段。",
+          "display": "HD EOBD-VI"
+        },
+        {
+          "code": 34,
+          "name": "OBD, OBD II and HD OBD",
+          "name_zh": "OBD、OBD II和HD OBD",
+          "desc": "OBD, OBD II and HD OBD.",
+          "desc_zh": "OBD、OBD II和HD OBD。",
+          "display": "OBD, OBD II and HD OBD"
+        },
+        {
+          "code": 35,
+          "name": "Brazil OBD Phase 3",
+          "name_zh": "巴西OBD第3阶段",
+          "desc": "Brazil OBD Phase 3.",
+          "desc_zh": "巴西OBD第3阶段。",
+          "display": "OBDBr-3"
+        },
+        {
+          "code": 36,
+          "name": "Motorcycle, Euro OBD-I",
+          "name_zh": "摩托车，欧洲OBD-I",
+          "desc": "Motorcycle, Euro OBD-I.",
+          "desc_zh": "摩托车，欧洲OBD-I。",
+          "display": "MC EOBD-I"
+        },
+        {
+          "code": 37,
+          "name": "Motorcycle, Euro OBD-II",
+          "name_zh": "摩托车，欧洲OBD-II",
+          "desc": "Motorcycle, Euro OBD-II.",
+          "desc_zh": "摩托车，欧洲OBD-II。",
+          "display": "MC EOBD-II"
+        },
+        {
+          "code": 38,
+          "name": "Motorcycle, China OBD-I",
+          "name_zh": "摩托车，中国OBD-I",
+          "desc": "Motorcycle, China OBD-I.",
+          "desc_zh": "摩托车，中国OBD-I。",
+          "display": "MC COBD-I"
+        },
+        {
+          "code": 39,
+          "name": "Motorcycle, Taiwan OBD-I",
+          "name_zh": "摩托车，台湾OBD-I",
+          "desc": "Motorcycle, Taiwan OBD-I.",
+          "desc_zh": "摩托车，台湾OBD-I。",
+          "display": "MC TOBD-I"
+        },
+        {
+          "code": 40,
+          "name": "Motorcycle, Japan OBD-I",
+          "name_zh": "摩托车，日本OBD-I",
+          "desc": "Motorcycle, Japan OBD-I.",
+          "desc_zh": "摩托车，日本OBD-I。",
+          "display": "MC JOBD-I"
+        },
+        {
+          "code": 41,
+          "name": "China Nationwide Stage 6",
+          "name_zh": "中国国六",
+          "desc": "China Nationwide Stage 6.",
+          "desc_zh": "中国全国第六阶段排放标准。",
+          "display": "CN-OBD-6"
+        },
+        {
+          "code": 42,
+          "name": "Brazil OBD Diesel",
+          "name_zh": "巴西OBD柴油",
+          "desc": "Brazil OBD Diesel.",
+          "desc_zh": "巴西OBD柴油。",
+          "display": "OBDBr-D"
+        }
+      ],
+      "note": "Codes 43-250 ($2B-$FA): ISO/SAE reserved. Codes 251-255 ($FB-$FF): SAE J1939 special meaning, not available for assignment."
+    },
+    {
+      "pid": 29,
+      "iso_pid": 62493,
+      "name": "Location of Oxygen Sensors (4-bank)",
+      "name_zh": "氧传感器位置（四缸组配置）",
+      "description": "Location of Oxygen Sensors, where sensor 1 is closest to the engine. PID $1D shall only be supported if PID $13 is not supported. In no case shall a vehicle support both PIDs. Recommended for 3 or 4 bank O2 sensor engine configurations.",
+      "description_zh": "氧传感器位置，传感器1最靠近发动机。仅在不支持PID $13时才应支持PID $1D。一辆车不应同时支持两个PID。推荐用于3或4缸组氧传感器发动机配置。",
+      "data_bytes": 1,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "O2SLOC",
+          "name": "Location of oxygen sensors",
+          "name_zh": "氧传感器位置",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": "O2SLOC:"
+        }
+      ],
+      "bits": [
+        {
+          "byte": "A", "bit": 0,
+          "name": "Bank 1 - Sensor 1 present",
+          "name_zh": "气缸组1 - 传感器1存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S11"
+        },
+        {
+          "byte": "A", "bit": 1,
+          "name": "Bank 1 - Sensor 2 present",
+          "name_zh": "气缸组1 - 传感器2存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S12"
+        },
+        {
+          "byte": "A", "bit": 2,
+          "name": "Bank 2 - Sensor 1 present",
+          "name_zh": "气缸组2 - 传感器1存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S21"
+        },
+        {
+          "byte": "A", "bit": 3,
+          "name": "Bank 2 - Sensor 2 present",
+          "name_zh": "气缸组2 - 传感器2存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S22"
+        },
+        {
+          "byte": "A", "bit": 4,
+          "name": "Bank 3 - Sensor 1 present",
+          "name_zh": "气缸组3 - 传感器1存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S31"
+        },
+        {
+          "byte": "A", "bit": 5,
+          "name": "Bank 3 - Sensor 2 present",
+          "name_zh": "气缸组3 - 传感器2存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S32"
+        },
+        {
+          "byte": "A", "bit": 6,
+          "name": "Bank 4 - Sensor 1 present",
+          "name_zh": "气缸组4 - 传感器1存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S41"
+        },
+        {
+          "byte": "A", "bit": 7,
+          "name": "Bank 4 - Sensor 2 present",
+          "name_zh": "气缸组4 - 传感器2存在",
+          "v0": "0", "v1": "1",
+          "display": "O2S42",
+          "note": "Excel source has description typo ('Sensor 1'); corrected per Scaling column to 'Sensor 2'"
+        }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 30,
+      "iso_pid": 62494,
+      "name": "Auxiliary Input Status",
+      "name_zh": "辅助输入状态",
+      "description": "Auxiliary Input Status. Only bit 0 is defined; remaining bits are reserved and shall be reported as 0.",
+      "description_zh": "辅助输入状态。仅位0有定义，其余位为保留位，应报告为0。",
+      "data_bytes": 1,
+      "type": "bitmap",
+      "items": [
+        {
+          "label": "AUX_STAT",
+          "name": "Auxiliary Input Status",
+          "name_zh": "辅助输入状态",
+          "bytes": "A",
+          "formula": "Bit Mapped",
+          "unit": "",
+          "min": 0.0,
+          "max": 0.0,
+          "display": "Auxiliary Input Status"
+        }
+      ],
+      "bits": [
+        {
+          "byte": "A", "bit": 0,
+          "name": "Power Take Off (PTO) Status",
+          "name_zh": "取力器(PTO)状态",
+          "v0": "OFF", "v1": "ON",
+          "v0_zh": "未激活", "v1_zh": "激活",
+          "display": "PTO_STAT: OFF or ON"
+        }
+      ],
+      "numeric_fields": []
+    },
+    {
+      "pid": 31,
+      "iso_pid": 62495,
+      "name": "Time Since Engine Start",
+      "name_zh": "发动机启动后运行时间",
+      "description": "For non-hybrid vehicles, RUNTM shall increment after ignition on and engine running. Reset to zero during every control module power-up and when entering key-on engine-off. Limited to 65,535 seconds, shall not wrap around. For hybrid vehicles, RUNTM shall increment after ignition on and engine running, or after propulsion system is active if vehicle can start in electric-only mode. Continues incrementing even if engine is turned off by vehicle control system.",
+      "description_zh": "对于非混合动力车辆，RUNTM在点火开启且发动机运行后递增。每次控制模块上电和进入钥匙开/发动机关状态时归零。上限65,535秒，不回绕。对于混合动力车辆，RUNTM在点火开启且发动机运行后递增；如果车辆可在纯电模式启动，则在驱动系统激活后递增。即使发动机被车辆控制系统关闭也继续递增。",
+      "data_bytes": 2,
+      "type": "numeric",
+      "items": [
+        {
+          "label": "RUNTM",
+          "name": "Time Since Engine Start",
+          "name_zh": "发动机启动后运行时间",
+          "bytes": "A,B",
+          "formula": "(A * 256 + B)",
+          "unit": "sec",
+          "min": 0.0,
+          "max": 65535.0,
+          "display": "RUNTM: xxxxx sec."
+        }
+      ],
+      "bits": [],
+      "numeric_fields": []
+    }
+  ]
+}

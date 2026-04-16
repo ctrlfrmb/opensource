@@ -1,0 +1,132 @@
+{
+  "language": "en",
+  "info_types": [
+    {
+      "id": 32, "iso_id": 63520,
+      "name": "Supported InfoTypes [$21-$40]", "name_zh": "支持的信息类型 [$21-$40]",
+      "format": "supported", "data_bytes": 4,
+      "_sub_fields": []
+    },
+    {
+      "id": 33, "iso_id": 63521,
+      "name": "Driver-Selectable Operating Modes Off-cycle Credit", "name_zh": "驾驶员可选操作模式非循环积分",
+      "description": "40 bytes: 10 fields × 4 bytes. Eco mode + 4 driver modes, Recent/Lifetime. 1 s/bit.",
+      "description_zh": "40字节：10个字段×4字节。Eco模式+4个驾驶员模式，近期/终身。1秒/位。",
+      "format": "structured", "data_bytes": 40,
+      "_sub_fields": [
+        { "index": 0, "label": "EDSM_TIME-R", "name": "Eco Driver-Selectable Mode Timer (Recent)", "name_zh": "Eco驾驶员可选模式计时器（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 1, "label": "EDSM_TIME-L", "name": "Eco Driver-Selectable Mode Timer (Lifetime)", "name_zh": "Eco驾驶员可选模式计时器（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 2, "label": "DSM1_TIME-R", "name": "Driver-Selectable Mode 1 Timer (Recent)", "name_zh": "驾驶员可选模式1计时器（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 3, "label": "DSM1_TIME-L", "name": "Driver-Selectable Mode 1 Timer (Lifetime)", "name_zh": "驾驶员可选模式1计时器（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 4, "label": "DSM2_TIME-R", "name": "Driver-Selectable Mode 2 Timer (Recent)", "name_zh": "驾驶员可选模式2计时器（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 5, "label": "DSM2_TIME-L", "name": "Driver-Selectable Mode 2 Timer (Lifetime)", "name_zh": "驾驶员可选模式2计时器（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 6, "label": "DSM3_TIME-R", "name": "Driver-Selectable Mode 3 Timer (Recent)", "name_zh": "驾驶员可选模式3计时器（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 7, "label": "DSM3_TIME-L", "name": "Driver-Selectable Mode 3 Timer (Lifetime)", "name_zh": "驾驶员可选模式3计时器（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 8, "label": "DSM4_TIME-R", "name": "Driver-Selectable Mode 4 Timer (Recent)", "name_zh": "驾驶员可选模式4计时器（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 9, "label": "DSM4_TIME-L", "name": "Driver-Selectable Mode 4 Timer (Lifetime)", "name_zh": "驾驶员可选模式4计时器（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" }
+      ]
+    },
+    {
+      "id": 34, "iso_id": 63522,
+      "name": "Run Time for Stop-Start and Coasting Off-cycle Credit", "name_zh": "启停和滑行非循环积分运行时间",
+      "description": "24 bytes: 6 fields × 4 bytes. ISS/ERC/EOC timers. 1 s/bit.",
+      "description_zh": "24字节：6个字段×4字节。ISS/ERC/EOC计时器。1秒/位。",
+      "format": "structured", "data_bytes": 24,
+      "_sub_fields": [
+        { "index": 0, "label": "ISS_TIME-R", "name": "Idle Stop-Start Timer (Recent)", "name_zh": "怠速启停计时器（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 1, "label": "ISS_TIME-L", "name": "Idle Stop-Start Timer (Lifetime)", "name_zh": "怠速启停计时器（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 2, "label": "ERC_TIME-R", "name": "Engine Running Coasting Timer (Recent)", "name_zh": "发动机运行滑行计时器（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 3, "label": "ERC_TIME-L", "name": "Engine Running Coasting Timer (Lifetime)", "name_zh": "发动机运行滑行计时器（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 4, "label": "EOC_TIME-R", "name": "Engine Off Coasting Timer (Recent)", "name_zh": "发动机关闭滑行计时器（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 5, "label": "EOC_TIME-L", "name": "Engine Off Coasting Timer (Lifetime)", "name_zh": "发动机关闭滑行计时器（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" }
+      ]
+    },
+    {
+      "id": 35, "iso_id": 63523,
+      "name": "Driver Coaching Technology Off-cycle Credit", "name_zh": "驾驶员教练技术非循环积分",
+      "description": "48 bytes: 12 fields × 4 bytes. 3 technologies × (Enabled/Utilized) × (Recent/Lifetime). 1 count/bit.",
+      "description_zh": "48字节：12个字段×4字节。3个技术×（启用/利用）×（近期/终身）。1次/位。",
+      "format": "structured", "data_bytes": 48,
+      "_sub_fields": [
+        { "index": 0, "label": "DCTE1_CNTS-R", "name": "DCT #1 Enabled Counter (Recent)", "name_zh": "驾驶教练技术#1启用计数（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 1, "label": "DCTU1_CNTS-R", "name": "DCT #1 Utilized Counter (Recent)", "name_zh": "驾驶教练技术#1利用计数（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 2, "label": "DCTE1_CNTS-L", "name": "DCT #1 Enabled Counter (Lifetime)", "name_zh": "驾驶教练技术#1启用计数（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 3, "label": "DCTU1_CNTS-L", "name": "DCT #1 Utilized Counter (Lifetime)", "name_zh": "驾驶教练技术#1利用计数（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 4, "label": "DCTE2_CNTS-R", "name": "DCT #2 Enabled Counter (Recent)", "name_zh": "驾驶教练技术#2启用计数（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 5, "label": "DCTU2_CNTS-R", "name": "DCT #2 Utilized Counter (Recent)", "name_zh": "驾驶教练技术#2利用计数（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 6, "label": "DCTE2_CNTS-L", "name": "DCT #2 Enabled Counter (Lifetime)", "name_zh": "驾驶教练技术#2启用计数（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 7, "label": "DCTU2_CNTS-L", "name": "DCT #2 Utilized Counter (Lifetime)", "name_zh": "驾驶教练技术#2利用计数（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 8, "label": "DCTE3_CNTS-R", "name": "DCT #3 Enabled Counter (Recent)", "name_zh": "驾驶教练技术#3启用计数（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 9, "label": "DCTU3_CNTS-R", "name": "DCT #3 Utilized Counter (Recent)", "name_zh": "驾驶教练技术#3利用计数（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 10, "label": "DCTE3_CNTS-L", "name": "DCT #3 Enabled Counter (Lifetime)", "name_zh": "驾驶教练技术#3启用计数（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" },
+        { "index": 11, "label": "DCTU3_CNTS-L", "name": "DCT #3 Utilized Counter (Lifetime)", "name_zh": "驾驶教练技术#3利用计数（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "counts" }
+      ]
+    },
+    {
+      "id": 36, "iso_id": 63524,
+      "name": "Active Powertrain Warm-up Features Off-cycle Credit", "name_zh": "主动动力总成暖机特性非循环积分",
+      "description": "16 bytes: 4 fields × 4 bytes. Engine/Transmission warm-up. 1 s/bit.",
+      "description_zh": "16字节：4个字段×4字节。发动机/变速器暖机。1秒/位。",
+      "format": "structured", "data_bytes": 16,
+      "_sub_fields": [
+        { "index": 0, "label": "EWU_TIME-R", "name": "Active Engine Warm-up Timer (Recent)", "name_zh": "主动发动机暖机计时器（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 1, "label": "EWU_TIME-L", "name": "Active Engine Warm-up Timer (Lifetime)", "name_zh": "主动发动机暖机计时器（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 2, "label": "TWU_TIME-R", "name": "Active Transmission Warm-up Timer (Recent)", "name_zh": "主动变速器暖机计时器（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 3, "label": "TWU_TIME-L", "name": "Active Transmission Warm-up Timer (Lifetime)", "name_zh": "主动变速器暖机计时器（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" }
+      ]
+    },
+    {
+      "id": 37, "iso_id": 63525,
+      "name": "Off-cycle Credit Technology #1", "name_zh": "非循环积分技术#1",
+      "description": "16 bytes: 4 fields × 4 bytes. Timer 1/2, Recent/Lifetime. 1 s/bit. Max=4,294,967,295 for Not Available.",
+      "description_zh": "16字节：4个字段×4字节。计时器1/2，近期/终身。1秒/位。最大值=4,294,967,295表示不可用。",
+      "format": "structured", "data_bytes": 16,
+      "_sub_fields": [
+        { "index": 0, "label": "OCCT1_TIME1-R", "name": "Off-Cycle Credit #1 Timer 1 (Recent)", "name_zh": "非循环积分#1计时器1（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 1, "label": "OCCT1_TIME2-R", "name": "Off-Cycle Credit #1 Timer 2 (Recent)", "name_zh": "非循环积分#1计时器2（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 2, "label": "OCCT1_TIME1-L", "name": "Off-Cycle Credit #1 Timer 1 (Lifetime)", "name_zh": "非循环积分#1计时器1（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 3, "label": "OCCT1_TIME2-L", "name": "Off-Cycle Credit #1 Timer 2 (Lifetime)", "name_zh": "非循环积分#1计时器2（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" }
+      ]
+    },
+    {
+      "id": 38, "iso_id": 63526, "name": "Off-cycle Credit Technology #2", "name_zh": "非循环积分技术#2",
+      "format": "structured", "data_bytes": 16,
+      "_sub_fields": [
+        { "index": 0, "label": "OCCT2_TIME1-R", "name": "Off-Cycle Credit #2 Timer 1 (Recent)", "name_zh": "非循环积分#2计时器1（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 1, "label": "OCCT2_TIME2-R", "name": "Off-Cycle Credit #2 Timer 2 (Recent)", "name_zh": "非循环积分#2计时器2（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 2, "label": "OCCT2_TIME1-L", "name": "Off-Cycle Credit #2 Timer 1 (Lifetime)", "name_zh": "非循环积分#2计时器1（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 3, "label": "OCCT2_TIME2-L", "name": "Off-Cycle Credit #2 Timer 2 (Lifetime)", "name_zh": "非循环积分#2计时器2（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" }
+      ]
+    },
+    {
+      "id": 39, "iso_id": 63527, "name": "Off-cycle Credit Technology #3", "name_zh": "非循环积分技术#3",
+      "format": "structured", "data_bytes": 16,
+      "_sub_fields": [
+        { "index": 0, "label": "OCCT3_TIME1-R", "name": "Off-Cycle Credit #3 Timer 1 (Recent)", "name_zh": "非循环积分#3计时器1（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 1, "label": "OCCT3_TIME2-R", "name": "Off-Cycle Credit #3 Timer 2 (Recent)", "name_zh": "非循环积分#3计时器2（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 2, "label": "OCCT3_TIME1-L", "name": "Off-Cycle Credit #3 Timer 1 (Lifetime)", "name_zh": "非循环积分#3计时器1（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 3, "label": "OCCT3_TIME2-L", "name": "Off-Cycle Credit #3 Timer 2 (Lifetime)", "name_zh": "非循环积分#3计时器2（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" }
+      ]
+    },
+    {
+      "id": 40, "iso_id": 63528, "name": "Off-cycle Credit Technology #4", "name_zh": "非循环积分技术#4",
+      "format": "structured", "data_bytes": 16,
+      "_sub_fields": [
+        { "index": 0, "label": "OCCT4_TIME1-R", "name": "Off-Cycle Credit #4 Timer 1 (Recent)", "name_zh": "非循环积分#4计时器1（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 1, "label": "OCCT4_TIME2-R", "name": "Off-Cycle Credit #4 Timer 2 (Recent)", "name_zh": "非循环积分#4计时器2（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 2, "label": "OCCT4_TIME1-L", "name": "Off-Cycle Credit #4 Timer 1 (Lifetime)", "name_zh": "非循环积分#4计时器1（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 3, "label": "OCCT4_TIME2-L", "name": "Off-Cycle Credit #4 Timer 2 (Lifetime)", "name_zh": "非循环积分#4计时器2（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" }
+      ]
+    },
+    {
+      "id": 41, "iso_id": 63529, "name": "Off-cycle Credit Technology #5", "name_zh": "非循环积分技术#5",
+      "format": "structured", "data_bytes": 16,
+      "_sub_fields": [
+        { "index": 0, "label": "OCCT5_TIME1-R", "name": "Off-Cycle Credit #5 Timer 1 (Recent)", "name_zh": "非循环积分#5计时器1（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 1, "label": "OCCT5_TIME2-R", "name": "Off-Cycle Credit #5 Timer 2 (Recent)", "name_zh": "非循环积分#5计时器2（近期）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 2, "label": "OCCT5_TIME1-L", "name": "Off-Cycle Credit #5 Timer 1 (Lifetime)", "name_zh": "非循环积分#5计时器1（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" },
+        { "index": 3, "label": "OCCT5_TIME2-L", "name": "Off-Cycle Credit #5 Timer 2 (Lifetime)", "name_zh": "非循环积分#5计时器2（终身）", "bytes": "A,B,C,D", "formula": "(A*16777216+B*65536+C*256+D)", "data_bytes": 4, "unit": "s" }
+      ]
+    }
+  ]
+}

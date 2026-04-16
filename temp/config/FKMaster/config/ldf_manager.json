@@ -1,0 +1,16 @@
+{
+    "customFileMap": {
+        "vci_ldf_view": "D:/source/file_manager/doc/ldf/CLEA_MY23_LIN_VCU_Pro_Network_1_V25.62.1.ldf"
+    },
+    "ldfFiles": [
+        {
+            "fileEncoding": "GB2312",
+            "filePath": "D:/source/file_manager/doc/ldf/CLEA_MY23_LIN_VCU_Pro_Network_1_V25.62.1.ldf"
+        },
+        {
+            "fileEncoding": "UTF-8",
+            "filePath": "D:/source/file_manager/doc/ldf/LIN通信文件.ldf"
+        }
+    ],
+    "version": "2.0"
+}

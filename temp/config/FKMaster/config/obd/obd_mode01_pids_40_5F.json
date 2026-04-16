@@ -1,0 +1,298 @@
+{
+  "version": "2.1",
+  "language": "en",
+  "description": "OBD-II Mode 01 PIDs 0x40-0x5F — Driving Cycle Monitor, Voltage/Load, Throttle/Pedal, Fuel Type, Evap, Secondary O2 FT, Oil Temp, Fuel Rate (SAE J1979 / ISO 15031-5)",
+
+  "pids": [
+    {
+      "pid": 64, "iso_pid": 62528,
+      "name": "PIDs Supported [41-60]", "name_zh": "支持的PID [41-60]",
+      "type": "supported", "data_bytes": 4
+    },
+    {
+      "pid": 65, "iso_pid": 62529,
+      "name": "Monitor Status This Driving Cycle", "name_zh": "本驾驶周期监测状态",
+      "description": "Byte A=$00 reserved. Bytes B/C/D same bit layout as PID $01 but for this driving cycle: enable status and completion status.",
+      "type": "bitmap", "data_bytes": 4, "reset_on_clear": true,
+      "bits": [
+        { "byte": "B", "bit": 0, "name": "Misfire monitoring enabled", "name_zh": "失火监测启用", "v0": "NO/N/A", "v1": "YES" },
+        { "byte": "B", "bit": 1, "name": "Fuel system monitoring enabled", "name_zh": "燃油系统监测启用", "v0": "NO/N/A", "v1": "YES" },
+        { "byte": "B", "bit": 2, "name": "CCM monitoring enabled", "name_zh": "综合组件监测启用", "v0": "NO/N/A", "v1": "YES" },
+        { "byte": "B", "bit": 3, "name": "Compression ignition", "name_zh": "压燃式", "v0": "Spark", "v1": "Compression" },
+        { "byte": "B", "bit": 4, "name": "Misfire monitoring complete", "name_zh": "失火监测完成", "v0": "Complete/N/A", "v1": "Incomplete" },
+        { "byte": "B", "bit": 5, "name": "Fuel system monitoring complete", "name_zh": "燃油系统监测完成", "v0": "Complete/N/A", "v1": "Incomplete" },
+        { "byte": "B", "bit": 6, "name": "CCM monitoring complete", "name_zh": "综合组件监测完成", "v0": "Complete/N/A", "v1": "Incomplete" },
+        { "byte": "C", "bit": 0, "name": "Catalyst / NMHC catalyst enabled", "name_zh": "催化器/NMHC催化器启用", "v0": "NO/N/A", "v1": "YES" },
+        { "byte": "C", "bit": 1, "name": "Heated catalyst / NOx aftertreatment enabled", "name_zh": "加热催化器/NOx后处理启用", "v0": "NO/N/A", "v1": "YES" },
+        { "byte": "C", "bit": 2, "name": "Evap system / Reserved(CI) enabled", "name_zh": "蒸发系统/保留(CI)启用", "v0": "NO/N/A", "v1": "YES" },
+        { "byte": "C", "bit": 3, "name": "Secondary air / Boost pressure enabled", "name_zh": "二次空气/增压压力启用", "v0": "NO/N/A", "v1": "YES" },
+        { "byte": "C", "bit": 5, "name": "O2 sensor / Exhaust gas sensor enabled", "name_zh": "氧传感器/排气传感器启用", "v0": "NO/N/A", "v1": "YES" },
+        { "byte": "C", "bit": 6, "name": "O2 heater / PM filter enabled", "name_zh": "氧加热器/PM滤清器启用", "v0": "NO/N/A", "v1": "YES" },
+        { "byte": "C", "bit": 7, "name": "EGR and/or VVT system enabled", "name_zh": "EGR和/或VVT系统启用", "v0": "NO/N/A", "v1": "YES" },
+        { "byte": "D", "bit": 0, "name": "Catalyst / NMHC catalyst complete", "name_zh": "催化器/NMHC催化器完成", "v0": "Complete/N/A", "v1": "Incomplete" },
+        { "byte": "D", "bit": 1, "name": "Heated catalyst / NOx aftertreatment complete", "name_zh": "加热催化器/NOx后处理完成", "v0": "Complete/N/A", "v1": "Incomplete" },
+        { "byte": "D", "bit": 2, "name": "Evap system complete", "name_zh": "蒸发系统完成", "v0": "Complete/N/A", "v1": "Incomplete" },
+        { "byte": "D", "bit": 3, "name": "Secondary air / Boost pressure complete", "name_zh": "二次空气/增压压力完成", "v0": "Complete/N/A", "v1": "Incomplete" },
+        { "byte": "D", "bit": 5, "name": "O2 sensor / Exhaust gas sensor complete", "name_zh": "氧传感器/排气传感器完成", "v0": "Complete/N/A", "v1": "Incomplete" },
+        { "byte": "D", "bit": 6, "name": "O2 heater / PM filter complete", "name_zh": "氧加热器/PM滤清器完成", "v0": "Complete/N/A", "v1": "Incomplete" },
+        { "byte": "D", "bit": 7, "name": "EGR and/or VVT system complete", "name_zh": "EGR和/或VVT系统完成", "v0": "Complete/N/A", "v1": "Incomplete" }
+      ]
+    },
+    {
+      "pid": 66, "iso_pid": 62530,
+      "name": "Control Module Voltage", "name_zh": "控制模块电压",
+      "description": "Power input voltage to the OBD control module (normally battery voltage minus wiring drop).",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "VPWR", "bytes": "A,B", "formula": "(256 * A + B) / 1000", "unit": "V", "min": 0, "max": 65.535, "display": "xx.xxx" }]
+    },
+    {
+      "pid": 67, "iso_pid": 62531,
+      "name": "Absolute Load Value", "name_zh": "绝对负荷值",
+      "description": "Normalized air mass per intake stroke. Ranges 0-95% NA, 0-400% boosted. Linearly correlated with indicated and brake torque.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "LOAD_ABS", "bytes": "A,B", "formula": "(256 * A + B) * 100 / 255", "unit": "%", "min": 0, "max": 25700, "display": "xxx.x" }]
+    },
+    {
+      "pid": 68, "iso_pid": 62532,
+      "name": "Commanded Equivalence Ratio (Lambda)", "name_zh": "指令当量比(Lambda)",
+      "description": "Commanded F/A equivalence ratio (lambda). >1 lean, <1 rich for lambda. Conventional O2: 1.000 in closed loop, actual in open loop. Wide-range O2: actual in both.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "LAMBDA", "bytes": "A,B", "formula": "(256 * A + B) * 0.0000305", "unit": "λ", "min": 0, "max": 1.999, "display": "x.xxx" }]
+    },
+    {
+      "pid": 69, "iso_pid": 62533,
+      "name": "Relative Throttle Position", "name_zh": "相对节气门位置",
+      "description": "Learned throttle position: 0% at learned closed-throttle. Wide-open usually less than 100%.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "TP_R", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 70, "iso_pid": 62534,
+      "name": "Ambient Air Temperature", "name_zh": "环境空气温度",
+      "description": "From dedicated sensor, vehicle bus, or inferred from IAT.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "AAT", "bytes": "A", "formula": "A - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215 }]
+    },
+    {
+      "pid": 71, "iso_pid": 62535,
+      "name": "Absolute Throttle Position B", "name_zh": "绝对节气门位置B",
+      "description": "Absolute (not relative/learned) throttle position sensor B, normalized 0-100% of reference voltage.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "TP_B", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 72, "iso_pid": 62536,
+      "name": "Absolute Throttle Position C", "name_zh": "绝对节气门位置C",
+      "description": "Absolute (not relative/learned) throttle position sensor C, normalized 0-100% of reference voltage.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "TP_C", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 73, "iso_pid": 62537,
+      "name": "Accelerator Pedal Position D", "name_zh": "油门踏板位置D",
+      "description": "Absolute (not relative/learned) pedal position sensor D, normalized 0-100% of reference voltage.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "APP_D", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 74, "iso_pid": 62538,
+      "name": "Accelerator Pedal Position E", "name_zh": "油门踏板位置E",
+      "description": "Absolute (not relative/learned) pedal position sensor E (redundant).",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "APP_E", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 75, "iso_pid": 62539,
+      "name": "Accelerator Pedal Position F", "name_zh": "油门踏板位置F",
+      "description": "Absolute (not relative/learned) pedal position sensor F (redundant).",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "APP_F", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 76, "iso_pid": 62540,
+      "name": "Commanded Throttle Actuator Control", "name_zh": "指令节气门执行器控制",
+      "description": "Commanded TAC position. 0%=closed, 100%=wide open.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "TAC_PCT", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 77, "iso_pid": 62541,
+      "name": "Engine Run Time While MIL Activated", "name_zh": "MIL亮起后发动机运行时间",
+      "description": "Accumulates minutes while MIL ON and engine running. Reset when MIL OFF→ON, by $04, or 40 warm-ups. Saturates at 65535.",
+      "type": "numeric", "data_bytes": 2, "reset_on_clear": true,
+      "items": [{ "label": "MIL_TIME", "bytes": "A,B", "formula": "256 * A + B", "unit": "min", "min": 0, "max": 65535 }]
+    },
+    {
+      "pid": 78, "iso_pid": 62542,
+      "name": "Engine Run Time Since DTCs Cleared", "name_zh": "DTC清除后发动机运行时间",
+      "description": "Accumulates minutes since DTCs cleared. Saturates at 65535.",
+      "type": "numeric", "data_bytes": 2, "reset_on_clear": true,
+      "items": [{ "label": "CLR_TIME", "bytes": "A,B", "formula": "256 * A + B", "unit": "min", "min": 0, "max": 65535 }]
+    },
+    {
+      "pid": 79, "iso_pid": 62543,
+      "name": "External Test Equipment Config #1", "name_zh": "外部测试设备配置#1",
+      "description": "A=max EQ ratio, B=max O2 voltage, C=max O2 current, D=max MAP. Used by scan tool to recalculate scaling for PIDs $0B/$24-$2B/$34-$3B/$44. Not for display.",
+      "type": "special", "data_bytes": 4
+    },
+    {
+      "pid": 80, "iso_pid": 62544,
+      "name": "External Test Equipment Config #2", "name_zh": "外部测试设备配置#2",
+      "description": "A=max MAF (x10 g/s), B/C/D reserved ($00). Used to recalculate scaling for PID $10. Not for display.",
+      "type": "special", "data_bytes": 4
+    },
+    {
+      "pid": 81, "iso_pid": 62545,
+      "name": "Fuel Type", "name_zh": "燃油类型",
+      "description": "Type of fuel currently being utilized. Static for single-fuel. Dynamic for bi-fuel (reflects currently active fuel).",
+      "_fix": "#11 — Added missing code 23 (Bi-fuel: Diesel [deprecated])",
+      "type": "enum", "data_bytes": 1, "enum_byte": "A",
+      "enums": [
+        { "code": 0,  "name": "Not available", "name_zh": "不可用" },
+        { "code": 1,  "name": "Gasoline/Petrol", "name_zh": "汽油" },
+        { "code": 2,  "name": "Methanol", "name_zh": "甲醇" },
+        { "code": 3,  "name": "Ethanol (FFV)", "name_zh": "乙醇(灵活燃料)" },
+        { "code": 4,  "name": "Diesel", "name_zh": "柴油" },
+        { "code": 5,  "name": "LPG", "name_zh": "液化石油气" },
+        { "code": 6,  "name": "CNG", "name_zh": "压缩天然气" },
+        { "code": 7,  "name": "Propane", "name_zh": "丙烷" },
+        { "code": 8,  "name": "Battery/Electric", "name_zh": "电池/电动" },
+        { "code": 9,  "name": "Bi-fuel: Gasoline", "name_zh": "双燃料:汽油运行中" },
+        { "code": 10, "name": "Bi-fuel: Methanol", "name_zh": "双燃料:甲醇运行中" },
+        { "code": 11, "name": "Bi-fuel: Ethanol", "name_zh": "双燃料:乙醇运行中" },
+        { "code": 12, "name": "Bi-fuel: LPG", "name_zh": "双燃料:LPG运行中" },
+        { "code": 13, "name": "Bi-fuel: CNG", "name_zh": "双燃料:CNG运行中" },
+        { "code": 14, "name": "Bi-fuel: Propane", "name_zh": "双燃料:丙烷运行中" },
+        { "code": 15, "name": "Bi-fuel: Battery [deprecated]", "name_zh": "双燃料:电池[已废弃]" },
+        { "code": 16, "name": "Bi-fuel: Battery+ICE [deprecated]", "name_zh": "双燃料:电池+内燃机[已废弃]" },
+        { "code": 17, "name": "Hybrid: Gasoline [deprecated]", "name_zh": "混动:汽油[已废弃]" },
+        { "code": 18, "name": "Hybrid: Ethanol [deprecated]", "name_zh": "混动:乙醇[已废弃]" },
+        { "code": 19, "name": "Hybrid: Diesel [deprecated]", "name_zh": "混动:柴油[已废弃]" },
+        { "code": 20, "name": "Hybrid: Battery [deprecated]", "name_zh": "混动:电池[已废弃]" },
+        { "code": 21, "name": "Hybrid: Battery+ICE [deprecated]", "name_zh": "混动:电池+内燃机[已废弃]" },
+        { "code": 22, "name": "Hybrid: Regen [deprecated]", "name_zh": "混动:再生[已废弃]" },
+        { "code": 23, "name": "Bi-fuel: Diesel [deprecated]", "name_zh": "双燃料:柴油[已废弃]" },
+        { "code": 24, "name": "Bi-fuel: Natural Gas", "name_zh": "双燃料:天然气运行中" },
+        { "code": 25, "name": "Bi-fuel: Diesel", "name_zh": "双燃料:柴油运行中" },
+        { "code": 26, "name": "Natural Gas (CNG or LNG)", "name_zh": "天然气(CNG或LNG)" },
+        { "code": 27, "name": "Dual Fuel: Diesel + CNG", "name_zh": "双燃料同时:柴油+CNG" },
+        { "code": 28, "name": "Dual Fuel: Diesel + NG", "name_zh": "双燃料同时:柴油+NG" }
+      ]
+    },
+    {
+      "pid": 82, "iso_pid": 62546,
+      "name": "Alcohol Fuel Percentage", "name_zh": "醇类燃油百分比",
+      "description": "Percentage of alcohol (ethanol or methanol) in the fuel blend. Required for FFVs only. E85 US → ~85%.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "ALCH_PCT", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 83, "iso_pid": 62547,
+      "name": "Absolute Evap System Vapor Pressure", "name_zh": "蒸发系统绝对蒸汽压力",
+      "description": "Absolute pressure from FTP sensor or evap vapor line. 0.005 kPa per bit, unsigned.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "EVAP_VPA", "bytes": "A,B", "formula": "(256 * A + B) / 200", "unit": "kPa", "unit_alt": "inH2O", "alt_factor": 4.01463, "min": 0, "max": 327.675, "display": "xxx.xxx" }]
+    },
+    {
+      "pid": 84, "iso_pid": 62548,
+      "name": "Evap System Vapor Pressure (wide range)", "name_zh": "蒸发系统蒸汽压力(宽范围)",
+      "description": "Signed, 1 Pa per bit. Wider range than PID $32. Mutually exclusive with PID $32 and $A3.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "EVAP_VP2", "bytes": "A,B", "formula": "256 * A + B - 32768", "unit": "Pa", "unit_alt": "inH2O", "alt_factor": 0.00401463, "min": -32768, "max": 32767, "display": "xxxxx" }]
+    },
+    {
+      "pid": 85, "iso_pid": 62549,
+      "name": "Short Term Secondary O2 Fuel Trim — Bank 1 & 3", "name_zh": "短期二次氧传感器修正—组1和3",
+      "description": "A=Bank 1 (or single), B=Bank 3 (only if PID $1D shows Bank 3 O2 present).",
+      "type": "numeric", "data_bytes": 2,
+      "items": [
+        { "label": "STSO2FT1", "bytes": "A", "formula": "(A - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2, "display": "xxx.x" },
+        { "label": "STSO2FT3", "bytes": "B", "formula": "(B - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2, "display": "xxx.x" }
+      ]
+    },
+    {
+      "pid": 86, "iso_pid": 62550,
+      "name": "Long Term Secondary O2 Fuel Trim — Bank 1 & 3", "name_zh": "长期二次氧传感器修正—组1和3",
+      "description": "A=Bank 1 (or single), B=Bank 3 (only if PID $1D shows Bank 3 O2 present). Stored in NVRAM/KAM.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [
+        { "label": "LGSO2FT1", "bytes": "A", "formula": "(A - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2, "display": "xxx.x" },
+        { "label": "LGSO2FT3", "bytes": "B", "formula": "(B - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2, "display": "xxx.x" }
+      ]
+    },
+    {
+      "pid": 87, "iso_pid": 62551,
+      "name": "Short Term Secondary O2 Fuel Trim — Bank 2 & 4", "name_zh": "短期二次氧传感器修正—组2和4",
+      "description": "A=Bank 2 (or single), B=Bank 4 (only if PID $1D shows Bank 4 O2 present).",
+      "type": "numeric", "data_bytes": 2,
+      "items": [
+        { "label": "STSO2FT2", "bytes": "A", "formula": "(A - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2, "display": "xxx.x" },
+        { "label": "STSO2FT4", "bytes": "B", "formula": "(B - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2, "display": "xxx.x" }
+      ]
+    },
+    {
+      "pid": 88, "iso_pid": 62552,
+      "name": "Long Term Secondary O2 Fuel Trim — Bank 2 & 4", "name_zh": "长期二次氧传感器修正—组2和4",
+      "description": "A=Bank 2 (or single), B=Bank 4 (only if PID $1D shows Bank 4 O2 present). Stored in NVRAM/KAM.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [
+        { "label": "LGSO2FT2", "bytes": "A", "formula": "(A - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2, "display": "xxx.x" },
+        { "label": "LGSO2FT4", "bytes": "B", "formula": "(B - 128) * 100 / 128", "unit": "%", "min": -100, "max": 99.2, "display": "xxx.x" }
+      ]
+    },
+    {
+      "pid": 89, "iso_pid": 62553,
+      "name": "Fuel Rail Pressure (absolute)", "name_zh": "燃油轨压(绝对)",
+      "description": "Fuel rail pressure referenced as absolute. For diesel and GDI systems.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "FRP_ABS", "bytes": "A,B", "formula": "(256 * A + B) * 10", "unit": "kPa", "unit_alt": "PSI", "alt_factor": 0.1450377, "min": 0, "max": 655350, "display": "xxxxxx" }]
+    },
+    {
+      "pid": 90, "iso_pid": 62554,
+      "name": "Relative Accelerator Pedal Position", "name_zh": "相对油门踏板位置",
+      "description": "Learned pedal position: 0% at learned closed-pedal. Often average of multiple sensors.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "APP_R", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 91, "iso_pid": 62555,
+      "name": "Hybrid Battery Pack Remaining Charge", "name_zh": "混合动力电池剩余电量",
+      "description": "State Of Charge (SOC) of the hybrid battery pack as percentage of full charge.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "BAT_PWR", "bytes": "A", "formula": "A * 100 / 255", "unit": "%", "min": 0, "max": 100, "display": "xxx.x" }]
+    },
+    {
+      "pid": 92, "iso_pid": 62556,
+      "name": "Engine Oil Temperature", "name_zh": "发动机机油温度",
+      "description": "From sensor or inferred. Required for diesel if used for emission control or OBD diagnostics.",
+      "type": "numeric", "data_bytes": 1,
+      "items": [{ "label": "EOT", "bytes": "A", "formula": "A - 40", "unit": "°C", "unit_alt": "°F", "alt_factor": 1.8, "alt_offset": 32, "min": -40, "max": 215 }]
+    },
+    {
+      "pid": 93, "iso_pid": 62557,
+      "name": "Fuel Injection Timing", "name_zh": "燃油喷射正时",
+      "description": "Start of main fuel injection relative to TDC. Positive=BTDC, Negative=ATDC.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "FUEL_TIMING", "bytes": "A,B", "formula": "(256 * A + B) / 128 - 210", "unit": "°", "min": -210, "max": 301.992, "display": "xxx.xx" }]
+    },
+    {
+      "pid": 94, "iso_pid": 62558,
+      "name": "Engine Fuel Rate", "name_zh": "发动机燃油消耗率",
+      "description": "Calculated fuel consumed per unit time. Updated at minimum 1000ms intervals. 0 L/h when engine not running. PID $9D replaces this for PEMS.",
+      "type": "numeric", "data_bytes": 2,
+      "items": [{ "label": "FUEL_RATE", "bytes": "A,B", "formula": "(256 * A + B) * 0.05", "unit": "L/h", "min": 0, "max": 3276.75, "display": "xxx.xx" }]
+    },
+    {
+      "pid": 95, "iso_pid": 62559,
+      "name": "Emission Requirements", "name_zh": "排放要求",
+      "description": "Emission requirements to which the vehicle is designed. Previously contained in PID $1C.",
+      "type": "enum", "data_bytes": 1, "enum_byte": "A",
+      "enums": [
+        { "code": 14, "name": "EURO IV B1", "name_zh": "欧IV B1" },
+        { "code": 15, "name": "EURO V B2", "name_zh": "欧V B2" },
+        { "code": 16, "name": "EURO EEV C", "name_zh": "欧EEV C" },
+        { "code": 17, "name": "EURO VI", "name_zh": "欧VI" }
+      ]
+    }
+  ]
+}
