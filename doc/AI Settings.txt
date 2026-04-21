@@ -1,0 +1,52 @@
+# 安装 cursor
+https://cursor.sh/
+# 配置模型
+设置 -> models -> OpenAI API Key -> Override OpenAI Base URL
+
+#  安装Python
+https://www.python.org › downloads
+#  终端：验证Python
+python --version
+
+# 安装 Node.js
+https://nodejs.org/
+# Cursor 终端：验证Node.js
+node -v
+
+# 安装git
+https://git-scm.com/downloads/win
+# Cursor 终端：验证git
+git --version
+
+# PowerShell：以管理员身份运行PowerShell，解除 PowerShell 的脚本限制
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Cursor 终端：安装 Claude Code
+npm install -g @anthropic-ai/claude-code@latest
+
+# Clash Verge：开启 TUN 模式
+
+# Cursor 终端：验证中转API是否可用
+curl.exe -I https://api.ohmygpt.com
+
+#  Cursor 终端：彻底移除多余的变量
+Remove-Item Env:ANTHROPIC_AUTH_TOKEN
+Remove-Item Env:CLAUDE_CODE_API_BASE_URL
+# PowerShell：配置永久Claude Code 环境变量 
+if (!(Test-Path -Path $PROFILE)) { New-Item -ItemType File -Path $PROFILE -Force }
+notepad $PROFILE
+
+# 拷贝到记事本中
+# Claude Code 环境变量永久配置
+$env:ANTHROPIC_BASE_URL="https://api.ohmygpt.com"
+$env:ANTHROPIC_API_KEY="sk-xOYhnLD08ec7E5eE8ec9T3BlbKFJD05521F2a310483ba6a1"
+
+# 快捷别名：以后只输入 c 就能启动 Claude
+Set-Alias -Name c -Value claude
+
+# PowerShell：让配置立即生效（注意点和 $ 之间有个空格）
+ . $PROFILE
+
+
+# 运行cluade
+claude
