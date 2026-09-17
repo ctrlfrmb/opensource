@@ -33,8 +33,68 @@
 * - Multiple overloads for different parameter types
 * - Integrated high-precision timing with automatic logging
 * - RAII-based scoped timing measurements
+* - Multi-DLL isolated logging (each DLL writes to its own log file)
 *
-* Usage example:
+* ============================================================================
+* Multi-DLL Usage (shared common_api.dll topology)
+* ============================================================================
+*
+* When multiple DLLs (e.g. doip_api.dll, dbc_api.dll, lvds_api.dll) all link
+* against the same common_api.dll, each DLL can maintain its own isolated log
+* file. The key is calling LOG_SET_DEFAULT_LOGGER with a unique name per DLL.
+*
+* Pattern for each business DLL:
+*
+*   // ---- In DllMain or static init ----
+*   static void InitLibrary() {
+*       LOG_SET_DEFAULT_LOGGER("my_dll_name");  // binds this DLL to its Logger
+*   }
+*
+*   BOOL APIENTRY DllMain(HMODULE, DWORD reason, LPVOID) {
+*       if (reason == DLL_PROCESS_ATTACH) InitLibrary();
+*       return TRUE;
+*   }
+*
+*   // ---- Exported OpenLog API ----
+*   int MyDllOpenLog(const char* logFile, int level, int maxSize, int maxFiles) {
+*       LOG_INIT(logFile, level, maxSize, maxFiles);
+*       LOG_START(false);
+*       LOG_SOFTWARE_INFO("MyDll", "1.0.0", "author", "platform");
+*       LOG_INFO("Log system initialized: file={}", logFile);
+*       return 0;
+*   }
+*
+*   // ---- Exported CloseLog API ----
+*   void MyDllCloseLog() {
+*       LOG_STOP();
+*   }
+*
+*   // ---- Normal usage anywhere in this DLL ----
+*   void SomeFunction() {
+*       LOG_INFO("Processing request id={}", id);
+*       LOG_DEBUG_HEX("Raw data: ", buf, len);
+*   }
+*
+* Host process (e.g. LabView, FKMaster) loads multiple DLLs:
+*
+*   DoIPOpenLog("C:/logs/doip.log", LOG_LEVEL_INFO, 5, 3);
+*   DBCOpenLog("C:/logs/dbc.log", LOG_LEVEL_INFO, 5, 3);
+*   LVDSOpenLog("C:/logs/lvds.log", LOG_LEVEL_INFO, 5, 3);
+*   // Each DLL now writes exclusively to its own log file.
+*   // No cross-write between DLLs. Order of initialization does not matter.
+*
+* Key rules:
+*   1. LOG_SET_DEFAULT_LOGGER must be called BEFORE LOG_INIT/LOG_START.
+*      Best place: DllMain(DLL_PROCESS_ATTACH) or a static initializer.
+*   2. The logger name string must be unique per DLL (e.g. "doip", "dbc").
+*   3. Each DLL's LOG_INIT points to a different file path.
+*   4. LOG_INFO/LOG_WARN/etc. automatically route to the correct logger
+*      based on which DLL the calling code resides in.
+*   5. No code changes needed in existing DLLs that already follow this pattern.
+*
+* ============================================================================
+*
+* Single-module usage (simple case):
 *   LOG_INIT("app.log", LOG_LEVEL_DEBUG, 10, 5);
 *   LOG_START(true);
 *
@@ -44,7 +104,7 @@
 *
 *   // Automatic timing with logging
 *   void myFunction() {
-*       TIMER_LOG_TIMEOUT("Data processing", 1000);  // WARN if > 1000μs
+*       TIMER_LOG_TIMEOUT("Data processing", 1000);  // WARN if > 1000us
 *       // ... code to measure ...
 *   }  // Automatically logs timing on scope exit
 */
@@ -56,6 +116,7 @@
 
 #include <string>
 #include <cstdint>
+#include <chrono>
 #include "common_global.h"
 
 // Forward declarations to avoid including logger.h in header
@@ -73,8 +134,21 @@ class ScopedTimerInternal;  // Forward declaration for timer implementation
 
 namespace Common {
 
-// Core logger functions - using std::string for better performance
-COMMON_API_EXPORT void logInit(const std::string& logFile, int level, int maxSize, int maxFiles);
+enum class LogFileMode;
+class Logger;
+
+COMMON_API_EXPORT void setDefaultLoggerName(const std::string& loggerName);
+COMMON_API_EXPORT Logger* resolveLogger(const std::string& loggerName);
+COMMON_API_EXPORT Logger* defaultLogger();
+COMMON_API_EXPORT void logInitFor(Logger* logger, const std::string& logFile, int level, int maxSize, int maxFiles, int fileMode = 0);
+COMMON_API_EXPORT void logStartFor(Logger* logger, bool toConsole);
+COMMON_API_EXPORT void logStopFor(Logger* logger);
+COMMON_API_EXPORT void logSoftwareInfoFor(Logger* logger,
+                                         const std::string& softwareName,
+                                         const std::string& version,
+                                         const std::string& author,
+                                         const std::string& platform);
+COMMON_API_EXPORT void logInit(const std::string& logFile, int level, int maxSize, int maxFiles, int fileMode = 0);
 COMMON_API_EXPORT void logStart(bool toConsole);
 COMMON_API_EXPORT void logStop();
 COMMON_API_EXPORT void logSoftwareInfo(const std::string& softwareName,
@@ -82,7 +156,39 @@ COMMON_API_EXPORT void logSoftwareInfo(const std::string& softwareName,
                                       const std::string& author,
                                       const std::string& platform);
 
+namespace detail {
+inline Logger*& moduleLoggerCache() {
+    static Logger* logger = nullptr;
+    return logger;
+}
+
+inline std::string& moduleLoggerName() {
+    static std::string loggerName{"default"};
+    return loggerName;
+}
+
+inline void setModuleLoggerName(const std::string& loggerName) {
+    moduleLoggerName() = loggerName;
+    moduleLoggerCache() = resolveLogger(loggerName);
+}
+
+inline Logger* moduleLogger() {
+    Logger*& cached = moduleLoggerCache();
+    if (cached == nullptr) {
+        cached = resolveLogger(moduleLoggerName());
+    }
+    return cached;
+}
+
+inline Logger& currentLogger() {
+    return *moduleLogger();
+}
+}
+
 // Hex logging functions with multiple overloads for optimal performance
+COMMON_API_EXPORT void logHexFor(Logger* logger, int level, std::string&& prefix, const void* data, size_t length);
+COMMON_API_EXPORT void logHexFor(Logger* logger, int level, const std::string& prefix, const void* data, size_t length);
+COMMON_API_EXPORT void logHexFor(Logger* logger, int level, const char* prefix, const void* data, size_t length);
 COMMON_API_EXPORT void logHex(int level, std::string&& prefix, const void* data, size_t length);
 COMMON_API_EXPORT void logHex(int level, const std::string& prefix, const void* data, size_t length);
 COMMON_API_EXPORT void logHex(int level, const char* prefix, const void* data, size_t length);
@@ -92,6 +198,8 @@ COMMON_API_EXPORT void logDebugHex(const std::string& prefix, const void* data, 
 COMMON_API_EXPORT void logDebugHex(const char* prefix, const void* data, size_t length);
 
 // Internal functions for level checking and raw logging with move semantics
+COMMON_API_EXPORT bool shouldLogLevelFor(Logger* logger, int level);
+COMMON_API_EXPORT void logRawStringFor(Logger* logger, int level, std::string&& message);
 COMMON_API_EXPORT bool shouldLogLevel(int level);
 COMMON_API_EXPORT void logRawString(int level, std::string&& message);
 
@@ -102,63 +210,70 @@ COMMON_API_EXPORT void destroyScopedTimer(ScopedTimerInternal* timer);
 // High-performance template functions for formatted logging
 template<typename... Args>
 inline void logDebug(fmt::format_string<Args...> fmt, Args&&... args) {
+    Logger* logger = detail::moduleLogger();
     constexpr int level = LOG_LEVEL_DEBUG;
-    if (shouldLogLevel(level)) {
-        // Direct move of formatted string - zero copies
-        logRawString(level, fmt::format(fmt, std::forward<Args>(args)...));
+    if (shouldLogLevelFor(logger, level)) {
+        logRawStringFor(logger, level, fmt::format(fmt, std::forward<Args>(args)...));
     }
 }
 
 template<typename... Args>
 inline void logInfo(fmt::format_string<Args...> fmt, Args&&... args) {
+    Logger* logger = detail::moduleLogger();
     constexpr int level = LOG_LEVEL_INFO;
-    if (shouldLogLevel(level)) {
-        logRawString(level, fmt::format(fmt, std::forward<Args>(args)...));
+    if (shouldLogLevelFor(logger, level)) {
+        logRawStringFor(logger, level, fmt::format(fmt, std::forward<Args>(args)...));
     }
 }
 
 template<typename... Args>
 inline void logWarn(fmt::format_string<Args...> fmt, Args&&... args) {
+    Logger* logger = detail::moduleLogger();
     constexpr int level = LOG_LEVEL_WARN;
-    if (shouldLogLevel(level)) {
-        logRawString(level, fmt::format(fmt, std::forward<Args>(args)...));
+    if (shouldLogLevelFor(logger, level)) {
+        logRawStringFor(logger, level, fmt::format(fmt, std::forward<Args>(args)...));
     }
 }
 
 template<typename... Args>
 inline void logError(fmt::format_string<Args...> fmt, Args&&... args) {
+    Logger* logger = detail::moduleLogger();
     constexpr int level = LOG_LEVEL_ERROR;
-    if (shouldLogLevel(level)) {
-        logRawString(level, fmt::format(fmt, std::forward<Args>(args)...));
+    if (shouldLogLevelFor(logger, level)) {
+        logRawStringFor(logger, level, fmt::format(fmt, std::forward<Args>(args)...));
     }
 }
 
 // Overloads for string logging with move semantics
 inline void logDebug(std::string&& message) {
+    Logger* logger = detail::moduleLogger();
     constexpr int level = LOG_LEVEL_DEBUG;
-    if (shouldLogLevel(level)) {
-        logRawString(level, std::move(message));
+    if (shouldLogLevelFor(logger, level)) {
+        logRawStringFor(logger, level, std::move(message));
     }
 }
 
 inline void logInfo(std::string&& message) {
+    Logger* logger = detail::moduleLogger();
     constexpr int level = LOG_LEVEL_INFO;
-    if (shouldLogLevel(level)) {
-        logRawString(level, std::move(message));
+    if (shouldLogLevelFor(logger, level)) {
+        logRawStringFor(logger, level, std::move(message));
     }
 }
 
 inline void logWarn(std::string&& message) {
+    Logger* logger = detail::moduleLogger();
     constexpr int level = LOG_LEVEL_WARN;
-    if (shouldLogLevel(level)) {
-        logRawString(level, std::move(message));
+    if (shouldLogLevelFor(logger, level)) {
+        logRawStringFor(logger, level, std::move(message));
     }
 }
 
 inline void logError(std::string&& message) {
+    Logger* logger = detail::moduleLogger();
     constexpr int level = LOG_LEVEL_ERROR;
-    if (shouldLogLevel(level)) {
-        logRawString(level, std::move(message));
+    if (shouldLogLevelFor(logger, level)) {
+        logRawStringFor(logger, level, std::move(message));
     }
 }
 
@@ -263,23 +378,32 @@ private:
 } // namespace Common
 
 // Convenient macros - these are now just thin wrappers
+#define LOG_SET_DEFAULT_LOGGER(loggerName) \
+    do { \
+        Common::detail::setModuleLoggerName(loggerName); \
+        Common::setDefaultLoggerName(loggerName); \
+    } while (0)
+
 #define LOG_INIT(logFile, level, maxSize, maxFiles) \
-    Common::logInit(logFile, level, maxSize, maxFiles)
+    Common::logInitFor(Common::detail::moduleLogger(), logFile, level, maxSize, maxFiles)
+
+#define LOG_INIT_WITH_MODE(logFile, level, maxSize, maxFiles, fileMode) \
+    Common::logInitFor(Common::detail::moduleLogger(), logFile, level, maxSize, maxFiles, fileMode)
 
 #define LOG_START(toConsole) \
-    Common::logStart(toConsole)
+    Common::logStartFor(Common::detail::moduleLogger(), toConsole)
 
 #define LOG_STOP() \
-    Common::logStop()
+    Common::logStopFor(Common::detail::moduleLogger())
 
 #define LOG_SOFTWARE_INFO(softwareName, version, author, platform) \
-    Common::logSoftwareInfo(softwareName, version, author, platform)
+    Common::logSoftwareInfoFor(Common::detail::moduleLogger(), softwareName, version, author, platform)
 
 #define LOG_HEX(level, prefix, data, length) \
-    Common::logHex(level, prefix, data, length)
+    Common::logHexFor(Common::detail::moduleLogger(), level, prefix, data, length)
 
 #define LOG_DEBUG_HEX(prefix, data, length) \
-    Common::logDebugHex(prefix, data, length)
+    Common::logHexFor(Common::detail::moduleLogger(), LOG_LEVEL_DEBUG, prefix, data, length)
 
 // High-performance logging macros
 #define LOG_DEBUG(fmt, ...) Common::logDebug(FMT_STRING(fmt), ##__VA_ARGS__)

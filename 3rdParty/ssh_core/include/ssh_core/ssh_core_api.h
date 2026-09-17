@@ -11,7 +11,7 @@
 * but must retain the author's copyright notice and license terms.
 *
 * Author: leiwei E-mail: ctrlfrmb@gmail.com
-* Version: v2.2.0
+* Version: v2.2.1
 * Date: 2021-12-15
 *----------------------------------------------------------------------------*/
 
